@@ -1,0 +1,6 @@
+wechat:
+  payment:
+    app-id: aaa
+    app-secret: bbb
+    mch-id: ccc
+    mch-secret: ddd
