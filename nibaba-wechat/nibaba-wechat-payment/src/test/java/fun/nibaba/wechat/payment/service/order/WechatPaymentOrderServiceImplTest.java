@@ -1,26 +1,26 @@
 package fun.nibaba.wechat.payment.service.order;
 
 import cn.hutool.core.util.IdUtil;
-import fun.nibaba.wechat.payment.SpringBootApplicationTest;
+import fun.nibaba.wechat.payment.PropertiesTest;
 import fun.nibaba.wechat.payment.enums.TradeType;
 import fun.nibaba.wechat.payment.model.order.WechatPaymentCreateOrderParams;
 import fun.nibaba.wechat.payment.model.order.WechatPaymentQueryOrderParams;
 import fun.nibaba.wechat.payment.properties.WechatPaymentProperties;
+import fun.nibaba.wechat.payment.properties.WechatPaymentPropertiesTest;
 import org.assertj.core.util.Lists;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
-@SpringBootTest(classes = SpringBootApplicationTest.class)
-class WechatPaymentOrderServiceImplTest {
+@ActiveProfiles(value = "junit")
+@SpringBootTest
+class WechatPaymentOrderServiceImplTest extends PropertiesTest {
 
-    private final String openid = "";
-
-    private final WechatPaymentProperties properties = WechatPaymentProperties.builder()
-
-            .build();
+    private final String openid = "oWjAi5HPbOyQkgDXUT0lOvlFv1x8";
 
     private final String outTradeNo = "test_order_nibaba";
     //    private final String outTradeNo = "OR20210509003706218";

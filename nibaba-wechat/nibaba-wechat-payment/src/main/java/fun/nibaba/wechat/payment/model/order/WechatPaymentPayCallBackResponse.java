@@ -6,8 +6,9 @@ import fun.nibaba.wechat.payment.model.WechatPaymentResponse;
 import fun.nibaba.wechat.payment.utils.LocalDateTimeUtil;
 
 /**
+ * 微信支付-支付回调-解析后实体
+ *
  * @author chenjiamin
- * @description 微信支付后回调实体
  * @date 2021/5/18 11:28 上午
  */
 public class WechatPaymentPayCallBackResponse extends WechatPaymentResponse {

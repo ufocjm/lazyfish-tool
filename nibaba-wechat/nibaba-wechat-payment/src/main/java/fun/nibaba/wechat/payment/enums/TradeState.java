@@ -1,8 +1,9 @@
 package fun.nibaba.wechat.payment.enums;
 
 /**
+ * 微信支付-订单交易状态
+ *
  * @author chenjiamin
- * @description 交易状态
  * @date 2021/5/18 9:47 上午
  */
 public enum TradeState {

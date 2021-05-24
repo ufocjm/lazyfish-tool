@@ -5,8 +5,9 @@ import fun.nibaba.wechat.payment.model.order.WechatPaymentQueryOrderParams;
 import fun.nibaba.wechat.payment.model.order.WechatPaymentQueryOrderResult;
 
 /**
+ * 微信支付-查询订单拦截器接口
+ *
  * @author chenjiamin
- * @description 微信查询订单拦截器接口
  * @date 2021/5/14 11:28 下午
  */
 public interface WechatPaymentQueryOrderInterceptor extends WechatPaymentInterceptor<WechatPaymentQueryOrderParams, WechatPaymentQueryOrderResult> {

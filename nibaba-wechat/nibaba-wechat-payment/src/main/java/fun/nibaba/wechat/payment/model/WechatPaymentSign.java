@@ -12,8 +12,9 @@ import java.util.Set;
 import java.util.TreeMap;
 
 /**
+ * 微信支付-签名
+ *
  * @author chenjiamin
- * @description 微信支付签名
  * @date 2021/5/14 6:14 下午
  */
 @Slf4j

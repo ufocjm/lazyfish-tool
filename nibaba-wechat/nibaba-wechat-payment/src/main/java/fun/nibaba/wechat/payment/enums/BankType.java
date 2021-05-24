@@ -4,8 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
+ * 微信支付-付款银行类型
+ *
  * @author chenjiamin
- * @description 付款银行类型
  * @date 2021/5/18 9:46 上午
  */
 @AllArgsConstructor

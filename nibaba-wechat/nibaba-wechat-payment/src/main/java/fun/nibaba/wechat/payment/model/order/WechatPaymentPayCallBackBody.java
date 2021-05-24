@@ -3,8 +3,9 @@ package fun.nibaba.wechat.payment.model.order;
 import com.thoughtworks.xstream.XStream;
 
 /**
+ * 微信支付-支付回调-实体
+ *
  * @author chenjiamin
- * @description 微信支付后回调实体
  * @date 2021/5/18 11:28 上午
  */
 public class WechatPaymentPayCallBackBody {

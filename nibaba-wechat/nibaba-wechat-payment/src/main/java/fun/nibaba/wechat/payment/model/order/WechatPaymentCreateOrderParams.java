@@ -11,8 +11,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 
 /**
+ * 微信支付-创建订单-参数
+ *
  * @author chenjiamin
- * @description 微信创建订单参数
  * @date 2021/5/14 9:56 下午
  */
 @ToString
@@ -72,7 +73,7 @@ public class WechatPaymentCreateOrderParams extends WechatPaymentOrderParams {
                                           String tradeType,
                                           String openid) {
         super(nonceStr, outTradeNo);
-        if(StrUtil.isBlank(outTradeNo)){
+        if (StrUtil.isBlank(outTradeNo)) {
             throw new WechatPaymentParamsInValidException("订单号不能为空");
         }
         this.totalFee = totalFee;

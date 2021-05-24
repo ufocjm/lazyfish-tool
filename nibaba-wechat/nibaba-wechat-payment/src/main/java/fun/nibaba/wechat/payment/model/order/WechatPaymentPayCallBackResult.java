@@ -8,8 +8,9 @@ import lombok.ToString;
 import java.time.LocalDateTime;
 
 /**
+ * 微信支付-支付回调-返回结果
+ *
  * @author chenjiamin
- * @description 微信支付后回调返回结果
  * @date 2021/5/18 11:28 上午
  */
 @ToString

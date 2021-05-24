@@ -5,8 +5,9 @@ import fun.nibaba.wechat.payment.model.order.WechatPaymentQueryOrderResult;
 import lombok.extern.slf4j.Slf4j;
 
 /**
+ * 微信支付-查询订单拦截器
+ *
  * @author chenjiamin
- * @description 微信查询订单拦截器
  * @date 2021/5/14 11:29 下午
  */
 @Slf4j

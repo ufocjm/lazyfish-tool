@@ -8,8 +8,9 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
 /**
+ * java 8 时间工具类
+ *
  * @author chenjiamin
- * @description java 8 时间工具类
  * @date 2021/5/18 10:52 上午
  */
 @UtilityClass

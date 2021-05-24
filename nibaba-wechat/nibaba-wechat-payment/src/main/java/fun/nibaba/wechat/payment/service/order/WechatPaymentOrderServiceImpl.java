@@ -13,8 +13,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
 /**
+ * 微信支付-订单服务-实现类
+ *
  * @author chenjiamin
- * @description 微信订单实现类
  * @date 2021/5/14 10:34 下午
  */
 @Slf4j

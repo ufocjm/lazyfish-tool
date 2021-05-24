@@ -5,8 +5,9 @@ import lombok.Builder;
 import lombok.Getter;
 
 /**
+ * 微信支付-创建订单-返回结果
+ *
  * @author chenjiamin
- * @description 微信支付 返回结果
  * @date 2021/5/14 11:49 下午
  */
 @Getter

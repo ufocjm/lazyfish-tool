@@ -3,8 +3,9 @@ package fun.nibaba.wechat.payment.model;
 import lombok.ToString;
 
 /**
+ * 微信支付-返回结果
+ *
  * @author chenjiamin
- * @description 微信支付 返回结果
  * @date 2021/5/14 11:49 下午
  */
 @ToString

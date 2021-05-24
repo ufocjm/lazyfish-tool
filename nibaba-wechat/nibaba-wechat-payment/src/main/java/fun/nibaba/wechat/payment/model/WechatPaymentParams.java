@@ -7,8 +7,9 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotBlank;
 
 /**
+ * 微信支付-基础参数
+ *
  * @author chenjiamin
- * @description 基础微信支付参数
  * @date 2021/5/15 3:05 下午
  */
 @ToString

@@ -5,8 +5,9 @@ import fun.nibaba.wechat.payment.model.WechatPaymentRequest;
 import fun.nibaba.wechat.payment.model.WechatPaymentSign;
 
 /**
+ * 微信支付-查询订单-请求
+ *
  * @author chenjiamin
- * @description 创建订单请求
  * @date 2021/5/15 4:26 下午
  */
 public class WechatPaymentQueryOrderRequest extends WechatPaymentRequest<WechatPaymentQueryOrderResponse> {

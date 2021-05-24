@@ -1,7 +1,8 @@
 package fun.nibaba.wechat.payment.model;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import fun.nibaba.wechat.payment.enums.WechatPayResultCode;
+import fun.nibaba.wechat.payment.enums.ResultCode;
+import lombok.Getter;
 import lombok.ToString;
 
 /**
@@ -9,6 +10,7 @@ import lombok.ToString;
  * @description 微信支付 返回结果
  * @date 2021/5/14 11:49 下午
  */
+@Getter
 @ToString
 public class WechatPaymentResponse {
 
@@ -58,7 +60,7 @@ public class WechatPaymentResponse {
      * @return
      */
     public boolean requestSuccess() {
-        return WechatPayResultCode.SUCCESS.toString().equals(this.returnCode);
+        return ResultCode.SUCCESS.toString().equals(this.returnCode);
     }
 
 }

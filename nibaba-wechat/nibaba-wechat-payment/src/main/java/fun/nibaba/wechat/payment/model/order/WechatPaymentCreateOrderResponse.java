@@ -1,13 +1,14 @@
 package fun.nibaba.wechat.payment.model.order;
 
 import com.thoughtworks.xstream.annotations.XStreamAlias;
-import fun.nibaba.wechat.payment.enums.WechatPayResultCode;
+import fun.nibaba.wechat.payment.enums.ResultCode;
 import fun.nibaba.wechat.payment.model.WechatPaymentResponse;
 import lombok.Data;
 
 /**
+ * 微信支付-创建订单-请求返回结果
+ *
  * @author chenjiamin
- * @description 微信支付 返回结果
  * @date 2021/5/14 11:49 下午
  */
 @Data
@@ -86,7 +87,7 @@ public class WechatPaymentCreateOrderResponse extends WechatPaymentResponse {
      * @return
      */
     public boolean handleSuccess() {
-        return WechatPayResultCode.SUCCESS.toString().equals(this.resultCode);
+        return ResultCode.SUCCESS.toString().equals(this.resultCode);
     }
 
 }

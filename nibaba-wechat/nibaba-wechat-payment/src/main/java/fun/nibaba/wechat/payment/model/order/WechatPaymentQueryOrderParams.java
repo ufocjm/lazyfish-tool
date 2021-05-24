@@ -8,8 +8,9 @@ import lombok.Getter;
 import lombok.ToString;
 
 /**
+ * 微信支付-查询订单-参数
+ *
  * @author chenjiamin
- * @description TODO
  * @date 2021/5/17 3:21 下午
  */
 @ToString

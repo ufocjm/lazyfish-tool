@@ -5,8 +5,10 @@ import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 
 /**
+ * 微信支付-订单-基础参数
+ * 微信支付所有的都是围绕订单号来的
+ *
  * @author chenjiamin
- * @description 微信订单基础参数 微信支付所有的都是围绕订单号来的
  * @date 2021/5/14 6:30 下午
  */
 @ToString

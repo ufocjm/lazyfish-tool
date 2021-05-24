@@ -6,11 +6,12 @@ import lombok.Getter;
 import javax.validation.constraints.NotBlank;
 
 /**
+ * 微信支付-配置
+ *
  * @author chenjiamin
  * @description
  * @date 2021/5/14 5:20 下午
  */
-@Builder
 @Getter
 public class WechatPaymentProperties {
 
@@ -31,5 +32,12 @@ public class WechatPaymentProperties {
      */
     @NotBlank(message = "微信商户密钥 不能为空")
     private final String mchSecret;
+
+    @Builder
+    public WechatPaymentProperties(String appid, String mchId, String mchSecret) {
+        this.appid = appid;
+        this.mchId = mchId;
+        this.mchSecret = mchSecret;
+    }
 
 }

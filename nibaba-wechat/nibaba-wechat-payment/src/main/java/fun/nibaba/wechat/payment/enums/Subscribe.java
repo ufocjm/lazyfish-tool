@@ -4,8 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
+ * 微信支付-是否订阅公众号
+ *
  * @author chenjiamin
- * @description 是否订阅公众号
  * @date 2021/5/18 2:27 下午
  */
 @AllArgsConstructor

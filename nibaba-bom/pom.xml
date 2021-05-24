@@ -17,6 +17,7 @@
     <properties>
         <xstream.version>1.4.16</xstream.version>
         <hutool.version>5.6.5</hutool.version>
+        <bcprov.jdk15on.version>1.55</bcprov.jdk15on.version>
     </properties>
 
     <dependencyManagement>
@@ -38,6 +39,12 @@
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.bouncycastle</groupId>
+                <artifactId>bcprov-jdk15on</artifactId>
+                <version>${bcprov.jdk15on.version}</version>
             </dependency>
 
         </dependencies>

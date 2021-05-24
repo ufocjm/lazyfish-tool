@@ -4,8 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
+ * 微信支付-交易类型
+ *
  * @author chenjiamin
- * @description 交易类型
  * @date 2021/5/14 10:05 下午
  */
 @AllArgsConstructor

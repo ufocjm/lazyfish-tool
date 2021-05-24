@@ -7,8 +7,9 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
+ * 微信支付-基础请求
+ *
  * @author chenjiamin
- * @description 微信支付请求
  * @date 2021/5/15 4:05 下午
  */
 @Slf4j
@@ -18,7 +19,7 @@ public class WechatPaymentRequest<Result extends WechatPaymentResponse> {
     /**
      * 微信签名实体
      */
-    private final WechatPaymentSign wechatPaymentSign;
+    protected final WechatPaymentSign wechatPaymentSign;
 
     /**
      * 请求地址 通过构造器设值
@@ -41,6 +42,16 @@ public class WechatPaymentRequest<Result extends WechatPaymentResponse> {
         long startCallTime = System.currentTimeMillis();
         String resultXmlStr = HttpUtil.post(requestUrl, xmlStr);
         log.debug("[微信支付] 接口：{} 耗时：{}ms 请求响应：{}", requestUrl, System.currentTimeMillis() - startCallTime, resultXmlStr);
+        return fromXml(resultXmlStr);
+    }
+
+    /**
+     * xml转换实体
+     *
+     * @param resultXmlStr 返回xml字符串
+     * @return
+     */
+    protected Result fromXml(String resultXmlStr) {
         return (Result) xStream.fromXML(resultXmlStr);
     }
 
