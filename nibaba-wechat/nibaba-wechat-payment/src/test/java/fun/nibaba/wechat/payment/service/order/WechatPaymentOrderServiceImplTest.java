@@ -39,7 +39,7 @@ class WechatPaymentOrderServiceImplTest extends PropertiesTest {
         wechatPaymentOrderService.createOrder(WechatPaymentCreateOrderParams.builder()
                 .body("测试商品")
                 .totalFee(1)
-                .spbillCreateIp("127.0.0.1")
+                .spbillCreateIp("127.0.0.2")
                 .notifyUrl("https://www.baidu.com")
                 .tradeType(TradeType.JSAPI.getValue())
                 .openid(openid)

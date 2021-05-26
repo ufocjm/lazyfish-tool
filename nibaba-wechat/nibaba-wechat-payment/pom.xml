@@ -6,11 +6,11 @@
     <parent>
         <artifactId>nibaba-wechat</artifactId>
         <groupId>fun.nibaba</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>0.0.2</version>
     </parent>
 
     <artifactId>nibaba-wechat-payment</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2</version>
 
     <properties>
     </properties>
@@ -22,7 +22,7 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- xml实体映射工具 -->
+        <!-- xml实体映射工具 test -->
         <dependency>
             <groupId>com.thoughtworks.xstream</groupId>
             <artifactId>xstream</artifactId>
