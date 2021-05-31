@@ -39,10 +39,12 @@
         <xstream.version>1.4.16</xstream.version>
         <hutool.version>5.6.5</hutool.version>
         <bcprov.jdk15on.version>1.55</bcprov.jdk15on.version>
+        <mybatis-plus.version>3.4.3</mybatis-plus.version>
     </properties>
 
     <modules>
         <module>nibaba-wechat</module>
+        <module>nibaba-database</module>
     </modules>
 
     <dependencyManagement>
@@ -72,6 +74,14 @@
                 <artifactId>bcprov-jdk15on</artifactId>
                 <version>${bcprov.jdk15on.version}</version>
             </dependency>
+
+            <!-- mybatis-plus  -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
