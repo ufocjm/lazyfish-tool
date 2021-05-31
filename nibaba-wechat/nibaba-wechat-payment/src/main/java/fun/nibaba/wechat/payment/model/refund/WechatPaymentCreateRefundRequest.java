@@ -66,9 +66,11 @@ public class WechatPaymentCreateRefundRequest extends WechatPaymentRequest<Wecha
             KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
             kmf.init(keyStore, password);
             SSLSocketFactory sslSocketFactory = SSLSocketFactoryBuilder.create()
-                    .setProtocol(SSLSocketFactoryBuilder.TLSv1)
+                    //由于微信那边单方面改了后端协议，并且没有在文档里面和DEMO里面没有体现出来
+//                    .setProtocol(SSLSocketFactoryBuilder.TLSv1)
                     .setKeyManagers(kmf.getKeyManagers())
-                    .setSecureRandom(new SecureRandom())
+                    //这边可以不用加，hutool 的 builder 里面默认就是new SecureRandom()
+//                    .setSecureRandom(new SecureRandom())
                     .build();
             HttpRequest httpRequest = new HttpRequest(CREATE_REFUND_URL);
             httpRequest.setSSLSocketFactory(sslSocketFactory);
