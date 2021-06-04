@@ -176,9 +176,9 @@ public class NibabaJoinLambdaWrapper<MainTableClass> extends AbstractNibabaWrapp
                 this,
                 joinTableClass, tableNameAlias,
                 joinSegmentList.size() + 1,
-                this.paramNameValuePairs,
                 new AtomicInteger(0),
                 new WhereSegment(),
+                this.paramNameValuePairs,
                 this.classColumnMap);
 
         this.joinSegmentList.add(joinWrapper);

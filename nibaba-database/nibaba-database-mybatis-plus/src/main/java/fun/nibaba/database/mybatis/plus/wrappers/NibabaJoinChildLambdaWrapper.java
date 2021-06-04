@@ -41,9 +41,9 @@ public class NibabaJoinChildLambdaWrapper<JoinTableClass, MainTableClass>
                 mainTableClass,
                 tableNameAlias,
                 tableSeq,
-                paramNameValuePairs,
                 new AtomicInteger(0),
                 new WhereSegment(),
+                paramNameValuePairs,
                 null);
     }
 
@@ -52,11 +52,11 @@ public class NibabaJoinChildLambdaWrapper<JoinTableClass, MainTableClass>
                                         Class<JoinTableClass> mainTableClass,
                                         String tableNameAlias,
                                         int tableSeq,
-                                        Map<String, Object> paramNameValuePairs,
                                         AtomicInteger paramNameSeq,
                                         WhereSegment whereSegment,
+                                        Map<String, Object> paramNameValuePairs,
                                         Map<String, Map<String, ColumnCache>> classColumnMap) {
-        super(mainTableClass, tableNameAlias, tableSeq, paramNameValuePairs, paramNameSeq, whereSegment, classColumnMap);
+        super(mainTableClass, tableNameAlias, tableSeq, paramNameSeq, whereSegment,paramNameValuePairs,  classColumnMap);
         if (joinType == null) {
             throw new RuntimeException("关联查询类型不能为空");
         }
@@ -80,9 +80,9 @@ public class NibabaJoinChildLambdaWrapper<JoinTableClass, MainTableClass>
                 this.entityClass,
                 this.getTableNameAlias(),
                 this.tableSeq,
-                this.paramNameValuePairs,
                 this.paramNameSeq,
                 new WhereSegment(),
+                this.paramNameValuePairs,
                 this.classColumnMap);
     }
 
