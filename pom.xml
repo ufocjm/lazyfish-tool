@@ -40,6 +40,7 @@
         <hutool.version>5.6.5</hutool.version>
         <bcprov.jdk15on.version>1.55</bcprov.jdk15on.version>
         <mybatis-plus.version>3.4.3</mybatis-plus.version>
+        <guava.version>29.0-jre</guava.version>
     </properties>
 
     <modules>
@@ -80,6 +81,12 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
 
         </dependencies>

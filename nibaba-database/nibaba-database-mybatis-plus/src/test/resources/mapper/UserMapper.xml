@@ -2,4 +2,11 @@
 
 <mapper namespace="fun.nibaba.database.mybatis.plus.mapper.UserMapper">
 
+    <select id="test" resultType="java.util.Map">
+        select id,name from user
+        <where>
+            ${express}
+        </where>
+
+    </select>
 </mapper>
