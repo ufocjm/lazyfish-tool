@@ -36,11 +36,11 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <sprint.boot.version>2.3.5.RELEASE</sprint.boot.version>
-        <xstream.version>1.4.16</xstream.version>
+        <xstream.version>1.4.17</xstream.version>
         <hutool.version>5.6.5</hutool.version>
         <bcprov.jdk15on.version>1.55</bcprov.jdk15on.version>
         <mybatis-plus.version>3.4.3</mybatis-plus.version>
-        <guava.version>29.0-jre</guava.version>
+        <guava.version>30.0-jre</guava.version>
     </properties>
 
     <modules>
