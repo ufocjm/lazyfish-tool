@@ -18,7 +18,9 @@ public enum NibabaSqlMethod {
      * 1.表名
      * 2。
      */
-    JOIN_SELECT_LIST("joinSelectList", "join查询满足条件所有数据", "<script>SELECT %s FROM %s %s %s %s %s\n</script>");
+    JOIN_SELECT_LIST("joinSelectList", "join查询满足条件所有数据", "<script>SELECT %s FROM %s %s %s %s %s %s %s\n</script>"),
+
+    JOIN_SELECT("joinSelect", "join查询满足条件单条", "<script>SELECT %s FROM %s %s %s %s %s %s %s\n</script>");
 
     private final String method;
 

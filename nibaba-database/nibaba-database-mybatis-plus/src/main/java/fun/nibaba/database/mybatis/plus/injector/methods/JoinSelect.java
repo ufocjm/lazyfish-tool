@@ -15,7 +15,7 @@ import java.util.Map;
  * @author chenjiamin
  * @date 2021/5/31 4:28 下午
  */
-public class JoinSelectList extends AbstractMethod {
+public class JoinSelect extends AbstractMethod {
 
     private final static String WRAPPER_TABLE_NAME_ALIAS = WRAPPER_DOT + "tableNameAlias";
 
@@ -40,7 +40,7 @@ public class JoinSelectList extends AbstractMethod {
 
     @Override
     public MappedStatement injectMappedStatement(Class<?> mapperClass, Class<?> modelClass, TableInfo tableInfo) {
-        NibabaSqlMethod sqlMethod = NibabaSqlMethod.JOIN_SELECT_LIST;
+        NibabaSqlMethod sqlMethod = NibabaSqlMethod.JOIN_SELECT;
         String sql = String.format(sqlMethod.getSql(),
                 this.sqlSelectColumns(tableInfo, true),
                 tableInfo.getTableName(),

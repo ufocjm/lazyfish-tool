@@ -18,4 +18,13 @@ public interface NibabaQuery<MainTableClass, Child> {
      */
     Child select(SFunction<MainTableClass, ?> column);
 
+
+    /**
+     * 查询字段
+     *
+     * @param columns 字段数组
+     * @return 返回包装对象
+     */
+    Child select(SFunction<MainTableClass, ?>... columns);
+
 }

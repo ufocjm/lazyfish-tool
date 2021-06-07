@@ -18,7 +18,6 @@ public interface NibabaJoinCompare<MainTableClass, Child> {
         return joinEq(true, leftColumn, rightColumn);
     }
 
-
     /**
      * join equals 条件
      *
@@ -32,6 +31,18 @@ public interface NibabaJoinCompare<MainTableClass, Child> {
         return joinEq(condition, leftColumn, rightColumn, null);
     }
 
+    /**
+     * join equals 条件
+     *
+     * @param leftColumn         左边列
+     * @param rightColumn        右边列
+     * @param tableNameAlias     表别名
+     * @param <RightColumnModel> 右边列类型
+     * @return
+     */
+    default <RightColumnModel> Child joinEq(SFunction<MainTableClass, ?> leftColumn, SFunction<RightColumnModel, ?> rightColumn, String tableNameAlias) {
+        return joinEq(true, leftColumn, rightColumn, tableNameAlias);
+    }
 
     /**
      * join equals 条件
@@ -53,7 +64,6 @@ public interface NibabaJoinCompare<MainTableClass, Child> {
         return joinNe(true, leftColumn, rightColumn);
     }
 
-
     /**
      * join not equals 条件
      *
@@ -65,6 +75,19 @@ public interface NibabaJoinCompare<MainTableClass, Child> {
      */
     default <RightColumnModel> Child joinNe(boolean condition, SFunction<MainTableClass, ?> leftColumn, SFunction<RightColumnModel, ?> rightColumn) {
         return joinNe(condition, leftColumn, rightColumn, null);
+    }
+
+    /**
+     * join not equals 条件
+     *
+     * @param leftColumn         左边列
+     * @param rightColumn        右边列
+     * @param tableNameAlias     表别名
+     * @param <RightColumnModel> 右边列类型
+     * @return
+     */
+    default <RightColumnModel> Child joinNe(SFunction<MainTableClass, ?> leftColumn, SFunction<RightColumnModel, ?> rightColumn, String tableNameAlias) {
+        return joinNe(true, leftColumn, rightColumn, tableNameAlias);
     }
 
     /**

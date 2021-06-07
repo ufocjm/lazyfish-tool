@@ -15,9 +15,7 @@ import com.baomidou.mybatisplus.core.toolkit.support.LambdaMeta;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.google.common.collect.Maps;
 import fun.nibaba.database.mybatis.plus.functions.ValueFunction;
-import fun.nibaba.database.mybatis.plus.interfaces.NibabaCompare;
-import fun.nibaba.database.mybatis.plus.interfaces.NibabaNested;
-import fun.nibaba.database.mybatis.plus.interfaces.NibabaQuery;
+import fun.nibaba.database.mybatis.plus.interfaces.*;
 import fun.nibaba.database.mybatis.plus.model.NibabaTableInfo;
 import fun.nibaba.database.mybatis.plus.segments.*;
 import org.apache.ibatis.reflection.property.PropertyNamer;
@@ -34,9 +32,11 @@ import java.util.function.Consumer;
  */
 public abstract class AbstractNibabaWrapper<MainTableClass, Child extends AbstractNibabaWrapper<MainTableClass, Child>>
         implements Constants,
-        NibabaCompare<MainTableClass, Child, Object>,
         NibabaQuery<MainTableClass, Child>,
-        NibabaNested<Child> {
+        NibabaCompare<MainTableClass, Child, Object>,
+        NibabaNested<Child>,
+        NibabaGroup<Child>,
+        NibabaOrder<Child> {
 
     /**
      * 实体对象class
@@ -80,9 +80,22 @@ public abstract class AbstractNibabaWrapper<MainTableClass, Child extends Abstra
     protected final WhereSegment whereSegment;
 
     /**
+     * 分组sql片段
+     * group by t.id, t.name
+     */
+    protected final GroupBySegment groupBySegment;
+
+
+    /**
+     * 排序sql片段
+     * order by t.id asc, t.name desc
+     */
+    protected final OrderBySegment orderBySegment;
+
+    /**
      * 末尾sql片段
      */
-    protected String lastSqlSegment;
+    protected String lastSql;
 
     /**
      * column cache map
@@ -129,6 +142,8 @@ public abstract class AbstractNibabaWrapper<MainTableClass, Child extends Abstra
         this.whereSegment = whereSegment;
         this.paramNameValuePairs = paramNameValuePairs;
         this.classColumnMap = classColumnMap != null ? classColumnMap : Maps.newHashMap();
+        this.groupBySegment = new GroupBySegment();
+        this.orderBySegment = new OrderBySegment();
     }
 
     public String getTableName() {
@@ -151,6 +166,13 @@ public abstract class AbstractNibabaWrapper<MainTableClass, Child extends Abstra
     public abstract Child instance();
 
     /**
+     * 搜索表别名
+     *
+     * @return 表别名
+     */
+    public abstract String searchTableNameAlias(SFunction<?, ?> column, String tableNameAlias);
+
+    /**
      * 表别名
      *
      * @return 表别名
@@ -166,9 +188,33 @@ public abstract class AbstractNibabaWrapper<MainTableClass, Child extends Abstra
      */
     public String getWhereSegment() {
         if (whereSegment == null) {
-            return EMPTY;
+            return null;
         }
         return whereSegment.getSqlSegment();
+    }
+
+    /**
+     * group by sql 片段
+     *
+     * @return group by sql 片段
+     */
+    public String getGroupBySegment() {
+        if (groupBySegment == null) {
+            return null;
+        }
+        return groupBySegment.getSqlSegment();
+    }
+
+    /**
+     * order by sql 片段
+     *
+     * @return order by sql 片段
+     */
+    public String getOrderBySegment() {
+        if (orderBySegment == null) {
+            return null;
+        }
+        return orderBySegment.getSqlSegment();
     }
 
     /**
@@ -176,8 +222,8 @@ public abstract class AbstractNibabaWrapper<MainTableClass, Child extends Abstra
      *
      * @return 末尾sql
      */
-    public String getLastSqlSegment() {
-        return this.lastSqlSegment;
+    public String getLastSql() {
+        return this.lastSql;
     }
 
     /**
@@ -186,7 +232,7 @@ public abstract class AbstractNibabaWrapper<MainTableClass, Child extends Abstra
      * @return this
      */
     public Child lastSql(String lastSql) {
-        this.lastSqlSegment = lastSql;
+        this.lastSql = lastSql;
         return typeThis;
     }
 
@@ -194,6 +240,14 @@ public abstract class AbstractNibabaWrapper<MainTableClass, Child extends Abstra
     public Child select(SFunction<MainTableClass, ?> column) {
         ColumnCache columnCache = this.getColumnCache(column);
         selectSegment.add(columnCache::getColumnSelect);
+        return typeThis;
+    }
+
+    @Override
+    public Child select(SFunction<MainTableClass, ?>... columns) {
+        for (SFunction<MainTableClass, ?> column : columns) {
+            this.select(column);
+        }
         return typeThis;
     }
 
@@ -278,6 +332,20 @@ public abstract class AbstractNibabaWrapper<MainTableClass, Child extends Abstra
     }
 
     @Override
+    public Child isNull(boolean condition, SFunction<MainTableClass, ?> column) {
+        ColumnCache columnCache = this.getColumnCache(column);
+        this.addWhereSegment(new CompareSegment(new ColumnSegment(this.getTableNameAlias(), columnCache.getColumnSelect()), SqlKeyword.IS_NULL));
+        return typeThis;
+    }
+
+    @Override
+    public Child isNotNull(boolean condition, SFunction<MainTableClass, ?> column) {
+        ColumnCache columnCache = this.getColumnCache(column);
+        this.addWhereSegment(new CompareSegment(new ColumnSegment(this.getTableNameAlias(), columnCache.getColumnSelect()), SqlKeyword.IS_NOT_NULL));
+        return typeThis;
+    }
+
+    @Override
     public Child nested(boolean condition, Consumer<Child> consumer, SqlKeyword sqlKeyword) {
         if (!condition) {
             return typeThis;
@@ -289,6 +357,28 @@ public abstract class AbstractNibabaWrapper<MainTableClass, Child extends Abstra
         Child instance = this.instance();
         consumer.accept(instance);
         this.addWhereSegment(new BracketSegment(instance.whereSegment));
+        return typeThis;
+    }
+
+    @Override
+    public <GroupByModel> Child groupBy(boolean condition, SFunction<GroupByModel, ?> column, String tableNameAlias) {
+        if (!condition) {
+            return typeThis;
+        }
+        tableNameAlias = this.searchTableNameAlias(column, tableNameAlias);
+        ColumnCache columnCache = this.getColumnCache(column);
+        this.groupBySegment.add(new ColumnSegment(tableNameAlias, columnCache.getColumnSelect()));
+        return typeThis;
+    }
+
+    @Override
+    public <OrderByModel> Child orderBy(boolean condition, SFunction<OrderByModel, ?> column, SqlKeyword orderRule, String tableNameAlias) {
+        if (!condition) {
+            return typeThis;
+        }
+        tableNameAlias = this.searchTableNameAlias(column, tableNameAlias);
+        ColumnCache columnCache = this.getColumnCache(column);
+        this.orderBySegment.add(new OrderSegment(new ColumnSegment(tableNameAlias, columnCache.getColumnSelect()), orderRule));
         return typeThis;
     }
 

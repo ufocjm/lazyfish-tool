@@ -19,7 +19,7 @@ public class OrderBySegment extends ArrayList<OrderSegment> implements NibabaSql
         if (this.isEmpty()) {
             return null;
         }
-        return SqlKeyword.ORDER_BY.getSqlSegment() + this.stream().map(ISqlSegment::getSqlSegment).collect(Collectors.joining(COMMA));
+        return SqlKeyword.ORDER_BY.getSqlSegment() + SPACE + this.stream().map(ISqlSegment::getSqlSegment).collect(Collectors.joining(COMMA));
     }
 
 }

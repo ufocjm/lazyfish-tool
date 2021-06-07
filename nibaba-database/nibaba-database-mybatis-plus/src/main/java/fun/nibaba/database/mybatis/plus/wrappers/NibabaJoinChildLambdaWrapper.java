@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache;
 import com.baomidou.mybatisplus.core.toolkit.support.LambdaMeta;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import fun.nibaba.database.mybatis.plus.enums.JoinType;
+import fun.nibaba.database.mybatis.plus.exceptions.NibabaMybatisPlusException;
 import fun.nibaba.database.mybatis.plus.interfaces.NibabaJoinCompare;
 import fun.nibaba.database.mybatis.plus.segments.ColumnSegment;
 import fun.nibaba.database.mybatis.plus.segments.CompareFieldSegment;
@@ -56,7 +57,7 @@ public class NibabaJoinChildLambdaWrapper<JoinTableClass, MainTableClass>
                                         WhereSegment whereSegment,
                                         Map<String, Object> paramNameValuePairs,
                                         Map<String, Map<String, ColumnCache>> classColumnMap) {
-        super(mainTableClass, tableNameAlias, tableSeq, paramNameSeq, whereSegment,paramNameValuePairs,  classColumnMap);
+        super(mainTableClass, tableNameAlias, tableSeq, paramNameSeq, whereSegment, paramNameValuePairs, classColumnMap);
         if (joinType == null) {
             throw new RuntimeException("关联查询类型不能为空");
         }
@@ -100,7 +101,7 @@ public class NibabaJoinChildLambdaWrapper<JoinTableClass, MainTableClass>
         if (!condition) {
             return this;
         }
-        tableNameAlias = this.getTableNameAlias(rightColumn, tableNameAlias);
+        tableNameAlias = this.searchTableNameAlias(rightColumn, tableNameAlias);
         ColumnCache leftColumnCache = super.getColumnCache(leftColumn);
         ColumnCache rightColumnCache = super.getColumnCache(rightColumn);
         super.addWhereSegment(new CompareFieldSegment(new ColumnSegment(this.getTableNameAlias(), leftColumnCache.getColumnSelect()), SqlKeyword.EQ, new ColumnSegment(tableNameAlias, rightColumnCache.getColumnSelect())));
@@ -112,11 +113,16 @@ public class NibabaJoinChildLambdaWrapper<JoinTableClass, MainTableClass>
         if (!condition) {
             return this;
         }
-        tableNameAlias = this.getTableNameAlias(rightColumn, tableNameAlias);
+        tableNameAlias = this.searchTableNameAlias(rightColumn, tableNameAlias);
         ColumnCache leftColumnCache = super.getColumnCache(leftColumn);
         ColumnCache rightColumnCache = super.getColumnCache(rightColumn);
         super.addWhereSegment(new CompareFieldSegment(new ColumnSegment(this.getTableNameAlias(), leftColumnCache.getColumnSelect()), SqlKeyword.NE, new ColumnSegment(tableNameAlias, rightColumnCache.getColumnSelect())));
         return this;
+    }
+
+    @Override
+    public <GroupByModel> NibabaJoinChildLambdaWrapper<JoinTableClass, MainTableClass> groupBy(boolean condition, SFunction<GroupByModel, ?> column) {
+        throw new NibabaMybatisPlusException("请使用父级sql包装器进行分组");
     }
 
     /**
@@ -126,7 +132,8 @@ public class NibabaJoinChildLambdaWrapper<JoinTableClass, MainTableClass>
      * @param tableNameAlias 右边列的表别名
      * @return
      */
-    private String getTableNameAlias(SFunction<?, ?> rightColumn, String tableNameAlias) {
+    @Override
+    public String searchTableNameAlias(SFunction<?, ?> rightColumn, String tableNameAlias) {
         LambdaMeta meta = LambdaUtils.extract(rightColumn);
 
         //如果是主表数据则直接验证并且返回

@@ -8,6 +8,6 @@ import fun.nibaba.database.mybatis.plus.entity.UserChild;
  * @author chenjiamin
  * @date 2021/5/27 4:40 下午
  */
-public interface UserChildMapper extends JoinMapper<UserChild> {
+public interface UserChildMapper extends NibabaMapper<UserChild> {
 
 }

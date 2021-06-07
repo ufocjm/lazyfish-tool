@@ -12,7 +12,7 @@ import java.util.Map;
  * @author chenjiamin
  * @date 2021/5/27 4:40 下午
  */
-public interface UserMapper extends JoinMapper<User> {
+public interface UserMapper extends NibabaMapper<User> {
 
     List<Map<String, Object>> test(@Param("express") String express,@Param(value = "id") String id);
 }

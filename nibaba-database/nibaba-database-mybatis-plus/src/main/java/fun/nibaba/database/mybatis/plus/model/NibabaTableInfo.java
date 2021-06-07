@@ -17,6 +17,9 @@ public class NibabaTableInfo implements Constants {
 
     private final TableInfo tableInfo;
 
+    /**
+     * 表别名
+     */
     private final String tableNameAlias;
 
 

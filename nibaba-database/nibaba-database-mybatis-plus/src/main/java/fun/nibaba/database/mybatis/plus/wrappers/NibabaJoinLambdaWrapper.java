@@ -2,10 +2,11 @@ package fun.nibaba.database.mybatis.plus.wrappers;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.enums.SqlKeyword;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
+import com.baomidou.mybatisplus.core.toolkit.LambdaUtils;
 import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache;
+import com.baomidou.mybatisplus.core.toolkit.support.LambdaMeta;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -101,6 +102,40 @@ public class NibabaJoinLambdaWrapper<MainTableClass> extends AbstractNibabaWrapp
     }
 
     @Override
+    public String searchTableNameAlias(SFunction<?, ?> column, String tableNameAlias) {
+        LambdaMeta meta = LambdaUtils.extract(column);
+
+        //如果是主表数据则直接验证并且返回
+        if (StrUtil.isNotBlank(tableNameAlias)) {
+            if (this.getTableNameAlias().equals(tableNameAlias) && this.entityClass == meta.getInstantiatedClass()) {
+                return this.getTableNameAlias();
+            }
+        } else {
+            if (this.entityClass == meta.getInstantiatedClass()) {
+                return this.getTableNameAlias();
+            }
+        }
+
+        //验证是不是子表数据
+        List<NibabaJoinChildLambdaWrapper<?, MainTableClass>> joinSegmentList = this.getJoinSegmentList();
+        if (StrUtil.isNotBlank(tableNameAlias)) {
+            for (NibabaJoinChildLambdaWrapper<?, MainTableClass> joinSegment : joinSegmentList) {
+                if (joinSegment.getTableNameAlias().equals(tableNameAlias) && joinSegment.entityClass == meta.getInstantiatedClass()) {
+                    return tableNameAlias;
+                }
+            }
+            throw new RuntimeException("找不到别名为[" + tableNameAlias + "]的条件构造器");
+        } else {
+            for (NibabaJoinChildLambdaWrapper<?, MainTableClass> joinSegment : joinSegmentList) {
+                if (meta.getInstantiatedClass() == joinSegment.entityClass) {
+                    return joinSegment.getTableNameAlias();
+                }
+            }
+        }
+        throw new RuntimeException("不存在类型为[" + meta.getInstantiatedClass().getName() + "]的条件构造器");
+    }
+
+    @Override
     public String getWhereSegment() {
         return super.getWhereSegment();
     }
@@ -183,11 +218,6 @@ public class NibabaJoinLambdaWrapper<MainTableClass> extends AbstractNibabaWrapp
 
         this.joinSegmentList.add(joinWrapper);
         return joinWrapper;
-    }
-
-    @Override
-    public <OrderByModel> NibabaJoinLambdaWrapper<MainTableClass> orderBy(SFunction<OrderByModel, ?> column, SqlKeyword orderRule) {
-        return null;
     }
 
 }

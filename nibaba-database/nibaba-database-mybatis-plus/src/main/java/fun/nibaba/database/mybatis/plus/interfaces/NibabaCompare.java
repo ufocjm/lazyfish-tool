@@ -378,4 +378,37 @@ public interface NibabaCompare<MainTableClass, Child, Value> {
     Child notLike(boolean condition, SFunction<MainTableClass, ?> column, ValueFunction<Value> value);
 
 
+    /**
+     * ignore
+     */
+    default Child isNull(SFunction<MainTableClass, ?> column) {
+        return isNull(true, column);
+    }
+
+
+    /**
+     * isNull 条件
+     *
+     * @param condition 执行条件
+     * @param column    字段
+     * @return
+     */
+    Child isNull(boolean condition, SFunction<MainTableClass, ?> column);
+
+    /**
+     * ignore
+     */
+    default Child isNotNull(SFunction<MainTableClass, ?> column) {
+        return isNotNull(true, column);
+    }
+
+
+    /**
+     * isNotNull 条件
+     *
+     * @param condition 执行条件
+     * @param column    字段
+     * @return
+     */
+    Child isNotNull(boolean condition, SFunction<MainTableClass, ?> column);
 }
