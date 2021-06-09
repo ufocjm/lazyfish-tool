@@ -44,7 +44,6 @@ public class NibabaJoinLambdaWrapper<MainTableClass> extends AbstractNibabaWrapp
     }
 
     public NibabaJoinLambdaWrapper(Class<MainTableClass> mainTableClass, String tableNameAlias) {
-//        super(mainTableClass, tableNameAlias, 0);
         this(mainTableClass,
                 tableNameAlias,
                 0,

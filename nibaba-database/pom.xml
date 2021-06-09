@@ -6,11 +6,11 @@
     <parent>
         <artifactId>nibaba-parent</artifactId>
         <groupId>fun.nibaba</groupId>
-        <version>0.0.2</version>
+        <version>0.0.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>nibaba-database</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>

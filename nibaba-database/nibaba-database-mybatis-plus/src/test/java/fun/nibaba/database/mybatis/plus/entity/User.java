@@ -28,4 +28,7 @@ public class User {
     @TableField(value = "email")
     private String email;
 
+    @TableField(value = "create_id")
+    private String createId;
+
 }

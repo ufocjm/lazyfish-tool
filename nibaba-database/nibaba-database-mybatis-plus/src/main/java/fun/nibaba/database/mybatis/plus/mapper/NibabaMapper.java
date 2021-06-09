@@ -34,7 +34,7 @@ public interface NibabaMapper<Entity> extends BaseMapper<Entity> {
      * @return 数据
      */
     default <EntityClass> List<EntityClass> joinSelectList(@Param(Constants.WRAPPER) AbstractNibabaWrapper<Entity, ?> wrapper, Class<EntityClass> entityClass) {
-        List<Map<String, Object>> results = joinSelectList(wrapper);
+        List<Map<String, Object>> results = this.joinSelectList(wrapper);
         return BeanUtil.copyToList(results, entityClass, null);
     }
 
@@ -54,7 +54,7 @@ public interface NibabaMapper<Entity> extends BaseMapper<Entity> {
      * @return 数据
      */
     default <EntityClass> EntityClass joinSelect(@Param(Constants.WRAPPER) AbstractNibabaWrapper<?, ?> wrapper, Class<EntityClass> entityClass) {
-        Map<String, Object> result = joinSelect(wrapper);
+        Map<String, Object> result = this.joinSelect(wrapper);
         return BeanUtil.toBean(result, entityClass);
     }
 
