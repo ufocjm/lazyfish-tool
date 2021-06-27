@@ -79,7 +79,7 @@ public class NibabaJoinLambdaWrapper<MainTableClass> extends AbstractNibabaWrapp
         if (CollUtil.isNotEmpty(joinSegmentList)) {
             List<String> segmentList = joinSegmentList.stream().map(NibabaJoinChildLambdaWrapper::getSqlSelect).filter(StrUtil::isNotBlank).collect(Collectors.toList());
             if (CollUtil.isNotEmpty(segmentList)) {
-                selectSegments.add(String.join(COMMA, selectSegments));
+                selectSegments.add(String.join(COMMA, segmentList));
             }
         }
         if (CollUtil.isEmpty(selectSegments)) {

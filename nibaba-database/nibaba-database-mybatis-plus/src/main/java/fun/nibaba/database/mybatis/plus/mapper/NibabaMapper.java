@@ -1,8 +1,11 @@
 package fun.nibaba.database.mybatis.plus.mapper;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.ReflectUtil;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import fun.nibaba.database.mybatis.plus.wrappers.AbstractNibabaWrapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -57,5 +60,34 @@ public interface NibabaMapper<Entity> extends BaseMapper<Entity> {
         Map<String, Object> result = this.joinSelect(wrapper);
         return BeanUtil.toBean(result, entityClass);
     }
+
+
+    /**
+     * 联表列表分页查询
+     *
+     * @param page    分页参数
+     * @param wrapper sql构造器
+     * @return 数据
+     */
+    <EntityClass, PageEntity extends IPage<EntityClass>> IPage<Map<String, Object>> joinSelectPage(PageEntity page, @Param(Constants.WRAPPER) AbstractNibabaWrapper<Entity, ?> wrapper);
+
+
+    /**
+     * 联表列表分页查询
+     *
+     * @param page        分页参数
+     * @param wrapper     sql构造器
+     * @param entityClass 转换实体
+     * @return 数据
+     */
+    default <EntityClass, PageEntity extends IPage<EntityClass>> PageEntity joinSelectPage(PageEntity page, @Param(Constants.WRAPPER) AbstractNibabaWrapper<Entity, ?> wrapper, Class<EntityClass> entityClass) {
+        IPage<Map<String, Object>> resultPage = this.joinSelectPage(page, wrapper);
+        List<Map<String, Object>> records = resultPage.getRecords();
+        PageEntity objectPage = (PageEntity) ReflectUtil.newInstance(page.getClass(), resultPage.getCurrent(), resultPage.getSize(), resultPage.getTotal(), resultPage.searchCount());
+//        Page<EntityClass> objectPage = new Page<>(resultPage.getCurrent(), resultPage.getSize(), resultPage.getTotal(), resultPage.searchCount());
+        objectPage.setRecords(BeanUtil.copyToList(records, entityClass, null));
+        return objectPage;
+    }
+
 
 }

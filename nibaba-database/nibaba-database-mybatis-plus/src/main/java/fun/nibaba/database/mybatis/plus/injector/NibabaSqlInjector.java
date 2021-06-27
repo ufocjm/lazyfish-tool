@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
 import fun.nibaba.database.mybatis.plus.injector.methods.JoinSelect;
 import fun.nibaba.database.mybatis.plus.injector.methods.JoinSelectList;
+import fun.nibaba.database.mybatis.plus.injector.methods.JoinSelectPage;
 import fun.nibaba.database.mybatis.plus.mapper.NibabaMapper;
 
 import java.util.List;
@@ -22,6 +23,7 @@ public class NibabaSqlInjector extends DefaultSqlInjector {
         if (this.hasInterface(mapperClass, NibabaMapper.class)) {
             methodList.add(new JoinSelectList());
             methodList.add(new JoinSelect());
+            methodList.add(new JoinSelectPage());
         }
         return methodList;
     }

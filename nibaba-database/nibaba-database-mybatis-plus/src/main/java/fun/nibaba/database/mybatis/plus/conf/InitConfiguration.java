@@ -1,6 +1,7 @@
 package fun.nibaba.database.mybatis.plus.conf;
 
 import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
 import com.baomidou.mybatisplus.core.injector.ISqlInjector;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
@@ -10,7 +11,6 @@ import fun.nibaba.database.mybatis.plus.components.FillUserSupport;
 import fun.nibaba.database.mybatis.plus.components.NibabaMybatisPlusMetaObjectHandler;
 import fun.nibaba.database.mybatis.plus.injector.NibabaSqlInjector;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,15 +48,15 @@ public class InitConfiguration {
     }
 
     @ConditionalOnBean(FillUserSupport.class)
-    @ConditionalOnMissingBean(NibabaMybatisPlusMetaObjectHandler.class)
+    @ConditionalOnMissingBean(MetaObjectHandler.class)
     @Bean
-    public NibabaMybatisPlusMetaObjectHandler nibabaMybatisPlusMetaObjectHandler(FillUserSupport fillUserSupport) {
+    public MetaObjectHandler nibabaMybatisPlusMetaObjectHandler(FillUserSupport fillUserSupport) {
         return new NibabaMybatisPlusMetaObjectHandler(fillUserSupport);
     }
 
     @ConditionalOnMissingBean(DefaultSqlInjector.class)
     @Bean
-    public ISqlInjector sqlInjector(){
+    public ISqlInjector sqlInjector() {
         return new NibabaSqlInjector();
     }
 }
