@@ -1,4 +1,4 @@
-#泥爸爸 日常实用工具集合
+#闲鱼 日常实用工具集合
 
 ## 简介
 
@@ -10,7 +10,7 @@
 
 ### 项目工程
 
-- [微信](https://github.com/ufocjm/nibaba/tree/main/nibaba-wechat)
-    - [微信支付 nibaba-wechat-payment](https://github.com/ufocjm/nibaba/tree/main/nibaba-wechat/nibaba-wechat-payment)
-- [数据库](https://github.com/ufocjm/nibaba/tree/main/nibaba-database)
-    - [mybatis-plus 封装 nibaba-database-mybatis-plus](https://github.com/ufocjm/nibaba/tree/main/nibaba-database/nibaba-database-mybatis-plus)
+- [微信](https://github.com/ufocjm/lazyfish-tool/tree/main/lazyfish-wechat)
+    - [微信支付 lazyfish-wechat-payment](https://github.com/ufocjm/lazyfish-tool/tree/main/lazyfish-wechat/lazyfish-wechat-payment)
+- [数据库](https://github.com/ufocjm/lazyfish-tool/tree/main/lazyfish-database)
+    - [mybatis-plus 封装 lazyfish-database-mybatis-plus](https://github.com/ufocjm/lazyfish-tool/tree/main/lazyfish-database/lazyfish-database-mp)

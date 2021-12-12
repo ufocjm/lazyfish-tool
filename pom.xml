@@ -9,7 +9,7 @@
     <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
-    <description>泥爸爸日常简化工具封装,对于日常工作中遇到的问题或者重复性代码进行封装</description>
+    <description>闲鱼日常简化工具封装,对于日常工作中遇到的问题或者重复性代码进行封装</description>
     <url>http://nibaba.fun</url>
 
     <developers>
