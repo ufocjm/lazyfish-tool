@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-    fun.nibaba.database.mybatis.plus.conf.InitConfiguration

@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>fun.nibaba</groupId>
-    <artifactId>nibaba-parent</artifactId>
+    <artifactId>lazyfish-tool</artifactId>
     <version>0.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -19,9 +19,9 @@
     </developers>
 
     <scm>
-        <url>https://github.com/ufocjm/nibaba</url>
-        <connection>https://github.com/ufocjm/nibaba.git</connection>
-        <developerConnection>https://github.com/ufocjm/nibaba.git</developerConnection>
+        <url>https://github.com/ufocjm/lazyfish-tool</url>
+        <connection>https://github.com/ufocjm/lazyfish-tool.git</connection>
+        <developerConnection>https://github.com/ufocjm/lazyfish-tool.git</developerConnection>
     </scm>
 
     <licenses>
@@ -44,8 +44,8 @@
     </properties>
 
     <modules>
-        <module>nibaba-wechat</module>
-        <module>nibaba-database</module>
+        <module>lazyfish-wechat</module>
+        <module>lazyfish-database</module>
     </modules>
 
     <dependencyManagement>

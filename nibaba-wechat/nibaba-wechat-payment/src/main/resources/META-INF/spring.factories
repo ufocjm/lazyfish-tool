@@ -1,2 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-   fun.nibaba.wechat.payment.conf.WechatPaymentInitConfiguration

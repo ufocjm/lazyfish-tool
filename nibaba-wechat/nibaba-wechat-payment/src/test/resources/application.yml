@@ -1,3 +1,0 @@
-logging:
-  level:
-    fun.nibaba.wechat.payment: debug

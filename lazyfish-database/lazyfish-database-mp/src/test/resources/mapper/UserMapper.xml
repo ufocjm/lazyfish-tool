@@ -1,0 +1,12 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="fun.lazyfish.database.mybatis.plus.mapper.UserMapper">
+
+    <select id="test" resultType="java.util.Map">
+        select id,name from user
+        <where>
+            ${express}
+        </where>
+
+    </select>
+</mapper>
