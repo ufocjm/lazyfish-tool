@@ -6,11 +6,11 @@
     <parent>
         <artifactId>lazyfish-wechat</artifactId>
         <groupId>fun.nibaba</groupId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.0.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>lazyfish-wechat-payment</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
 
     <properties>
     </properties>

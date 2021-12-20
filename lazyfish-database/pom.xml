@@ -6,15 +6,15 @@
     <parent>
         <artifactId>lazyfish-tool</artifactId>
         <groupId>fun.nibaba</groupId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.0.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>lazyfish-database</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>lazyfish-database-mp</module>
+        <module>lazyfish-database-mp-join</module>
     </modules>
 
 
