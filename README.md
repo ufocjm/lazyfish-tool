@@ -12,5 +12,5 @@
 
 - [微信](https://github.com/ufocjm/lazyfish-tool/tree/main/lazyfish-wechat)
     - [微信支付 lazyfish-wechat-payment](https://github.com/ufocjm/lazyfish-tool/tree/main/lazyfish-wechat/lazyfish-wechat-payment)
-- [数据库](https://github.com/ufocjm/lazyfish-tool/tree/main/lazyfish-database)
-    - [mybatis-plus 联表查封装 lazyfish-database-mp-join](https://github.com/ufocjm/lazyfish-tool/tree/main/lazyfish-database/lazyfish-database-mp-join)
+- [数据库](https://github.com/ufocjm/lazyfish-tool/tree/main/lazyfish-mp)
+    - [mybatis-plus 联表查封装 lazyfish-mp-join](https://github.com/ufocjm/lazyfish-tool/tree/main/lazyfish-mp/lazyfish-mp-join)

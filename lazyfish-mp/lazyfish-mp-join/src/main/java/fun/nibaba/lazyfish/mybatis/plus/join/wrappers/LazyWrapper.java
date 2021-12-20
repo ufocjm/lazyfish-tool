@@ -1,0 +1,160 @@
+package fun.nibaba.lazyfish.mybatis.plus.join.wrappers;
+
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import fun.nibaba.lazyfish.mybatis.plus.join.segments.GroupBySegment;
+import fun.nibaba.lazyfish.mybatis.plus.join.segments.OrderBySegment;
+import fun.nibaba.lazyfish.mybatis.plus.join.segments.SelectSegment;
+import fun.nibaba.lazyfish.mybatis.plus.join.segments.WhereSegment;
+import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+/**
+ * 查询sql构建器
+ *
+ * @author chenjiamin
+ * @date 2021/12/14 11:07 上午
+ */
+public class LazyWrapper {
+
+    private final SelectSegment selectSegment;
+
+    private final String tableNameAlias;
+
+    private final WhereSegment whereSegment;
+
+    private final GroupBySegment groupBySegment;
+
+    private final OrderBySegment orderBySegment;
+
+    private final String lastSql;
+
+    @Getter
+    private final List<LazyJoinWrapper> joinWrapperList;
+
+    LazyWrapper(SelectSegment selectSegment,
+                String tableNameAlias,
+                List<LazyJoinWrapper> joinWrapperList,
+                WhereSegment whereSegment,
+                GroupBySegment groupBySegment,
+                OrderBySegment orderBySegment,
+                String lastSql) {
+        this.selectSegment = selectSegment;
+        this.tableNameAlias = tableNameAlias;
+        this.joinWrapperList = joinWrapperList;
+        this.whereSegment = whereSegment;
+        this.groupBySegment = groupBySegment;
+        this.orderBySegment = orderBySegment;
+        this.lastSql = lastSql;
+    }
+
+    /**
+     * 生成 builder
+     *
+     * @param lazyTable    表
+     * @param <TableModel> 表类型
+     * @return builder
+     */
+    public static <TableModel> LazyWrapperBuilder<TableModel> builder(LazyTable<TableModel> lazyTable) {
+        return LazyWrapperBuilder.builder(lazyTable);
+    }
+
+    /**
+     * 提供给Mybatis使用的get方法
+     *
+     * @return 表别名
+     */
+    public String getTableNameAlias() {
+        return this.tableNameAlias;
+    }
+
+    /**
+     * 提供给Mybatis使用的get方法
+     *
+     * @return 查询字段
+     */
+    public String getSqlSelect() {
+        if (selectSegment.isEmpty() && CollUtil.isEmpty(this.joinWrapperList)) {
+            return null;
+        }
+        List<String> selectSegments = new ArrayList<>();
+        if (!selectSegment.isEmpty()) {
+            selectSegments.add(selectSegment.getSqlSegment());
+        }
+
+        if (CollUtil.isNotEmpty(this.joinWrapperList)) {
+            List<String> segmentList = this.joinWrapperList.stream()
+                    .map(LazyJoinWrapper::getSqlSelect)
+                    .filter(StrUtil::isNotBlank)
+                    .collect(Collectors.toList()
+                    );
+            if (CollUtil.isNotEmpty(segmentList)) {
+                selectSegments.add(String.join(StringPool.COMMA, segmentList));
+            }
+        }
+        if (CollUtil.isEmpty(selectSegments)) {
+            return null;
+        }
+        return String.join(StringPool.COMMA, selectSegments);
+    }
+
+    /**
+     * 提供给Mybatis使用的get方法
+     *
+     * @return 条件
+     */
+    public String getWhereSegment() {
+        if (whereSegment.isEmpty()) {
+            return null;
+        }
+        return whereSegment.getSqlSegment();
+    }
+
+    /**
+     * 提供给Mybatis使用的get方法
+     *
+     * @return group by
+     */
+    public String getGroupBySegment() {
+        if (groupBySegment.isEmpty()) {
+            return null;
+        }
+        return groupBySegment.getSqlSegment();
+    }
+
+    /**
+     * 提供给Mybatis使用的get方法
+     *
+     * @return 排序字段
+     */
+    public String getOrderBySegment() {
+        if (orderBySegment.isEmpty()) {
+            return null;
+        }
+        return orderBySegment.getSqlSegment();
+    }
+
+    /**
+     * 提供给Mybatis使用的get方法
+     *
+     * @return 末尾强制拼接的sql
+     */
+    public String getLastSql() {
+        return StrUtil.isNotBlank(this.lastSql) ? this.lastSql : StrUtil.EMPTY;
+    }
+
+    /**
+     * 提供给Mybatis使用的get方法
+     *
+     * @return where条件的所有值的键值对
+     */
+    public Map<String, Object> getParamNameValuePairs() {
+        return this.whereSegment.getParamNameValuePairs();
+    }
+
+}

@@ -45,7 +45,7 @@
 
     <modules>
         <module>lazyfish-wechat</module>
-        <module>lazyfish-database</module>
+        <module>lazyfish-mp</module>
     </modules>
 
     <dependencyManagement>
