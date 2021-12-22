@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.ISqlSegment;
 import com.baomidou.mybatisplus.core.enums.SqlKeyword;
 import com.baomidou.mybatisplus.core.enums.SqlLike;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.sql.SqlUtils;
 import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
@@ -15,6 +16,7 @@ import fun.nibaba.lazyfish.mybatis.plus.join.segments.ColumnSegment;
 import fun.nibaba.lazyfish.mybatis.plus.join.segments.CompareSegment;
 import fun.nibaba.lazyfish.mybatis.plus.join.segments.WhereSegment;
 
+import java.util.Collection;
 import java.util.function.Consumer;
 
 
@@ -76,6 +78,20 @@ public class LazyWhereBuilder<TableModel> implements
         consumer.accept(lazyWhere);
         this.addWhereSegment(new BracketSegment(lazyWhere.whereSegment));
 
+        return this;
+    }
+
+
+    @Override
+    public LazyWhereBuilder<TableModel> containable(boolean condition, SqlKeyword sqlKeyword, SFunction<TableModel, ?> column, Collection<?> collection) {
+        if (!condition) {
+            return this;
+        }
+        if (collection == null || collection.isEmpty()) {
+            return this;
+        }
+        ColumnCache columnCache = lazyTable.getColumnCache(column);
+        this.whereSegment.addCollection(lazyTable.getTableNameAlia(), columnCache, sqlKeyword, collection);
         return this;
     }
 

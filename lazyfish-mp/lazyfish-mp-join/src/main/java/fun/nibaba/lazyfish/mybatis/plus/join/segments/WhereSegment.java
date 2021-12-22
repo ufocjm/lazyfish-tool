@@ -3,11 +3,13 @@ package fun.nibaba.lazyfish.mybatis.plus.join.segments;
 import com.baomidou.mybatisplus.core.conditions.ISqlSegment;
 import com.baomidou.mybatisplus.core.conditions.segments.MatchSegment;
 import com.baomidou.mybatisplus.core.enums.SqlKeyword;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.sql.SqlScriptUtils;
 import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -117,6 +119,21 @@ public class WhereSegment extends ArrayList<ISqlSegment> implements LazySqlSegme
     public boolean add(String tableNameAlia, ColumnCache columnCache, SqlKeyword sqlKeyword, Object value) {
         String paramValue = this.formatParam(tableNameAlia, columnCache, value);
         return this.add(new CompareValueSegment(new ColumnSegment(tableNameAlia, columnCache.getColumnSelect()), sqlKeyword, paramValue));
+    }
+
+    /**
+     * 添加 where sql 片段
+     *
+     * @param tableNameAlia 表别名
+     * @param columnCache   列
+     * @param collection    值
+     * @param sqlKeyword    sql条件连接关键字
+     */
+    public boolean addCollection(String tableNameAlia, ColumnCache columnCache, SqlKeyword sqlKeyword, Collection<?> collection) {
+        String values = collection.stream()
+                .map(value -> this.formatParam(tableNameAlia, columnCache, value))
+                .collect(Collectors.joining(StringPool.COMMA, StringPool.LEFT_BRACKET, StringPool.RIGHT_BRACKET));
+        return this.add(new CompareValueSegment(new ColumnSegment(tableNameAlia, columnCache.getColumnSelect()), sqlKeyword, values));
     }
 
     /**

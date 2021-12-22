@@ -6,6 +6,7 @@ import fun.nibaba.lazyfish.mybatis.plus.entity.UserChild;
 import fun.nibaba.lazyfish.mybatis.plus.join.service.UserService;
 import fun.nibaba.lazyfish.mybatis.plus.join.wrappers.LazyTable;
 import fun.nibaba.lazyfish.mybatis.plus.join.wrappers.LazyWrapper;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -72,6 +73,7 @@ public class JunitTest {
                 .where(lazyWhere ->
                         lazyWhere.eq(User::getId, "1")
                                 .and(subLazyWhere -> subLazyWhere.eq(User::getAge, "3"))
+                                .in(User::getId, Lists.newArrayList("1", "2", "3"))
                 )
                 .group(lazyGroup -> lazyGroup.groupBy(User::getTitle).groupBy(userChild, UserChild::getId))
                 .order(lazyGroup -> lazyGroup.orderByDesc(User::getCreateId).orderByDesc(userChild, UserChild::getEmail))

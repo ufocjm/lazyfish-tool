@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.core.enums.SqlLike;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import fun.nibaba.lazyfish.mybatis.plus.join.functions.ValueFunction;
 
+import java.util.Collection;
+
 /**
  * 查询条件封装
  * 比较值
@@ -469,5 +471,63 @@ public interface LazyCompare<Child extends LazyCompare<Child, TableModel, Value>
      * @return this
      */
     Child nullable(boolean condition, SFunction<TableModel, ?> column, SqlKeyword sqlKeyword);
+
+
+    /**
+     * 包含
+     *
+     * @param column     列
+     * @param collection 值
+     * @return this
+     */
+    default Child in(SFunction<TableModel, ?> column, Collection<?> collection) {
+        return in(true, column, collection);
+    }
+
+    /**
+     * 包含
+     *
+     * @param condition  条件
+     * @param column     列
+     * @param collection 值
+     * @return this
+     */
+    default Child in(boolean condition, SFunction<TableModel, ?> column, Collection<?> collection) {
+        return containable(condition, SqlKeyword.IN, column, collection);
+    }
+
+    /**
+     * 不包含
+     *
+     * @param column     列
+     * @param collection 值
+     * @return this
+     */
+    default Child notIn(SFunction<TableModel, ?> column, Collection<?> collection) {
+        return notIn(true, column, collection);
+    }
+
+    /**
+     * 不包含
+     *
+     * @param condition  条件
+     * @param column     列
+     * @param collection 值
+     * @return this
+     */
+    default Child notIn(boolean condition, SFunction<TableModel, ?> column, Collection<?> collection) {
+        return containable(condition, SqlKeyword.NOT_IN, column, collection);
+    }
+
+    /**
+     * 是否包含
+     *
+     * @param condition  条件
+     * @param sqlKeyword 是否包含
+     * @param column     列
+     * @param collection 值
+     * @return this
+     */
+    Child containable(boolean condition, SqlKeyword sqlKeyword, SFunction<TableModel, ?> column, Collection<?> collection);
 
 }
