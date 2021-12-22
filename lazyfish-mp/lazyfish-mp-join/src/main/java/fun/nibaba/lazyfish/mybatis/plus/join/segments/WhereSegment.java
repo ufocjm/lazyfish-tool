@@ -118,7 +118,7 @@ public class WhereSegment extends ArrayList<ISqlSegment> implements LazySqlSegme
         String paramKey = tableNameAlia + UNDERSCORE + columnCache.getColumn() + UNDERSCORE + this.paramNameSeq.incrementAndGet();
         String paramValue = WRAPPER + WRAPPER_PARAM_MIDDLE + paramKey;
         this.paramNameValuePairs.put(paramKey, value);
-        return SqlScriptUtils.safeParam(paramValue, columnCache.getMapping());
+        return SqlScriptUtils.safeParam(paramValue);
     }
 
 }
