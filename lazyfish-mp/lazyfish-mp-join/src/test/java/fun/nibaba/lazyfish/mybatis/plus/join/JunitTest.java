@@ -66,6 +66,7 @@ public class JunitTest {
                         lazySelect.select(UserChild::getId);
                     }).on(lazyOn -> {
                         lazyOn.eq(User::getAge, UserChild::getTitle);
+                        lazyOn.eq(User::getAge, UserChild::getTitle);
                     }).where(lazyWhere -> {
                         lazyWhere.ne(UserChild::getEmail, "112");
                     });
@@ -81,22 +82,7 @@ public class JunitTest {
                 .build();
         List<Map<String, Object>> list = userService.joinList(build);
         System.out.println(list);
-//        System.out.println("SELECT ");
-//        System.out.println(build.getSqlSelect());
-//        System.out.println("demo_user ");
-//        System.out.println("AS ");
-//        System.out.println(build.getTableNameAlias());
-//        System.out.println(" FROM ");
-//        List<LazyJoinWrapper> joinSegmentList = build.getJoinSegmentList();
-//        for (LazyJoinWrapper lazyJoinWrapper : joinSegmentList) {
-//            System.out.println(lazyJoinWrapper.getJoinType());
-//            System.out.println(lazyJoinWrapper.getTableName());
-//            System.out.println(lazyJoinWrapper.getWhereSegment());
-//        }
-//        System.out.println(build.getWhereSegment());
-//        System.out.println(build.getGroupBySegment());
-//        System.out.println(build.getOrderBySegment());
-//        System.out.println(build.getLastSql());
     }
+
 
 }

@@ -11,13 +11,11 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import fun.nibaba.lazyfish.mybatis.plus.join.functions.ValueFunction;
 import fun.nibaba.lazyfish.mybatis.plus.join.interfaces.LazyCompare;
 import fun.nibaba.lazyfish.mybatis.plus.join.interfaces.LazyNested;
-import fun.nibaba.lazyfish.mybatis.plus.join.segments.BracketSegment;
-import fun.nibaba.lazyfish.mybatis.plus.join.segments.ColumnSegment;
-import fun.nibaba.lazyfish.mybatis.plus.join.segments.CompareSegment;
-import fun.nibaba.lazyfish.mybatis.plus.join.segments.WhereSegment;
+import fun.nibaba.lazyfish.mybatis.plus.join.segments.*;
 
 import java.util.Collection;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 
 /**
@@ -91,7 +89,11 @@ public class LazyWhereBuilder<TableModel> implements
             return this;
         }
         ColumnCache columnCache = lazyTable.getColumnCache(column);
-        this.whereSegment.addCollection(lazyTable.getTableNameAlia(), columnCache, sqlKeyword, collection);
+        String values = collection.stream()
+                .map(value -> this.whereSegment.formatParam(lazyTable.getTableNameAlia(), columnCache, value))
+                .collect(Collectors.joining(StringPool.COMMA, StringPool.LEFT_BRACKET, StringPool.RIGHT_BRACKET));
+        this.whereSegment.add(new CompareValueSegment(new ColumnSegment(lazyTable.getTableNameAlia(), columnCache.getColumnSelect()), sqlKeyword, values));
+
         return this;
     }
 
@@ -104,7 +106,8 @@ public class LazyWhereBuilder<TableModel> implements
      */
     private void addWhereSegment(SFunction<TableModel, ?> column, Object value, SqlKeyword sqlKeyword) {
         ColumnCache columnCache = lazyTable.getColumnCache(column);
-        this.whereSegment.add(lazyTable.getTableNameAlia(), columnCache, sqlKeyword, value);
+        String paramValue = this.whereSegment.formatParam(lazyTable.getTableNameAlia(), columnCache, value);
+        this.whereSegment.add(new CompareValueSegment(new ColumnSegment(lazyTable.getTableNameAlia(), columnCache.getColumnSelect()), sqlKeyword, paramValue));
     }
 
     private void addWhereSegment(ISqlSegment sqlSegment) {
