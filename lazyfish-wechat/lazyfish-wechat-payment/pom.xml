@@ -10,7 +10,6 @@
     </parent>
 
     <artifactId>lazyfish-wechat-payment</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
 
     <properties>
     </properties>

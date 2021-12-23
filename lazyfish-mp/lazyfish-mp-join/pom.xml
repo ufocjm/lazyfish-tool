@@ -10,7 +10,6 @@
     </parent>
 
     <artifactId>lazyfish-mp-join</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
     <description>实现mybatis-plus的联表查询</description>
 
     <dependencies>
