@@ -20,3 +20,4 @@
   - [ ] 动态声明构建FeignClient
       - [ ] 支持多实体传参数
   - [ ] Feign异常捕捉
+ - [ ] elasticsearch 
