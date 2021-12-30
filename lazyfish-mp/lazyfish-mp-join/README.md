@@ -12,7 +12,7 @@
 <dependency>
 	<groupId>fun.nibaba</groupId>
 	<artifactId>lazyfish-mp-join</artifactId>
-  <version>0.0.3-SNAPSHOT</version>
+  <version>0.0.4-SNAPSHOT</version>
 </dependency>
 ```
 
@@ -22,7 +22,7 @@
 
 ## 计划
 
-- [x] 联表查询sql构建器
+- [x] 联表查询sql构建器 v0.0.3-SNAPSHOT
 - [ ] 支持函数字段，支持函数条件
 - [ ] 删除对hutool工具包的依赖
 - [ ] join on 支持嵌套
