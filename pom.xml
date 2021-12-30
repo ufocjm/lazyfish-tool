@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>fun.nibaba</groupId>
     <artifactId>lazyfish-tool</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.4-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>${project.artifactId}</name>
@@ -46,6 +46,7 @@
     <modules>
         <module>lazyfish-wechat</module>
         <module>lazyfish-mp</module>
+        <module>lazyfish-rabbit-delay</module>
     </modules>
 
     <dependencyManagement>
