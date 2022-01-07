@@ -15,7 +15,7 @@
 - [mybatis-plus个性化](https://github.com/ufocjm/lazyfish-tool/tree/main/lazyfish-mp)
     - [x] [联表查个性化 lazyfish-mp-join](https://github.com/ufocjm/lazyfish-tool/tree/main/lazyfish-mp/lazyfish-mp-join) v0.0.3-SNAPSHOT
     - [ ] 分页查询/列表查询 个性化自动排序
-- [ ] RabbitMQ 延迟队列封装 v0.0.4-SNAPSHOT
+- [x] RabbitMQ 延迟队列封装 v0.0.4-SNAPSHOT (2022-01-07)
 - Feign
   - [ ] 动态声明构建FeignClient
       - [ ] 支持多实体传参数
