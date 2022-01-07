@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    active: junit
+
+  rabbitmq:
+    addresses: 127.0.0.1
+    port: 5672
+    username: lazyfish
+    password: lazyfish
+    publisher-returns: true
+    virtual-host: lazy_fish
+
