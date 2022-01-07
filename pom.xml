@@ -46,7 +46,6 @@
     <modules>
         <module>lazyfish-wechat</module>
         <module>lazyfish-mp</module>
-        <module>lazyfish-rabbit-delay</module>
     </modules>
 
     <dependencyManagement>
