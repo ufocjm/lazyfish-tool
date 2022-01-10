@@ -3,7 +3,7 @@ package fun.nibaba.lazyfish.mybatis.plus.join.wrappers;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import fun.nibaba.lazyfish.mybatis.plus.join.enums.JoinType;
-import fun.nibaba.lazyfish.mybatis.plus.join.segments.JoinOnSegment;
+import fun.nibaba.lazyfish.mybatis.plus.join.segments.JoinWehreSegment;
 import fun.nibaba.lazyfish.mybatis.plus.join.segments.SelectSegment;
 import fun.nibaba.lazyfish.mybatis.plus.join.segments.WhereSegment;
 
@@ -23,13 +23,13 @@ public class LazyJoinWrapper {
 
     private final SelectSegment selectSegment;
 
-    private final JoinOnSegment joinOnSegment;
+    private final JoinWehreSegment joinOnSegment;
 
     LazyJoinWrapper(JoinType joinType,
                     String tableNameAlias,
                     String tableName,
                     SelectSegment selectSegment,
-                    JoinOnSegment joinOnSegment) {
+                    JoinWehreSegment joinOnSegment) {
         this.joinType = joinType;
         this.tableNameAlias = tableNameAlias;
         this.tableName = tableName;
@@ -96,7 +96,7 @@ public class LazyJoinWrapper {
      *
      * @return JoinOnSegment
      */
-    JoinOnSegment getJoinOnSegment() {
+    JoinWehreSegment getJoinOnSegment() {
         return this.joinOnSegment;
     }
 

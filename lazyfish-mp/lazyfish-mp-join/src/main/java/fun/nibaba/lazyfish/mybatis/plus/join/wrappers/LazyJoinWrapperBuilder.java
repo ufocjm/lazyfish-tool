@@ -5,7 +5,7 @@ import fun.nibaba.lazyfish.mybatis.plus.join.enums.JoinType;
 import fun.nibaba.lazyfish.mybatis.plus.join.interfaces.LazyOn;
 import fun.nibaba.lazyfish.mybatis.plus.join.interfaces.LazySelect;
 import fun.nibaba.lazyfish.mybatis.plus.join.interfaces.LazyWhere;
-import fun.nibaba.lazyfish.mybatis.plus.join.segments.JoinOnSegment;
+import fun.nibaba.lazyfish.mybatis.plus.join.segments.JoinWehreSegment;
 import fun.nibaba.lazyfish.mybatis.plus.join.segments.SelectSegment;
 import fun.nibaba.lazyfish.mybatis.plus.join.segments.WhereSegment;
 
@@ -33,7 +33,7 @@ public class LazyJoinWrapperBuilder<Main, Join> implements
 
     private final WhereSegment whereSegment;
 
-    private final JoinOnSegment joinOnSegment;
+    private final JoinWehreSegment joinOnSegment;
 
 
     private LazyJoinWrapperBuilder(
@@ -46,7 +46,7 @@ public class LazyJoinWrapperBuilder<Main, Join> implements
         this.lazyJoinTable = lazyJoinTable;
         this.selectSegment = new SelectSegment(lazyJoinTable.getTableNameAlia());
         this.whereSegment = whereSegment;
-        this.joinOnSegment = new JoinOnSegment();
+        this.joinOnSegment = new JoinWehreSegment();
     }
 
     /**
@@ -103,9 +103,8 @@ public class LazyJoinWrapperBuilder<Main, Join> implements
      */
     @Override
     public LazyJoinWrapperBuilder<Main, Join> on(Consumer<LazyOnBuilder<Main, Join>> lazyOn) {
-        LazyOnBuilder<Main, Join> builder = LazyOnBuilder.builder(this.lazyTable, this.lazyJoinTable);
+        LazyOnBuilder<Main, Join> builder = LazyOnBuilder.builder(this.lazyTable, this.lazyJoinTable, this.joinOnSegment);
         lazyOn.accept(builder);
-        this.joinOnSegment.addAll(builder.joinOnSegment);
         return this;
     }
 
