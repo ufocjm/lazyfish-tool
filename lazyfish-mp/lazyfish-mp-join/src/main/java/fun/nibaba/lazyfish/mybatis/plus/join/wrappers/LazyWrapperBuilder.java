@@ -2,6 +2,7 @@ package fun.nibaba.lazyfish.mybatis.plus.join.wrappers;
 
 import cn.hutool.core.util.StrUtil;
 import fun.nibaba.lazyfish.mybatis.plus.join.enums.JoinType;
+import fun.nibaba.lazyfish.mybatis.plus.join.exceptions.LazyMybatisPlusException;
 import fun.nibaba.lazyfish.mybatis.plus.join.interfaces.LazyGroup;
 import fun.nibaba.lazyfish.mybatis.plus.join.interfaces.LazyOrder;
 import fun.nibaba.lazyfish.mybatis.plus.join.interfaces.LazySelect;
@@ -12,8 +13,12 @@ import fun.nibaba.lazyfish.mybatis.plus.join.segments.SelectSegment;
 import fun.nibaba.lazyfish.mybatis.plus.join.segments.WhereSegment;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
+
+import static com.baomidou.mybatisplus.core.toolkit.Constants.AS;
 
 /**
  * 查询sql构建器 builder
@@ -113,7 +118,7 @@ public class LazyWrapperBuilder<TableModel> implements
      * @param joinBuilderConsumer 关联查询consumer
      * @param <Main>              主表类型
      * @param <Join>              子表类型
-     * @return
+     * @return this
      */
     public <Main, Join> LazyWrapperBuilder<TableModel> innerJoin(LazyTable<Main> lazyTable,
                                                                  LazyTable<Join> lazyJoinTable,
@@ -129,7 +134,7 @@ public class LazyWrapperBuilder<TableModel> implements
      * @param joinBuilderConsumer 关联查询consumer
      * @param <Main>              主表类型
      * @param <Join>              子表类型
-     * @return
+     * @return this
      */
     public <Main, Join> LazyWrapperBuilder<TableModel> rightJoin(LazyTable<Main> lazyTable,
                                                                  LazyTable<Join> lazyJoinTable,
@@ -146,7 +151,7 @@ public class LazyWrapperBuilder<TableModel> implements
      * @param joinBuilderConsumer 关联查询consumer
      * @param <Main>              主表类型
      * @param <Join>              子表类型
-     * @return
+     * @return this
      */
     private <Main, Join> LazyWrapperBuilder<TableModel> join(LazyTable<Main> lazyTable,
                                                              JoinType joinType,
@@ -216,8 +221,8 @@ public class LazyWrapperBuilder<TableModel> implements
      * @return 查询sql构建器
      */
     public LazyWrapper build() {
-        // todo 做一层简单的校验
-        // 校验 表别名是否冲突
+        // 做一层简单的校验
+        this.duplicateTableAlias();
 
         return new LazyWrapper(
                 this.selectSegment,
@@ -228,6 +233,22 @@ public class LazyWrapperBuilder<TableModel> implements
                 this.orderBySegment,
                 this.lastSql
         );
+    }
+
+    /**
+     * 验证表明和别名是否冲突
+     */
+    private void duplicateTableAlias() {
+        // 校验 表别名是否冲突
+        Set<String> tableNameSet = new HashSet<>();
+        tableNameSet.add(this.lazyTable.getTableName() + AS + this.lazyTable.getTableNameAlia());
+        this.joinSegmentList.forEach(joinSegment -> {
+            if (tableNameSet.contains(joinSegment.getTableName())) {
+                throw new LazyMybatisPlusException("duplicate tableAlias [" + joinSegment.getTableName() + "]");
+            } else {
+                tableNameSet.add(joinSegment.getTableName());
+            }
+        });
     }
 
 }

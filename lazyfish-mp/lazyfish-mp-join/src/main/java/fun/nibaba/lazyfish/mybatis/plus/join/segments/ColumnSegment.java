@@ -14,10 +14,6 @@ public class ColumnSegment implements LazySqlSegment {
 
     private final String filedName;
 
-    public ColumnSegment(String filedName) {
-        this(null, filedName);
-    }
-
     public ColumnSegment(String tableNameAlias, String filedName) {
         this.tableNameAlias = tableNameAlias;
         this.filedName = filedName;

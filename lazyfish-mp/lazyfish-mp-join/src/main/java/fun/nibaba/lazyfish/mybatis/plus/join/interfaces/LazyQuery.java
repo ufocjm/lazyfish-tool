@@ -16,7 +16,18 @@ public interface LazyQuery<Child extends LazyQuery<Child, MainTableClass>, MainT
      * @param column 字段
      * @return 返回包装对象
      */
-    Child select(SFunction<MainTableClass, ?> column);
+    default Child select(SFunction<MainTableClass, ?> column) {
+        return this.select(column, null);
+    }
+
+    /**
+     * 查询字段
+     *
+     * @param column    字段
+     * @param aliasName 字段别名
+     * @return 返回包装对象
+     */
+    Child select(SFunction<MainTableClass, ?> column, String aliasName);
 
 
     /**

@@ -3,7 +3,7 @@ package fun.nibaba.lazyfish.mybatis.plus.join.wrappers;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import fun.nibaba.lazyfish.mybatis.plus.join.enums.JoinType;
-import fun.nibaba.lazyfish.mybatis.plus.join.segments.JoinWhereSegment;
+import fun.nibaba.lazyfish.mybatis.plus.join.segments.JoinOnSegment;
 import fun.nibaba.lazyfish.mybatis.plus.join.segments.SelectSegment;
 import fun.nibaba.lazyfish.mybatis.plus.join.segments.WhereSegment;
 
@@ -23,13 +23,13 @@ public class LazyJoinWrapper {
 
     private final SelectSegment selectSegment;
 
-    private final JoinWhereSegment joinOnSegment;
+    private final JoinOnSegment joinOnSegment;
 
     LazyJoinWrapper(JoinType joinType,
                     String tableNameAlias,
                     String tableName,
                     SelectSegment selectSegment,
-                    JoinWhereSegment joinOnSegment) {
+                    JoinOnSegment joinOnSegment) {
         this.joinType = joinType;
         this.tableNameAlias = tableNameAlias;
         this.tableName = tableName;
@@ -87,8 +87,17 @@ public class LazyJoinWrapper {
      *
      * @return on条件
      */
-    public String getJoinOnSegment() {
+    public String getJoinOnSegmentSql() {
         return StringPool.ON + StringPool.SPACE + this.joinOnSegment.getSqlSegment();
+    }
+
+    /**
+     * 获取join 条件对象
+     *
+     * @return JoinOnSegment
+     */
+    JoinOnSegment getJoinOnSegment() {
+        return this.joinOnSegment;
     }
 
 }

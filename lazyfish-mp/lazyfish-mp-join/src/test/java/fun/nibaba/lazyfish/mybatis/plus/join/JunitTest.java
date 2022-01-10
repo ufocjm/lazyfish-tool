@@ -55,18 +55,17 @@ public class JunitTest {
     @Test
     public void test1() {
         Wrappers.<User>lambdaQuery().select(User::getId, User::getAge);
-
-
-        LazyTable<User> user = new LazyTable<>(User.class);
-        LazyTable<UserChild> userChild = new LazyTable<>(UserChild.class);
+        LazyTable<User> user = new LazyTable<>(User.class, "yayaya");
+        LazyTable<UserChild> userChild = new LazyTable<>(UserChild.class, "lueluelue");
         LazyWrapper build = LazyWrapper.builder(user)
                 .select(lazySelect -> lazySelect.select(User::getId, User::getAge, User::getTitle))
                 .leftJoin(user, userChild, lazyJoin -> {
                     lazyJoin.select(lazySelect -> {
-                        lazySelect.select(UserChild::getId);
+                        lazySelect.select(UserChild::getId, "hahahahah");
                     }).on(lazyOn -> {
                         lazyOn.eq(User::getAge, UserChild::getTitle);
                         lazyOn.eq(User::getAge, UserChild::getTitle);
+                        lazyOn.eq(UserChild::getEmail, "yaha");
                     }).where(lazyWhere -> {
                         lazyWhere.ne(UserChild::getEmail, "112");
                     });
@@ -75,12 +74,15 @@ public class JunitTest {
                         lazyWhere.eq(User::getId, "1")
                                 .and(subLazyWhere -> subLazyWhere.eq(User::getAge, "3"))
                                 .in(User::getId, Lists.newArrayList("1", "2", "3"))
+                                .in(User::getId, Lists.newArrayList("1"))
+                                .notIn(User::getId, Lists.newArrayList("1", "2", "3"))
+                                .notIn(User::getId, Lists.newArrayList("3"))
                 )
                 .group(lazyGroup -> lazyGroup.groupBy(User::getTitle).groupBy(userChild, UserChild::getId))
                 .order(lazyGroup -> lazyGroup.orderByDesc(User::getCreateId).orderByDesc(userChild, UserChild::getEmail))
 
                 .build();
-        List<Map<String, Object>> list = userService.joinList(build);
+        List<User> list = userService.joinList(build, User.class);
         System.out.println(list);
     }
 

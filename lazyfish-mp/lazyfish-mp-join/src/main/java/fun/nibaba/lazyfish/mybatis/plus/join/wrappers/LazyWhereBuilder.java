@@ -14,6 +14,7 @@ import fun.nibaba.lazyfish.mybatis.plus.join.interfaces.LazyNested;
 import fun.nibaba.lazyfish.mybatis.plus.join.segments.*;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -63,6 +64,33 @@ public class LazyWhereBuilder<TableModel> implements
     }
 
     @Override
+    public LazyWhereBuilder<TableModel> containable(boolean condition, SqlKeyword sqlKeyword, SFunction<TableModel, ?> column, ValueFunction<Collection<?>> collectionFunction) {
+        if (!condition) {
+            return this;
+        }
+        Collection<?> collection = collectionFunction.getValue();
+        if (collection == null || collection.isEmpty()) {
+            return this;
+        }
+        ColumnCache columnCache = lazyTable.getColumnCache(column);
+        if (collection.size() == 1) {
+            Iterator<?> iterator = collection.iterator();
+            if (sqlKeyword == SqlKeyword.IN) {
+                this.eq(column, iterator.next());
+            } else if (sqlKeyword == SqlKeyword.NOT_IN) {
+                this.ne(column, iterator.next());
+            }
+        } else {
+            String values = collection.stream()
+                    .map(value -> this.whereSegment.formatParam(lazyTable.getTableNameAlia(), columnCache, value))
+                    .collect(Collectors.joining(StringPool.COMMA, StringPool.LEFT_BRACKET, StringPool.RIGHT_BRACKET));
+            this.whereSegment.add(new CompareValueSegment(new ColumnSegment(lazyTable.getTableNameAlia(), columnCache.getColumnSelect()), sqlKeyword, values));
+
+        }
+        return this;
+    }
+
+    @Override
     public LazyWhereBuilder<TableModel> nested(boolean condition, Consumer<LazyWhereBuilder<TableModel>> consumer, SqlKeyword sqlKeyword) {
         if (!condition) {
             return this;
@@ -75,24 +103,6 @@ public class LazyWhereBuilder<TableModel> implements
         LazyWhereBuilder<TableModel> lazyWhere = new LazyWhereBuilder<>(this.lazyTable, new WhereSegment(this.whereSegment));
         consumer.accept(lazyWhere);
         this.addWhereSegment(new BracketSegment(lazyWhere.whereSegment));
-
-        return this;
-    }
-
-
-    @Override
-    public LazyWhereBuilder<TableModel> containable(boolean condition, SqlKeyword sqlKeyword, SFunction<TableModel, ?> column, Collection<?> collection) {
-        if (!condition) {
-            return this;
-        }
-        if (collection == null || collection.isEmpty()) {
-            return this;
-        }
-        ColumnCache columnCache = lazyTable.getColumnCache(column);
-        String values = collection.stream()
-                .map(value -> this.whereSegment.formatParam(lazyTable.getTableNameAlia(), columnCache, value))
-                .collect(Collectors.joining(StringPool.COMMA, StringPool.LEFT_BRACKET, StringPool.RIGHT_BRACKET));
-        this.whereSegment.add(new CompareValueSegment(new ColumnSegment(lazyTable.getTableNameAlia(), columnCache.getColumnSelect()), sqlKeyword, values));
 
         return this;
     }
