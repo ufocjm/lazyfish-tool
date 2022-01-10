@@ -481,7 +481,18 @@ public interface LazyCompare<Child extends LazyCompare<Child, TableModel, Value>
      * @return this
      */
     default Child in(SFunction<TableModel, ?> column, Collection<?> collection) {
-        return in(true, column, collection);
+        return in(column, () -> collection);
+    }
+
+    /**
+     * 包含
+     *
+     * @param column             列
+     * @param collectionFunction 值
+     * @return this
+     */
+    default Child in(SFunction<TableModel, ?> column, ValueFunction<Collection<?>> collectionFunction) {
+        return in(true, column, collectionFunction);
     }
 
     /**
@@ -493,7 +504,19 @@ public interface LazyCompare<Child extends LazyCompare<Child, TableModel, Value>
      * @return this
      */
     default Child in(boolean condition, SFunction<TableModel, ?> column, Collection<?> collection) {
-        return containable(condition, SqlKeyword.IN, column, collection);
+        return this.in(condition, column, () -> collection);
+    }
+
+    /**
+     * 包含
+     *
+     * @param condition          条件
+     * @param column             列
+     * @param collectionFunction 值
+     * @return this
+     */
+    default Child in(boolean condition, SFunction<TableModel, ?> column, ValueFunction<Collection<?>> collectionFunction) {
+        return containable(condition, SqlKeyword.IN, column, collectionFunction);
     }
 
     /**
@@ -504,7 +527,18 @@ public interface LazyCompare<Child extends LazyCompare<Child, TableModel, Value>
      * @return this
      */
     default Child notIn(SFunction<TableModel, ?> column, Collection<?> collection) {
-        return notIn(true, column, collection);
+        return notIn(column, () -> collection);
+    }
+
+    /**
+     * 不包含
+     *
+     * @param column             列
+     * @param collectionFunction 值
+     * @return this
+     */
+    default Child notIn(SFunction<TableModel, ?> column, ValueFunction<Collection<?>> collectionFunction) {
+        return notIn(true, column, collectionFunction);
     }
 
     /**
@@ -516,7 +550,19 @@ public interface LazyCompare<Child extends LazyCompare<Child, TableModel, Value>
      * @return this
      */
     default Child notIn(boolean condition, SFunction<TableModel, ?> column, Collection<?> collection) {
-        return containable(condition, SqlKeyword.NOT_IN, column, collection);
+        return notIn(condition, column, () -> collection);
+    }
+
+    /**
+     * 不包含
+     *
+     * @param condition          条件
+     * @param column             列
+     * @param collectionFunction 值
+     * @return this
+     */
+    default Child notIn(boolean condition, SFunction<TableModel, ?> column, ValueFunction<Collection<?>> collectionFunction) {
+        return containable(condition, SqlKeyword.NOT_IN, column, collectionFunction);
     }
 
     /**
@@ -528,6 +574,19 @@ public interface LazyCompare<Child extends LazyCompare<Child, TableModel, Value>
      * @param collection 值
      * @return this
      */
-    Child containable(boolean condition, SqlKeyword sqlKeyword, SFunction<TableModel, ?> column, Collection<?> collection);
+    default Child containable(boolean condition, SqlKeyword sqlKeyword, SFunction<TableModel, ?> column, Collection<?> collection) {
+        return this.containable(condition, sqlKeyword, column, () -> collection);
+    }
+
+    /**
+     * 是否包含
+     *
+     * @param condition          条件
+     * @param sqlKeyword         是否包含
+     * @param column             列
+     * @param collectionFunction 值
+     * @return this
+     */
+    Child containable(boolean condition, SqlKeyword sqlKeyword, SFunction<TableModel, ?> column, ValueFunction<Collection<?>> collectionFunction);
 
 }

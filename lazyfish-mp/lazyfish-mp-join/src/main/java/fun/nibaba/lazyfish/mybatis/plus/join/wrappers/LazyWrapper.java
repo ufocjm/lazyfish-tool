@@ -10,6 +10,7 @@ import fun.nibaba.lazyfish.mybatis.plus.join.segments.WhereSegment;
 import lombok.Getter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -22,20 +23,46 @@ import java.util.stream.Collectors;
  */
 public class LazyWrapper {
 
+    /**
+     * select
+     */
     private final SelectSegment selectSegment;
 
+    /**
+     * tableName as
+     */
     private final String tableNameAlias;
 
+    /**
+     * where
+     */
     private final WhereSegment whereSegment;
 
+    /**
+     * group by
+     */
     private final GroupBySegment groupBySegment;
 
+    /**
+     * order by
+     */
     private final OrderBySegment orderBySegment;
 
+    /**
+     * last sql segment
+     */
     private final String lastSql;
 
+    /**
+     * join sql segments
+     */
     @Getter
     private final List<LazyJoinWrapper> joinWrapperList;
+
+    /**
+     * params map
+     */
+    private Map<String, Object> paramNameValuePairs;
 
     LazyWrapper(SelectSegment selectSegment,
                 String tableNameAlias,
@@ -44,6 +71,7 @@ public class LazyWrapper {
                 GroupBySegment groupBySegment,
                 OrderBySegment orderBySegment,
                 String lastSql) {
+
         this.selectSegment = selectSegment;
         this.tableNameAlias = tableNameAlias;
         this.joinWrapperList = joinWrapperList;
@@ -154,7 +182,18 @@ public class LazyWrapper {
      * @return where条件的所有值的键值对
      */
     public Map<String, Object> getParamNameValuePairs() {
-        return this.whereSegment.getParamNameValuePairs();
+        if (paramNameValuePairs == null) {
+            paramNameValuePairs = new HashMap<>();
+            paramNameValuePairs.putAll(this.whereSegment.getParamNameValuePairs());
+            if (this.joinWrapperList != null) {
+                this.joinWrapperList.forEach(joinWrapper -> {
+                    if (joinWrapper.getJoinOnSegment() != null && joinWrapper.getJoinOnSegment().getParamNameValuePairs() != null) {
+                        paramNameValuePairs.putAll(joinWrapper.getJoinOnSegment().getParamNameValuePairs());
+                    }
+                });
+            }
+        }
+        return paramNameValuePairs;
     }
 
 }

@@ -43,6 +43,7 @@ public class LazyColumn<TableModel> {
      */
     protected static Map<String, Map<String, ColumnCache>> classColumnMap = new HashMap<>();
 
+
     protected LazyColumn(Class<TableModel> tableClass, String tableNameAlia) {
         this.tableClass = tableClass;
         this.tableInfo = TableInfoHelper.getTableInfo(tableClass);
@@ -54,6 +55,50 @@ public class LazyColumn<TableModel> {
         }
     }
 
+
+    /**
+     * 根据类的类型缓存字段
+     *
+     * @param clazz 类
+     */
+    private void tryInitCache(Class<?> clazz) {
+        if (!classColumnMap.containsKey(clazz.getName())) {
+            Map<String, ColumnCache> columnMap = LambdaUtils.getColumnMap(clazz);
+            classColumnMap.put(clazz.getName(), columnMap);
+        }
+    }
+
+    /**
+     * Getter
+     */
+    protected String getTableName() {
+        return this.tableName;
+    }
+
+    /**
+     * Getter
+     */
+    protected String getTableNameAlia() {
+        return this.tableNameAlia;
+    }
+
+    /**
+     * 根据function转换为 字段名
+     *
+     * @param column function
+     * @return 字段名
+     */
+    protected String getColumnName(SFunction<TableModel, ?> column) {
+        ColumnCache columnCache = this.getColumnCache(column);
+        return columnCache.getColumnSelect();
+    }
+
+    /**
+     * 根据function转换为 {@link ColumnCache}
+     *
+     * @param column function
+     * @return ColumnCache
+     */
     protected ColumnCache getColumnCache(SFunction<TableModel, ?> column) {
         SerializedLambda serializedLambda = LAMBDA_CACHE.get(column.getClass());
         if (serializedLambda == null) {
@@ -67,46 +112,45 @@ public class LazyColumn<TableModel> {
             FUNC_CACHE.put(column.getClass(), clazz);
         }
 
-        String fieldName = this.getFiledName(serializedLambda);
+        String fieldName = this.getFieldName(serializedLambda);
 
         this.tryInitCache(clazz);
         return this.getColumnCache(fieldName, clazz);
     }
 
-    private void tryInitCache(Class<?> lambdaClass) {
-        if (!classColumnMap.containsKey(lambdaClass.getName())) {
-            Map<String, ColumnCache> columnMap = LambdaUtils.getColumnMap(lambdaClass);
-            classColumnMap.put(lambdaClass.getName(), columnMap);
-        }
-    }
-
-    private ColumnCache getColumnCache(String fieldName, Class<?> lambdaClass) {
-        Map<String, ColumnCache> columnMap = classColumnMap.get(lambdaClass.getName());
+    /**
+     * 根据字段名和类获取 数据库 列的缓存
+     *
+     * @param fieldName 字段名
+     * @param clazz     类
+     * @return 列的缓存
+     */
+    private ColumnCache getColumnCache(String fieldName, Class<?> clazz) {
+        Map<String, ColumnCache> columnMap = classColumnMap.get(clazz.getName());
         ColumnCache columnCache = columnMap.get(LambdaUtils.formatKey(fieldName));
         Assert.notNull(columnCache, "can not find lambda cache for this property [%s] of entity [%s]",
-                fieldName, lambdaClass.getName());
+                fieldName, clazz.getName());
         return columnCache;
     }
 
-    protected String getTableName() {
-        return this.tableName;
-    }
-
-    protected String getTableNameAlia() {
-        return this.tableNameAlia;
-    }
-
-    protected String getColumnName(SFunction<TableModel, ?> column) {
-        ColumnCache columnCache = this.getColumnCache(column);
-        return columnCache.getColumnSelect();
-    }
-
-    private String getFiledName(SerializedLambda serializedLambda) {
+    /**
+     * 获取字段名
+     *
+     * @param serializedLambda lambdaFunction
+     * @return 字段名
+     */
+    private String getFieldName(SerializedLambda serializedLambda) {
         // 从lambda信息取出method、field、class等
         String methodName = serializedLambda.getImplMethodName();
         return this.methodToProperty(methodName);
     }
 
+    /**
+     * lambdaFunction 转换为 SerializedLambda
+     *
+     * @param column 列
+     * @return SerializedLambda
+     */
     private <T> SerializedLambda getSerializedLambda(SFunction<T, ?> column) {
         Method writeReplaceMethod;
         try {
@@ -124,6 +168,12 @@ public class LazyColumn<TableModel> {
         }
     }
 
+    /**
+     * 方法名转换为字段名
+     *
+     * @param methodName 方法名
+     * @return 字段名
+     */
     private String methodToProperty(String methodName) {
         if (methodName.startsWith("is")) {
             methodName = methodName.substring(2);

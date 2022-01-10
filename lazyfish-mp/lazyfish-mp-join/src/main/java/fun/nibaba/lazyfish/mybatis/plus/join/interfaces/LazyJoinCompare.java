@@ -153,11 +153,11 @@ public interface LazyJoinCompare<Child extends LazyJoinCompare<Child, Main, Join
     /**
      * 比较
      *
-     * @param condition
+     * @param condition   条件
      * @param leftColumn  左列
      * @param sqlKeyword  比较方式
      * @param rightColumn 右列
-     * @return
+     * @return this
      */
     Child compare(boolean condition, SFunction<Main, ?> leftColumn, SqlKeyword sqlKeyword, SFunction<Join, ?> rightColumn);
 

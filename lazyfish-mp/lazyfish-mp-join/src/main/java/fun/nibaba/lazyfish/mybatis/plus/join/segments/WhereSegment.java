@@ -34,13 +34,14 @@ public class WhereSegment extends ArrayList<ISqlSegment> implements LazySqlSegme
     public WhereSegment(WhereSegment whereSegment) {
         this.paramNameValuePairs = whereSegment.paramNameValuePairs;
         this.paramNameSeq = whereSegment.paramNameSeq;
+        this.lastValue = whereSegment.lastValue;
     }
 
     /**
      * 条件具体的值
      */
     @Getter
-    private final Map<String, Object> paramNameValuePairs;
+    protected final Map<String, Object> paramNameValuePairs;
 
     /**
      * 查询条件排序

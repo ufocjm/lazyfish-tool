@@ -25,7 +25,7 @@ public class JoinSelect extends AbstractMethod {
 
     private final static String WHERE_SEGMENT = "whereSegment";
 
-    private final static String JOIN_ON_SEGMENT = "joinOnSegment";
+    private final static String JOIN_ON_SEGMENT_SQL = "joinOnSegmentSql";
 
     private final static String WRAPPER_WHERE_SEGMENT = WRAPPER_DOT + WHERE_SEGMENT;
 
@@ -79,8 +79,7 @@ public class JoinSelect extends AbstractMethod {
      * @return 表别名
      */
     protected String tableNameAlias() {
-        return SqlScriptUtils.convertChoose(String.format("%s != null and %s != null", WRAPPER, WRAPPER_TABLE_NAME_ALIAS),
-                AS + SqlScriptUtils.unSafeParam(WRAPPER_TABLE_NAME_ALIAS), "");
+        return AS + SqlScriptUtils.unSafeParam(WRAPPER_TABLE_NAME_ALIAS);
     }
 
     /**
@@ -133,8 +132,8 @@ public class JoinSelect extends AbstractMethod {
      * @return 关联查的条件
      */
     private String joinWhereSegment(String item) {
-        return SqlScriptUtils.convertIf(SqlScriptUtils.unSafeParam(item + DOT + JOIN_ON_SEGMENT),
-                String.format("%s != null", item + DOT + JOIN_ON_SEGMENT),
+        return SqlScriptUtils.convertIf(SqlScriptUtils.unSafeParam(item + DOT + JOIN_ON_SEGMENT_SQL),
+                String.format("%s != null", item + DOT + JOIN_ON_SEGMENT_SQL),
                 true);
     }
 

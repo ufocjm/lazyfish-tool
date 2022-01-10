@@ -23,9 +23,10 @@
 ## 计划
 
 - [x] 联表查询sql构建器 v0.0.3-SNAPSHOT
+- [x] join on 支持嵌套 v0.0.4-SNAPSHOT
 - [ ] 支持函数字段，支持函数条件
 - [ ] 删除对hutool工具包的依赖
-- [ ] join on 支持嵌套
+
 
 
 ## 例子
@@ -33,26 +34,32 @@
 联表查询:
 
 ```java
-        LazyTable<User> user = new LazyTable<>(User.class);
-        LazyTable<UserChild> userChild = new LazyTable<>(UserChild.class);
-        LazyWrapper build = LazyWrapper.builder(user)
-            .select(lazySelect -> lazySelect.select(User::getId, User::getAge, User::getTitle))
-            .leftJoin(user, userChild, lazyJoin -> {
-                lazyJoin.select(lazySelect -> {
-                    lazySelect.select(UserChild::getId);
-                }).on(lazyOn -> {
-                    lazyOn.eq(User::getAge, UserChild::getTitle);
-                }).where(lazyWhere -> {
-                l   azyWhere.ne(UserChild::getEmail, "112");
-                });
-            })
-            .where(lazyWhere ->
+    Wrappers.<User>lambdaQuery().select(User::getId, User::getAge);
+    LazyTable<User> user = new LazyTable<>(User.class, "yayaya");
+    LazyTable<UserChild> userChild = new LazyTable<>(UserChild.class, "lueluelue");
+    LazyWrapper build = LazyWrapper.builder(user)
+        .select(lazySelect -> lazySelect.select(User::getId, User::getAge, User::getTitle))
+        .leftJoin(user, userChild, lazyJoin -> {
+            lazyJoin.select(lazySelect -> {
+                lazySelect.select(UserChild::getId, "hahahahah");
+            }).on(lazyOn -> {
+                lazyOn.eq(User::getAge, UserChild::getTitle);
+                lazyOn.eq(User::getAge, UserChild::getTitle);
+            }).where(lazyWhere -> {
+                lazyWhere.ne(UserChild::getEmail, "112");
+            });
+        })
+        .where(lazyWhere ->
                 lazyWhere.eq(User::getId, "1")
                     .and(subLazyWhere -> subLazyWhere.eq(User::getAge, "3"))
-            )
-            .group(lazyGroup -> lazyGroup.groupBy(User::getTitle))
-            .order(lazyGroup -> lazyGroup.orderByDesc(User::getCreateId))
-            .build();
-        List<Map<String, Object>> list = userService.joinList(build);
+                        .in(User::getId, Lists.newArrayList("1", "2", "3"))
+                        .in(User::getId, Lists.newArrayList("1"))
+                    .notIn(User::getId, Lists.newArrayList("1", "2", "3"))
+                    .notIn(User::getId, Lists.newArrayList("3"))
+                )
+        .group(lazyGroup -> lazyGroup.groupBy(User::getTitle).groupBy(userChild, UserChild::getId))
+        .order(lazyGroup -> lazyGroup.orderByDesc(User::getCreateId).orderByDesc(userChild, UserChild::getEmail))
+        .build();
+    List<User> list = userService.joinList(build, User.class);
 ```
 
