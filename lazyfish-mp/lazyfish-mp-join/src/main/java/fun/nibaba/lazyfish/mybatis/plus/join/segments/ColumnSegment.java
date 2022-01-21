@@ -1,6 +1,6 @@
 package fun.nibaba.lazyfish.mybatis.plus.join.segments;
 
-import cn.hutool.core.util.StrUtil;
+import fun.nibaba.lazyfish.utils.StrUtils;
 
 /**
  * 字段 sql 片段
@@ -22,7 +22,7 @@ public class ColumnSegment implements LazySqlSegment {
     @Override
     public String getSqlSegment() {
         String sqlSegment = "";
-        if (StrUtil.isNotBlank(this.tableNameAlias)) {
+        if (StrUtils.isNotBlank(this.tableNameAlias)) {
             sqlSegment = this.tableNameAlias + DOT;
         }
         sqlSegment += this.filedName;

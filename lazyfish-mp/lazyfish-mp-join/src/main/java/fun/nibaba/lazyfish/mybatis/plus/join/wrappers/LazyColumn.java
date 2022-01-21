@@ -1,12 +1,12 @@
 package fun.nibaba.lazyfish.mybatis.plus.join.wrappers;
 
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.TableInfo;
 import com.baomidou.mybatisplus.core.metadata.TableInfoHelper;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.baomidou.mybatisplus.core.toolkit.LambdaUtils;
 import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import fun.nibaba.lazyfish.utils.StrUtils;
 import org.apache.ibatis.reflection.ReflectionException;
 
 import java.lang.invoke.SerializedLambda;
@@ -48,7 +48,7 @@ public class LazyColumn<TableModel> {
         this.tableClass = tableClass;
         this.tableInfo = TableInfoHelper.getTableInfo(tableClass);
         this.tableName = tableInfo.getTableName();
-        if (StrUtil.isBlank(tableNameAlia)) {
+        if (StrUtils.isBlank(tableNameAlia)) {
             this.tableNameAlia = this.tableName;
         } else {
             this.tableNameAlia = tableNameAlia;

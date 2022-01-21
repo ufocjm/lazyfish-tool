@@ -1,10 +1,10 @@
 package fun.nibaba.lazyfish.mybatis.plus.join.service;
 
-import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import fun.nibaba.lazyfish.mybatis.plus.join.mapper.LazyMapper;
 import fun.nibaba.lazyfish.mybatis.plus.join.wrappers.LazyWrapper;
+import fun.nibaba.lazyfish.utils.BeanUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -44,7 +44,7 @@ public interface ILazyService<Entity> extends IService<Entity> {
      */
     default <EntityClass> List<EntityClass> joinList(LazyWrapper wrapper, Class<EntityClass> entityClass) {
         List<Map<String, Object>> results = joinList(wrapper);
-        return BeanUtil.copyToList(results, entityClass, null);
+        return BeanUtils.mapsToBean(results, entityClass);
     }
 
     /**
@@ -66,7 +66,7 @@ public interface ILazyService<Entity> extends IService<Entity> {
      */
     default <EntityClass> EntityClass joinOne(LazyWrapper wrapper, Class<EntityClass> entityClass) {
         Map<String, Object> result = joinOne(wrapper);
-        return BeanUtil.toBean(result, entityClass);
+        return BeanUtils.mapToBean(result, entityClass);
     }
 
     /**

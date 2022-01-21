@@ -1,11 +1,10 @@
 package fun.nibaba.lazyfish.mybatis.plus.join.mapper;
 
-import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.ReflectUtil;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import fun.nibaba.lazyfish.mybatis.plus.join.wrappers.LazyWrapper;
+import fun.nibaba.lazyfish.utils.BeanUtils;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -37,7 +36,7 @@ public interface LazyMapper<Entity> extends BaseMapper<Entity> {
      */
     default <EntityClass> List<EntityClass> joinSelectList(@Param(Constants.WRAPPER) LazyWrapper wrapper, Class<EntityClass> entityClass) {
         List<Map<String, Object>> results = this.joinSelectList(wrapper);
-        return BeanUtil.copyToList(results, entityClass, null);
+        return BeanUtils.mapsToBean(results, entityClass);
     }
 
     /**
@@ -57,7 +56,7 @@ public interface LazyMapper<Entity> extends BaseMapper<Entity> {
      */
     default <EntityClass> EntityClass joinSelect(@Param(Constants.WRAPPER) LazyWrapper wrapper, Class<EntityClass> entityClass) {
         Map<String, Object> result = this.joinSelect(wrapper);
-        return BeanUtil.toBean(result, entityClass);
+        return BeanUtils.mapToBean(result, entityClass);
     }
 
 
@@ -79,12 +78,12 @@ public interface LazyMapper<Entity> extends BaseMapper<Entity> {
      * @param entityClass 转换实体
      * @return 数据
      */
+    @SuppressWarnings("unchecked")
     default <EntityClass, PageEntity extends IPage<EntityClass>> PageEntity joinSelectPage(PageEntity page, @Param(Constants.WRAPPER) LazyWrapper wrapper, Class<EntityClass> entityClass) {
         IPage<Map<String, Object>> resultPage = this.joinSelectPage(page, wrapper);
         List<Map<String, Object>> records = resultPage.getRecords();
-        PageEntity objectPage = (PageEntity) ReflectUtil.newInstance(page.getClass(), resultPage.getCurrent(), resultPage.getSize(), resultPage.getTotal(), resultPage.searchCount());
-        objectPage.setRecords(BeanUtil.copyToList(records, entityClass, null));
-        return objectPage;
+        ((IPage) resultPage).setRecords(BeanUtils.mapsToBean(records, entityClass));
+        return (PageEntity) resultPage;
     }
 
 

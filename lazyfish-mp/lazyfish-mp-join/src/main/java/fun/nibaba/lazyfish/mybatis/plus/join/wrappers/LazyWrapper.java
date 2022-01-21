@@ -1,12 +1,12 @@
 package fun.nibaba.lazyfish.mybatis.plus.join.wrappers;
 
-import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import fun.nibaba.lazyfish.mybatis.plus.join.segments.GroupBySegment;
 import fun.nibaba.lazyfish.mybatis.plus.join.segments.OrderBySegment;
 import fun.nibaba.lazyfish.mybatis.plus.join.segments.SelectSegment;
 import fun.nibaba.lazyfish.mybatis.plus.join.segments.WhereSegment;
+import fun.nibaba.lazyfish.utils.CollUtils;
+import fun.nibaba.lazyfish.utils.StrUtils;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -107,7 +107,7 @@ public class LazyWrapper {
      * @return 查询字段
      */
     public String getSqlSelect() {
-        if (selectSegment.isEmpty() && CollUtil.isEmpty(this.joinWrapperList)) {
+        if (selectSegment.isEmpty() && CollUtils.isEmpty(this.joinWrapperList)) {
             return null;
         }
         List<String> selectSegments = new ArrayList<>();
@@ -115,17 +115,17 @@ public class LazyWrapper {
             selectSegments.add(selectSegment.getSqlSegment());
         }
 
-        if (CollUtil.isNotEmpty(this.joinWrapperList)) {
+        if (CollUtils.isNotEmpty(this.joinWrapperList)) {
             List<String> segmentList = this.joinWrapperList.stream()
                     .map(LazyJoinWrapper::getSqlSelect)
-                    .filter(StrUtil::isNotBlank)
+                    .filter(StrUtils::isNotBlank)
                     .collect(Collectors.toList()
                     );
-            if (CollUtil.isNotEmpty(segmentList)) {
+            if (CollUtils.isNotEmpty(segmentList)) {
                 selectSegments.add(String.join(StringPool.COMMA, segmentList));
             }
         }
-        if (CollUtil.isEmpty(selectSegments)) {
+        if (CollUtils.isEmpty(selectSegments)) {
             return null;
         }
         return String.join(StringPool.COMMA, selectSegments);
@@ -173,7 +173,7 @@ public class LazyWrapper {
      * @return 末尾强制拼接的sql
      */
     public String getLastSql() {
-        return StrUtil.isNotBlank(this.lastSql) ? this.lastSql : StrUtil.EMPTY;
+        return StrUtils.isNotBlank(this.lastSql) ? this.lastSql : StringPool.EMPTY;
     }
 
     /**

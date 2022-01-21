@@ -1,7 +1,7 @@
 package fun.nibaba.lazyfish.mybatis.plus.join.segments;
 
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.enums.SqlKeyword;
+import fun.nibaba.lazyfish.utils.StrUtils;
 
 /**
  * 值比较片段
@@ -15,7 +15,7 @@ public class CompareValueSegment extends CompareSegment {
 
     public CompareValueSegment(ColumnSegment columnSegment, SqlKeyword sqlKeyword, String paramValueKey) {
         super(columnSegment, sqlKeyword);
-        if (StrUtil.isBlank(paramValueKey)) {
+        if (StrUtils.isBlank(paramValueKey)) {
             throw new RuntimeException("sql片段键值对关键字不能为空");
         }
         this.paramValueKey = paramValueKey;

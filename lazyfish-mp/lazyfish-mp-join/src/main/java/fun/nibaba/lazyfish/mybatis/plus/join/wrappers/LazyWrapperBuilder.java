@@ -1,6 +1,5 @@
 package fun.nibaba.lazyfish.mybatis.plus.join.wrappers;
 
-import cn.hutool.core.util.StrUtil;
 import fun.nibaba.lazyfish.mybatis.plus.join.enums.JoinType;
 import fun.nibaba.lazyfish.mybatis.plus.join.exceptions.LazyMybatisPlusException;
 import fun.nibaba.lazyfish.mybatis.plus.join.interfaces.LazyGroup;
@@ -11,6 +10,7 @@ import fun.nibaba.lazyfish.mybatis.plus.join.segments.GroupBySegment;
 import fun.nibaba.lazyfish.mybatis.plus.join.segments.OrderBySegment;
 import fun.nibaba.lazyfish.mybatis.plus.join.segments.SelectSegment;
 import fun.nibaba.lazyfish.mybatis.plus.join.segments.WhereSegment;
+import fun.nibaba.lazyfish.utils.StringConstants;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -211,7 +211,7 @@ public class LazyWrapperBuilder<TableModel> implements
      * @return this
      */
     public LazyWrapperBuilder<TableModel> lastSql(String lastSql) {
-        this.lastSql = StrUtil.SPACE + lastSql;
+        this.lastSql = StringConstants.SPACE + lastSql;
         return this;
     }
 

@@ -34,9 +34,9 @@
         </dependency>
 
         <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
-            <scope>provided</scope>
+            <groupId>fun.nibaba</groupId>
+            <artifactId>lazyfish-utils</artifactId>
+            <version>${parent.version}</version>
         </dependency>
 
     </dependencies>

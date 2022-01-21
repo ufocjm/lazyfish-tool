@@ -1,6 +1,8 @@
 package fun.nibaba.lazyfish.mybatis.plus.join;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.plugins.pagination.PageDto;
 import fun.nibaba.lazyfish.mybatis.plus.entity.User;
 import fun.nibaba.lazyfish.mybatis.plus.entity.UserChild;
 import fun.nibaba.lazyfish.mybatis.plus.join.service.UserService;
@@ -63,11 +65,11 @@ public class JunitTest {
                     lazyJoin.select(lazySelect -> {
                         lazySelect.select(UserChild::getId, "hahahahah");
                     }).on(lazyOn -> {
-                        lazyOn.eq(User::getAge, UserChild::getTitle);
-                        lazyOn.eq(User::getAge, UserChild::getTitle);
-                        lazyOn.eq(UserChild::getEmail, "yaha");
+                        lazyOn.eq(User::getId, UserChild::getId);
+//                        lazyOn.eq(User::getAge, UserChild::getTitle);
+//                        lazyOn.eq(UserChild::getEmail, "yaha");
                     }).where(lazyWhere -> {
-                        lazyWhere.ne(UserChild::getEmail, "112");
+                        lazyWhere.ne(UserChild::getEmail, "55");
                     });
                 })
                 .where(lazyWhere ->
@@ -75,13 +77,14 @@ public class JunitTest {
                                 .and(subLazyWhere -> subLazyWhere.eq(User::getAge, "3"))
                                 .in(User::getId, Lists.newArrayList("1", "2", "3"))
                                 .in(User::getId, Lists.newArrayList("1"))
-                                .notIn(User::getId, Lists.newArrayList("1", "2", "3"))
-                                .notIn(User::getId, Lists.newArrayList("3"))
+                                .notIn(User::getId, Lists.newArrayList( "4", "5"))
+                                .notIn(User::getId, Lists.newArrayList("6"))
                 )
                 .group(lazyGroup -> lazyGroup.groupBy(User::getTitle).groupBy(userChild, UserChild::getId))
                 .order(lazyGroup -> lazyGroup.orderByDesc(User::getCreateId).orderByDesc(userChild, UserChild::getEmail))
 
                 .build();
+        userService.joinPage(new PageDto<>(), build, User.class);
         List<User> list = userService.joinList(build, User.class);
         System.out.println(list);
     }
