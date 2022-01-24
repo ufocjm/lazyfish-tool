@@ -24,7 +24,7 @@ public class SelectSegment extends ArrayList<ISqlSegment> implements LazySqlSegm
         if (this.isEmpty()) {
             return null;
         }
-        return this.stream().map(ISqlSegment::getSqlSegment).collect(Collectors.joining(COMMA));
+        return this.stream().map(ISqlSegment::getSqlSegment).collect(Collectors.joining(COMMA + SPACE));
     }
 
 }

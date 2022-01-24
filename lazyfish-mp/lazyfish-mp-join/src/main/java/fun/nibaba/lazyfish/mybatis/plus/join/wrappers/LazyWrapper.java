@@ -122,7 +122,7 @@ public class LazyWrapper {
                     .collect(Collectors.toList()
                     );
             if (CollUtils.isNotEmpty(segmentList)) {
-                selectSegments.add(String.join(StringPool.COMMA, segmentList));
+                selectSegments.add(String.join(StringPool.COMMA + StringPool.SPACE, segmentList));
             }
         }
         if (CollUtils.isEmpty(selectSegments)) {

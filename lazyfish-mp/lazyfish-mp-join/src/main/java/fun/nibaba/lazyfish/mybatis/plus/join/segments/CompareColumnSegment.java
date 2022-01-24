@@ -9,11 +9,11 @@ import com.baomidou.mybatisplus.core.enums.SqlKeyword;
  * @date 2021/6/4 11:59 上午
  */
 
-public class CompareFieldSegment extends CompareSegment {
+public class CompareColumnSegment extends CompareSegment {
 
     private final ColumnSegment rightColumnSegment;
 
-    public CompareFieldSegment(ColumnSegment leftColumnSegment, SqlKeyword sqlKeyword, ColumnSegment rightColumnSegment) {
+    public CompareColumnSegment(ColumnSegment leftColumnSegment, SqlKeyword sqlKeyword, ColumnSegment rightColumnSegment) {
         super(leftColumnSegment, sqlKeyword);
         this.rightColumnSegment = rightColumnSegment;
     }

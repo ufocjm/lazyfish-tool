@@ -1,4 +1,4 @@
-package fun.nibaba.lazyfish.utils;
+package fun.nibaba.lazyfish.utils.converters;
 
 import fun.nibaba.lazyfish.utils.converters.*;
 

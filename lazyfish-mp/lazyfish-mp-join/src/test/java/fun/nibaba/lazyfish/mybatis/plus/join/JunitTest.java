@@ -60,7 +60,7 @@ public class JunitTest {
         LazyTable<User> user = new LazyTable<>(User.class, "yayaya");
         LazyTable<UserChild> userChild = new LazyTable<>(UserChild.class, "lueluelue");
         LazyWrapper build = LazyWrapper.builder(user)
-                .select(lazySelect -> lazySelect.select(User::getId, User::getAge, User::getTitle))
+                .select(lazySelect -> lazySelect.select(User::getId, User::getAge, User::getTitle).count(User::getId,"lalala"))
                 .leftJoin(user, userChild, lazyJoin -> {
                     lazyJoin.select(lazySelect -> {
                         lazySelect.select(UserChild::getId, "hahahahah");

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.enums.SqlKeyword;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import fun.nibaba.lazyfish.mybatis.plus.join.interfaces.LazyJoinCompare;
 import fun.nibaba.lazyfish.mybatis.plus.join.segments.ColumnSegment;
-import fun.nibaba.lazyfish.mybatis.plus.join.segments.CompareFieldSegment;
+import fun.nibaba.lazyfish.mybatis.plus.join.segments.CompareColumnSegment;
 import fun.nibaba.lazyfish.mybatis.plus.join.segments.JoinWehreSegment;
 
 /**
@@ -37,7 +37,7 @@ public class LazyOnBuilder<Main, Join> extends AbstractLazyWhereBuilder<LazyOnBu
         }
         ColumnSegment leftColumnSegment = new ColumnSegment(lazyTable.getTableNameAlia(), lazyTable.getColumnName(leftColumn));
         ColumnSegment rightColumnSegment = new ColumnSegment(super.lazyTable.getTableNameAlia(), super.lazyTable.getColumnName(rightColumn));
-        CompareFieldSegment compareFieldSegment = new CompareFieldSegment(leftColumnSegment, sqlKeyword, rightColumnSegment);
+        CompareColumnSegment compareFieldSegment = new CompareColumnSegment(leftColumnSegment, sqlKeyword, rightColumnSegment);
         whereSegment.add(compareFieldSegment);
         return this;
     }

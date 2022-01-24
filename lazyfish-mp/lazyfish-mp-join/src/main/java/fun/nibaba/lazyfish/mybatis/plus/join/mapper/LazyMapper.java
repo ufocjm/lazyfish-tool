@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import fun.nibaba.lazyfish.mybatis.plus.join.wrappers.LazyWrapper;
-import fun.nibaba.lazyfish.utils.BeanUtils;
+import fun.nibaba.lazyfish.utils.reflect.BeanUtils;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

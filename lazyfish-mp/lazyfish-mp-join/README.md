@@ -24,8 +24,8 @@
 
 - [x] 联表查询sql构建器 v0.0.3-SNAPSHOT
 - [x] join on 支持嵌套 v0.0.4-SNAPSHOT
-- [ ] 支持函数字段，支持函数条件
-- [ ] 删除对hutool工具包的依赖
+- [x] 支持函数查询字段
+- [x] 删除对hutool工具包的依赖
 
 
 
@@ -38,7 +38,7 @@
     LazyTable<User> user = new LazyTable<>(User.class, "yayaya");
     LazyTable<UserChild> userChild = new LazyTable<>(UserChild.class, "lueluelue");
     LazyWrapper build = LazyWrapper.builder(user)
-        .select(lazySelect -> lazySelect.select(User::getId, User::getAge, User::getTitle))
+        .select(lazySelect -> lazySelect.select(User::getId, User::getAge, User::getTitle).count(User::getId,"lalala"))
         .leftJoin(user, userChild, lazyJoin -> {
             lazyJoin.select(lazySelect -> {
                 lazySelect.select(UserChild::getId, "hahahahah");

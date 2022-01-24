@@ -1,9 +1,12 @@
 package fun.nibaba.lazyfish.mybatis.plus.join.wrappers;
 
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import fun.nibaba.lazyfish.mybatis.plus.join.enums.LazyFunction;
 import fun.nibaba.lazyfish.mybatis.plus.join.interfaces.LazyQuery;
+import fun.nibaba.lazyfish.mybatis.plus.join.interfaces.LazyQueryFunction;
 import fun.nibaba.lazyfish.mybatis.plus.join.segments.ColumnAsSegment;
 import fun.nibaba.lazyfish.mybatis.plus.join.segments.ColumnSegment;
+import fun.nibaba.lazyfish.mybatis.plus.join.segments.FunctionSegment;
 import fun.nibaba.lazyfish.mybatis.plus.join.segments.SelectSegment;
 
 /**
@@ -12,7 +15,9 @@ import fun.nibaba.lazyfish.mybatis.plus.join.segments.SelectSegment;
  * @author chenjiamin
  * @date 2021/12/14 2:34 下午
  */
-public class LazySelectBuilder<TableModel> implements LazyQuery<LazySelectBuilder<TableModel>, TableModel> {
+public class LazySelectBuilder<TableModel> implements
+        LazyQuery<LazySelectBuilder<TableModel>, TableModel>,
+        LazyQueryFunction<LazySelectBuilder<TableModel>, TableModel> {
 
     final LazyTable<TableModel> lazyTable;
 
@@ -27,7 +32,6 @@ public class LazySelectBuilder<TableModel> implements LazyQuery<LazySelectBuilde
         return new LazySelectBuilder<>(lazyTable);
     }
 
-
     @Override
     public LazySelectBuilder<TableModel> select(SFunction<TableModel, ?> column, String aliasName) {
         ColumnSegment columnSegment = new ColumnSegment(lazyTable.getTableNameAlia(), lazyTable.getColumnName(column));
@@ -41,6 +45,13 @@ public class LazySelectBuilder<TableModel> implements LazyQuery<LazySelectBuilde
         for (SFunction<TableModel, ?> column : columns) {
             this.select(column);
         }
+        return this;
+    }
+
+    @Override
+    public LazySelectBuilder<TableModel> fun(SFunction<TableModel, ?> column, String aliasName, LazyFunction lazyFunction) {
+        ColumnSegment columnSegment = new ColumnSegment(lazyTable.getTableNameAlia(), lazyTable.getColumnName(column));
+        selectSegment.add(new FunctionSegment(lazyFunction, columnSegment, aliasName));
         return this;
     }
 

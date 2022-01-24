@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
  * @date 2021/5/27 4:53 下午
  */
 @Configuration
-public class InitConfiguration {
+public class InitMpJoinConfiguration {
 
     @ConditionalOnMissingBean(DefaultSqlInjector.class)
     @Bean

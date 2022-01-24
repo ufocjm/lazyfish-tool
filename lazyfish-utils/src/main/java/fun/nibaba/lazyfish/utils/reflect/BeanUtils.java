@@ -1,4 +1,7 @@
-package fun.nibaba.lazyfish.utils;
+package fun.nibaba.lazyfish.utils.reflect;
+
+import fun.nibaba.lazyfish.utils.converters.ConvertUtils;
+import fun.nibaba.lazyfish.utils.StrUtils;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
