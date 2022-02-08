@@ -29,7 +29,7 @@ public abstract class AbstractLazyWhereBuilder<Child extends AbstractLazyWhereBu
         LazyNested<Child>,
         Constants {
 
-    private Child typeThis = (Child) this;
+    private final Child typeThis = (Child) this;
 
     protected final LazyTable<TableModel> lazyTable;
 
