@@ -1,4 +1,4 @@
-package fun.nibaba.lazyfish.mybatis.plus;
+package fun.nibaba.lazyfish.mybatis.plus.core;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;

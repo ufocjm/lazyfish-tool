@@ -1,6 +1,6 @@
 package fun.nibaba.lazyfish.mybatis.plus.core.service;
 
-import fun.nibaba.lazyfish.mybatis.plus.entity.User;
+import fun.nibaba.lazyfish.mybatis.plus.core.entity.User;
 
 /**
  * TODO

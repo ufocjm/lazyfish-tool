@@ -1,6 +1,6 @@
 package fun.nibaba.lazyfish.mybatis.plus.core.mapper;
 
-import fun.nibaba.lazyfish.mybatis.plus.entity.UserChild;
+import fun.nibaba.lazyfish.mybatis.plus.core.entity.UserChild;
 
 /**
  * TODO

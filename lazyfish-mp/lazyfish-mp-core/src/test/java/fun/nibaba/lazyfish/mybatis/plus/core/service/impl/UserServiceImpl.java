@@ -1,6 +1,6 @@
 package fun.nibaba.lazyfish.mybatis.plus.core.service.impl;
 
-import fun.nibaba.lazyfish.mybatis.plus.entity.User;
+import fun.nibaba.lazyfish.mybatis.plus.core.entity.User;
 import fun.nibaba.lazyfish.mybatis.plus.core.mapper.UserMapper;
 import fun.nibaba.lazyfish.mybatis.plus.core.service.UserService;
 import org.springframework.stereotype.Service;

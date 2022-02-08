@@ -1,6 +1,6 @@
 package fun.nibaba.lazyfish.mybatis.plus.core.mapper;
 
-import fun.nibaba.lazyfish.mybatis.plus.entity.User;
+import fun.nibaba.lazyfish.mybatis.plus.core.entity.User;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

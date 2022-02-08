@@ -113,7 +113,7 @@ public class LazyJoinWrapperBuilder<Main, Join> implements
      *
      * @return 连接查询sql构建器
      */
-    public LazyJoinWrapper build() {
+    LazyJoinWrapper build() {
         return new LazyJoinWrapper(
                 this.joinType,
                 this.lazyJoinTable.getTableNameAlia(),

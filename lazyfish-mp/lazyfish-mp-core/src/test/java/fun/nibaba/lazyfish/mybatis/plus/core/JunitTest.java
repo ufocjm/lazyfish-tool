@@ -1,9 +1,9 @@
-package fun.nibaba.lazyfish.mybatis.plus;
+package fun.nibaba.lazyfish.mybatis.plus.core;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.PageDto;
-import fun.nibaba.lazyfish.mybatis.plus.entity.User;
-import fun.nibaba.lazyfish.mybatis.plus.entity.UserChild;
+import fun.nibaba.lazyfish.mybatis.plus.core.entity.User;
+import fun.nibaba.lazyfish.mybatis.plus.core.entity.UserChild;
 import fun.nibaba.lazyfish.mybatis.plus.core.service.UserService;
 import fun.nibaba.lazyfish.mybatis.plus.core.wrappers.LazyTable;
 import fun.nibaba.lazyfish.mybatis.plus.core.wrappers.LazyWrapper;

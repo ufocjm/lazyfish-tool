@@ -6,7 +6,7 @@
     <parent>
         <artifactId>lazyfish-mp</artifactId>
         <groupId>fun.nibaba</groupId>
-        <version>0.0.5</version>
+        <version>0.0.5.1</version>
     </parent>
 
     <artifactId>lazyfish-mp-core</artifactId>

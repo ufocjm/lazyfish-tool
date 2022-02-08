@@ -1,4 +1,4 @@
-package fun.nibaba.lazyfish.mybatis.plus.entity;
+package fun.nibaba.lazyfish.mybatis.plus.core.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
