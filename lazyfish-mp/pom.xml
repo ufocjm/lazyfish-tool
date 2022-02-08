@@ -11,34 +11,9 @@
 
     <artifactId>lazyfish-mp</artifactId>
     <description>实现mybatis-plus个性化方法实现</description>
-
-    <dependencies>
-        <!-- SpringBoot 测试 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <!-- mybatis-plus  -->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>fun.nibaba</groupId>
-            <artifactId>lazyfish-utils</artifactId>
-            <version>${parent.version}</version>
-        </dependency>
-
-    </dependencies>
+    <packaging>pom</packaging>
+    <modules>
+        <module>lazyfish-mp-core</module>
+    </modules>
 
 </project>
