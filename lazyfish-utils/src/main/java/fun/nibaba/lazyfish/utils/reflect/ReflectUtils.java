@@ -61,9 +61,20 @@ public class ReflectUtils {
      * @return 泛型类型
      */
     public static Class<?> getGenericType(Class<?> clazz) {
+        return getGenericType(clazz, 0);
+    }
+
+    /**
+     * 获取第一个泛型
+     *
+     * @param clazz 类型
+     * @param index 下标
+     * @return 泛型类型
+     */
+    public static Class<?> getGenericType(Class<?> clazz, int index) {
         ParameterizedType parameterizedType = (ParameterizedType) clazz.getGenericSuperclass();
         Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
-        return (Class<?>) actualTypeArguments[0];
+        return (Class<?>) actualTypeArguments[index];
     }
 
 }
