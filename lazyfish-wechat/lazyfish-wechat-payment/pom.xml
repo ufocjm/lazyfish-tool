@@ -10,7 +10,7 @@
     </parent>
 
     <artifactId>lazyfish-wechat-payment</artifactId>
-
+    <description>微信支付</description>
     <properties>
     </properties>
 
