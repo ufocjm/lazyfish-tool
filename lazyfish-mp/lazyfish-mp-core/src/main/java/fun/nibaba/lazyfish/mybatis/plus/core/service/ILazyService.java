@@ -3,7 +3,8 @@ package fun.nibaba.lazyfish.mybatis.plus.core.service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import fun.nibaba.lazyfish.mybatis.plus.core.mapper.LazyMapper;
-import fun.nibaba.lazyfish.mybatis.plus.core.wrappers.LazyWrapper;
+import fun.nibaba.lazyfish.mybatis.plus.core.wrappers.LazyQueryWrapper;
+import fun.nibaba.lazyfish.mybatis.plus.core.wrappers.LazyUpdateWrapper;
 import fun.nibaba.lazyfish.utils.reflect.BeanUtils;
 
 import java.util.List;
@@ -31,7 +32,7 @@ public interface ILazyService<Entity> extends IService<Entity> {
      * @param wrapper
      * @return
      */
-    default List<Map<String, Object>> lazyList(LazyWrapper wrapper) {
+    default List<Map<String, Object>> lazyList(LazyQueryWrapper wrapper) {
         return getBaseMapper().lazyList(wrapper);
     }
 
@@ -42,7 +43,7 @@ public interface ILazyService<Entity> extends IService<Entity> {
      * @param entityClass 转换实体
      * @return 数据
      */
-    default <EntityClass> List<EntityClass> lazyList(LazyWrapper wrapper, Class<EntityClass> entityClass) {
+    default <EntityClass> List<EntityClass> lazyList(LazyQueryWrapper wrapper, Class<EntityClass> entityClass) {
         List<Map<String, Object>> results = lazyList(wrapper);
         return BeanUtils.mapsToBean(results, entityClass);
     }
@@ -53,7 +54,7 @@ public interface ILazyService<Entity> extends IService<Entity> {
      * @param wrapper sql构造器
      * @return 数据
      */
-    default Map<String, Object> lazyOne(LazyWrapper wrapper) {
+    default Map<String, Object> lazyOne(LazyQueryWrapper wrapper) {
         return getBaseMapper().lazyOne(wrapper);
     }
 
@@ -64,7 +65,7 @@ public interface ILazyService<Entity> extends IService<Entity> {
      * @param entityClass 转换实体
      * @return 数据
      */
-    default <EntityClass> EntityClass lazyOne(LazyWrapper wrapper, Class<EntityClass> entityClass) {
+    default <EntityClass> EntityClass lazyOne(LazyQueryWrapper wrapper, Class<EntityClass> entityClass) {
         Map<String, Object> result = lazyOne(wrapper);
         return BeanUtils.mapToBean(result, entityClass);
     }
@@ -76,7 +77,7 @@ public interface ILazyService<Entity> extends IService<Entity> {
      * @param wrapper sql构造器
      * @return 数据
      */
-    default <EntityClass, PageEntity extends IPage<EntityClass>> IPage<Map<String, Object>> lazyPage(PageEntity page, LazyWrapper wrapper) {
+    default <EntityClass, PageEntity extends IPage<EntityClass>> IPage<Map<String, Object>> lazyPage(PageEntity page, LazyQueryWrapper wrapper) {
         return getBaseMapper().lazyPage(page, wrapper);
     }
 
@@ -89,8 +90,18 @@ public interface ILazyService<Entity> extends IService<Entity> {
      * @param entityClass 转换实体
      * @return 数据
      */
-    default <EntityClass, PageEntity extends IPage<EntityClass>> PageEntity lazyPage(PageEntity page, LazyWrapper wrapper, Class<EntityClass> entityClass) {
+    default <EntityClass, PageEntity extends IPage<EntityClass>> PageEntity lazyPage(PageEntity page, LazyQueryWrapper wrapper, Class<EntityClass> entityClass) {
         return getBaseMapper().lazyPage(page, wrapper, entityClass);
+    }
+
+    /**
+     * 修改
+     *
+     * @param wrapper sql构造器
+     * @return 是否有更新到数据
+     */
+    default boolean lazyUpdate(LazyUpdateWrapper wrapper) {
+        return getBaseMapper().lazyUpdate(wrapper) > 0;
     }
 
 }

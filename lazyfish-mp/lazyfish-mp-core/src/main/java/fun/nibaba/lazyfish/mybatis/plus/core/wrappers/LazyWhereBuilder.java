@@ -16,7 +16,7 @@ public class LazyWhereBuilder<TableModel> extends AbstractLazyWhereBuilder<LazyW
         super(lazyTable, whereSegment);
     }
 
-    public static <TableModel> LazyWhereBuilder<TableModel> builder(LazyTable<TableModel> lazyTable, WhereSegment whereSegment) {
+    static <TableModel> LazyWhereBuilder<TableModel> builder(LazyTable<TableModel> lazyTable, WhereSegment whereSegment) {
         return new LazyWhereBuilder<>(lazyTable, whereSegment);
     }
 

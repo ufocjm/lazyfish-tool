@@ -15,4 +15,8 @@ public class LazyMybatisPlusException extends RuntimeException {
     public LazyMybatisPlusException(String message) {
         super(message);
     }
+
+    public LazyMybatisPlusException(Throwable cause) {
+        super(cause);
+    }
 }

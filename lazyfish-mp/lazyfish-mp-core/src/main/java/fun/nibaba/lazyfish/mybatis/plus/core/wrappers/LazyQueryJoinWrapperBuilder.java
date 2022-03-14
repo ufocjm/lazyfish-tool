@@ -17,10 +17,10 @@ import java.util.function.Consumer;
  * @author chenjiamin
  * @date 2021/12/16 5:25 下午
  */
-public class LazyJoinWrapperBuilder<Main, Join> implements
-        LazySelect<LazyJoinWrapperBuilder<Main, Join>, Join>,
-        LazyWhere<LazyJoinWrapperBuilder<Main, Join>, Join>,
-        LazyOn<LazyJoinWrapperBuilder<Main, Join>, Main, Join>,
+public class LazyQueryJoinWrapperBuilder<Main, Join> implements
+        LazySelect<LazyQueryJoinWrapperBuilder<Main, Join>, Join>,
+        LazyWhere<LazyQueryJoinWrapperBuilder<Main, Join>, Join>,
+        LazyOn<LazyQueryJoinWrapperBuilder<Main, Join>, Main, Join>,
         Constants {
 
     private final LazyTable<Main> lazyTable;
@@ -36,7 +36,7 @@ public class LazyJoinWrapperBuilder<Main, Join> implements
     private final JoinWehreSegment joinOnSegment;
 
 
-    private LazyJoinWrapperBuilder(
+    private LazyQueryJoinWrapperBuilder(
             LazyTable<Main> lazyTable,
             JoinType joinType,
             LazyTable<Join> lazyJoinTable,
@@ -60,11 +60,11 @@ public class LazyJoinWrapperBuilder<Main, Join> implements
      * @param <Join>        子表类型
      * @return 关联查询构建器
      */
-    static <Main, Join> LazyJoinWrapperBuilder<Main, Join> builder(LazyTable<Main> lazyTable,
-                                                                   JoinType joinType,
-                                                                   LazyTable<Join> lazyJoinTable,
-                                                                   WhereSegment whereSegment) {
-        return new LazyJoinWrapperBuilder<>(lazyTable, joinType, lazyJoinTable, whereSegment);
+    static <Main, Join> LazyQueryJoinWrapperBuilder<Main, Join> builder(LazyTable<Main> lazyTable,
+                                                                        JoinType joinType,
+                                                                        LazyTable<Join> lazyJoinTable,
+                                                                        WhereSegment whereSegment) {
+        return new LazyQueryJoinWrapperBuilder<>(lazyTable, joinType, lazyJoinTable, whereSegment);
     }
 
     /**
@@ -74,7 +74,7 @@ public class LazyJoinWrapperBuilder<Main, Join> implements
      * @return this
      */
     @Override
-    public LazyJoinWrapperBuilder<Main, Join> select(Consumer<LazySelectBuilder<Join>> lazySelect) {
+    public LazyQueryJoinWrapperBuilder<Main, Join> select(Consumer<LazySelectBuilder<Join>> lazySelect) {
         LazySelectBuilder<Join> builder = LazySelectBuilder.builder(lazyJoinTable);
         lazySelect.accept(builder);
         this.selectSegment.addAll(builder.selectSegment);
@@ -88,7 +88,7 @@ public class LazyJoinWrapperBuilder<Main, Join> implements
      * @return this
      */
     @Override
-    public LazyJoinWrapperBuilder<Main, Join> where(Consumer<LazyWhereBuilder<Join>> lazyWhere) {
+    public LazyQueryJoinWrapperBuilder<Main, Join> where(Consumer<LazyWhereBuilder<Join>> lazyWhere) {
         LazyWhereBuilder<Join> builder = LazyWhereBuilder.builder(this.lazyJoinTable, this.whereSegment);
         lazyWhere.accept(builder);
         return this;
@@ -102,7 +102,7 @@ public class LazyJoinWrapperBuilder<Main, Join> implements
      * @return this
      */
     @Override
-    public LazyJoinWrapperBuilder<Main, Join> on(Consumer<LazyOnBuilder<Main, Join>> lazyOn) {
+    public LazyQueryJoinWrapperBuilder<Main, Join> on(Consumer<LazyOnBuilder<Main, Join>> lazyOn) {
         LazyOnBuilder<Main, Join> builder = LazyOnBuilder.builder(this.lazyTable, this.lazyJoinTable, this.joinOnSegment);
         lazyOn.accept(builder);
         return this;
@@ -113,8 +113,8 @@ public class LazyJoinWrapperBuilder<Main, Join> implements
      *
      * @return 连接查询sql构建器
      */
-    LazyJoinWrapper build() {
-        return new LazyJoinWrapper(
+    LazyQueryJoinWrapper build() {
+        return new LazyQueryJoinWrapper(
                 this.joinType,
                 this.lazyJoinTable.getTableNameAlia(),
                 this.lazyJoinTable.getTableName(),

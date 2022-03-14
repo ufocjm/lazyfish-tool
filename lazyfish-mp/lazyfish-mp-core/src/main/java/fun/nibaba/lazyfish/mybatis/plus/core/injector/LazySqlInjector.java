@@ -2,9 +2,10 @@ package fun.nibaba.lazyfish.mybatis.plus.core.injector;
 
 import com.baomidou.mybatisplus.core.injector.AbstractMethod;
 import com.baomidou.mybatisplus.core.injector.DefaultSqlInjector;
-import fun.nibaba.lazyfish.mybatis.plus.core.injector.methods.LazyOne;
 import fun.nibaba.lazyfish.mybatis.plus.core.injector.methods.LazyList;
+import fun.nibaba.lazyfish.mybatis.plus.core.injector.methods.LazyOne;
 import fun.nibaba.lazyfish.mybatis.plus.core.injector.methods.LazyPage;
+import fun.nibaba.lazyfish.mybatis.plus.core.injector.methods.LazyUpdate;
 import fun.nibaba.lazyfish.mybatis.plus.core.mapper.LazyMapper;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class LazySqlInjector extends DefaultSqlInjector {
             methodList.add(new LazyList());
             methodList.add(new LazyOne());
             methodList.add(new LazyPage());
+            methodList.add(new LazyUpdate());
         }
         return methodList;
     }

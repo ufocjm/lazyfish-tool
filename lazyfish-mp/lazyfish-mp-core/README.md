@@ -26,7 +26,7 @@
 - [x] join on 支持嵌套 v0.0.4-SNAPSHOT
 - [x] 支持函数查询字段
 - [x] 删除对hutool工具包的依赖
-
+- [x] 增加lazyUpdate方法，目前主要的作用在于自增和自减 2022-03-14 v0.0.5.2
 
 
 ## 例子
@@ -61,5 +61,19 @@
         .order(lazyGroup -> lazyGroup.orderByDesc(User::getCreateId).orderByDesc(userChild, UserChild::getEmail))
         .build();
     List<User> list = userService.joinList(build, User.class);
+```
+
+修改:
+```java
+    LazyTable<User> lazyTable = new LazyTable<>(User.class);
+    LazyUpdateWrapper build = LazyUpdateWrapper.builder(lazyTable)
+            .set(lazySet->{
+                lazySet.set(User::getEmail, System.currentTimeMillis()).decrement(User::getAge);
+            })
+            .where(where->{
+                where.eq(User::getId, "1");
+            })
+            .build();
+    userService.lazyUpdate(build);
 ```
 

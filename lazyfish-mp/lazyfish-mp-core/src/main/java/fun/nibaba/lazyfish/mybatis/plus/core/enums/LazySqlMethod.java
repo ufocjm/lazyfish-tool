@@ -23,7 +23,9 @@ public enum LazySqlMethod {
 
     LAZY_ONE("lazyOne", "join查询满足条件单条", "<script>SELECT %s FROM %s %s %s %s %s %s %s\n</script>"),
 
-    LAZY_PAGE("lazyPage", "join查询满足条件所有数据", "<script>SELECT %s FROM %s %s %s %s %s %s %s\n</script>");
+    LAZY_PAGE("lazyPage", "join查询满足条件所有数据", "<script>SELECT %s FROM %s %s %s %s %s %s %s\n</script>"),
+
+    LAZY_UPDATE("lazyUpdate", "修改", "<script>UPDATE %s %s %s %s\n</script>");
 
     private final String method;
 

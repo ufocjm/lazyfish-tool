@@ -13,7 +13,7 @@ import fun.nibaba.lazyfish.mybatis.plus.core.segments.WhereSegment;
  * @author chenjiamin
  * @date 2021/12/16 5:25 下午
  */
-public class LazyJoinWrapper {
+public class LazyQueryJoinWrapper {
 
     private final JoinType joinType;
 
@@ -25,11 +25,11 @@ public class LazyJoinWrapper {
 
     private final JoinWehreSegment joinOnSegment;
 
-    LazyJoinWrapper(JoinType joinType,
-                    String tableNameAlias,
-                    String tableName,
-                    SelectSegment selectSegment,
-                    JoinWehreSegment joinOnSegment) {
+    LazyQueryJoinWrapper(JoinType joinType,
+                         String tableNameAlias,
+                         String tableName,
+                         SelectSegment selectSegment,
+                         JoinWehreSegment joinOnSegment) {
         this.joinType = joinType;
         this.tableNameAlias = tableNameAlias;
         this.tableName = tableName;
@@ -48,11 +48,11 @@ public class LazyJoinWrapper {
      * @param <Join>        关联表类型
      * @return builder
      */
-    static <Main, Join> LazyJoinWrapperBuilder<Main, Join> builder(LazyTable<Main> lazyTable,
-                                                                   JoinType joinType,
-                                                                   LazyTable<Join> lazyJoinTable,
-                                                                   WhereSegment whereSegment) {
-        return LazyJoinWrapperBuilder.builder(lazyTable, joinType, lazyJoinTable, whereSegment);
+    static <Main, Join> LazyQueryJoinWrapperBuilder<Main, Join> builder(LazyTable<Main> lazyTable,
+                                                                        JoinType joinType,
+                                                                        LazyTable<Join> lazyJoinTable,
+                                                                        WhereSegment whereSegment) {
+        return LazyQueryJoinWrapperBuilder.builder(lazyTable, joinType, lazyJoinTable, whereSegment);
     }
 
     /**

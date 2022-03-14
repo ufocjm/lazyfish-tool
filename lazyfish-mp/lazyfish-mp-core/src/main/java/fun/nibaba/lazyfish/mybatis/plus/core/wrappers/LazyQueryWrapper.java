@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * @author chenjiamin
  * @date 2021/12/14 11:07 上午
  */
-public class LazyWrapper {
+public class LazyQueryWrapper {
 
     /**
      * select
@@ -57,20 +57,20 @@ public class LazyWrapper {
      * join sql segments
      */
     @Getter
-    private final List<LazyJoinWrapper> joinWrapperList;
+    private final List<LazyQueryJoinWrapper> joinWrapperList;
 
     /**
      * params map
      */
     private Map<String, Object> paramNameValuePairs;
 
-    LazyWrapper(SelectSegment selectSegment,
-                String tableNameAlias,
-                List<LazyJoinWrapper> joinWrapperList,
-                WhereSegment whereSegment,
-                GroupBySegment groupBySegment,
-                OrderBySegment orderBySegment,
-                String lastSql) {
+    LazyQueryWrapper(SelectSegment selectSegment,
+                     String tableNameAlias,
+                     List<LazyQueryJoinWrapper> joinWrapperList,
+                     WhereSegment whereSegment,
+                     GroupBySegment groupBySegment,
+                     OrderBySegment orderBySegment,
+                     String lastSql) {
 
         this.selectSegment = selectSegment;
         this.tableNameAlias = tableNameAlias;
@@ -88,8 +88,8 @@ public class LazyWrapper {
      * @param <TableModel> 表类型
      * @return builder
      */
-    public static <TableModel> LazyWrapperBuilder<TableModel> builder(LazyTable<TableModel> lazyTable) {
-        return LazyWrapperBuilder.builder(lazyTable);
+    public static <TableModel> LazyQueryWrapperBuilder<TableModel> builder(LazyTable<TableModel> lazyTable) {
+        return LazyQueryWrapperBuilder.builder(lazyTable);
     }
 
     /**
@@ -117,7 +117,7 @@ public class LazyWrapper {
 
         if (CollUtils.isNotEmpty(this.joinWrapperList)) {
             List<String> segmentList = this.joinWrapperList.stream()
-                    .map(LazyJoinWrapper::getSqlSelect)
+                    .map(LazyQueryJoinWrapper::getSqlSelect)
                     .filter(StrUtils::isNotBlank)
                     .collect(Collectors.toList()
                     );

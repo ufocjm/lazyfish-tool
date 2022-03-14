@@ -1,6 +1,8 @@
 package fun.nibaba.lazyfish.mybatis.plus.core.segments;
 
+import com.baomidou.mybatisplus.core.conditions.ISqlSegment;
 import com.baomidou.mybatisplus.core.enums.SqlKeyword;
+import fun.nibaba.lazyfish.mybatis.plus.core.exceptions.LazyMybatisPlusException;
 import fun.nibaba.lazyfish.utils.StrUtils;
 
 /**
@@ -11,12 +13,16 @@ import fun.nibaba.lazyfish.utils.StrUtils;
  */
 public class CompareValueSegment extends CompareSegment {
 
-    protected final String paramValueKey;
+    protected final ISqlSegment paramValueKey;
 
     public CompareValueSegment(ColumnSegment columnSegment, SqlKeyword sqlKeyword, String paramValueKey) {
+        this(columnSegment, sqlKeyword, () -> paramValueKey);
+    }
+
+    public CompareValueSegment(ColumnSegment columnSegment, SqlKeyword sqlKeyword, ISqlSegment paramValueKey) {
         super(columnSegment, sqlKeyword);
-        if (StrUtils.isBlank(paramValueKey)) {
-            throw new RuntimeException("sql片段键值对关键字不能为空");
+        if (StrUtils.isBlank(paramValueKey.getSqlSegment())) {
+            throw new LazyMybatisPlusException("sql片段键值对关键字不能为空");
         }
         this.paramValueKey = paramValueKey;
     }
@@ -25,6 +31,6 @@ public class CompareValueSegment extends CompareSegment {
     @Override
     public String getSqlSegment() {
         String sqlSegment = super.getSqlSegment();
-        return sqlSegment + paramValueKey;
+        return sqlSegment + paramValueKey.getSqlSegment();
     }
 }

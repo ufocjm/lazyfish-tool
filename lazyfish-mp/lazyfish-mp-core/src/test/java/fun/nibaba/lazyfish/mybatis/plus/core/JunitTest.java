@@ -6,7 +6,8 @@ import fun.nibaba.lazyfish.mybatis.plus.core.entity.User;
 import fun.nibaba.lazyfish.mybatis.plus.core.entity.UserChild;
 import fun.nibaba.lazyfish.mybatis.plus.core.service.UserService;
 import fun.nibaba.lazyfish.mybatis.plus.core.wrappers.LazyTable;
-import fun.nibaba.lazyfish.mybatis.plus.core.wrappers.LazyWrapper;
+import fun.nibaba.lazyfish.mybatis.plus.core.wrappers.LazyQueryWrapper;
+import fun.nibaba.lazyfish.mybatis.plus.core.wrappers.LazyUpdateWrapper;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +58,7 @@ public class JunitTest {
         Wrappers.<User>lambdaQuery().select(User::getId, User::getAge);
         LazyTable<User> user = new LazyTable<>(User.class, "yayaya");
         LazyTable<UserChild> userChild = new LazyTable<>(UserChild.class, "lueluelue");
-        LazyWrapper build = LazyWrapper.builder(user)
+        LazyQueryWrapper build = LazyQueryWrapper.builder(user)
                 .select(lazySelect -> lazySelect.select(User::getId, User::getAge, User::getTitle).count(User::getId,"lalala"))
                 .leftJoin(user, userChild, lazyJoin -> {
                     lazyJoin.select(lazySelect -> {
@@ -85,6 +86,24 @@ public class JunitTest {
         userService.lazyPage(new PageDto<>(), build, User.class);
         List<User> list = userService.lazyList(build, User.class);
         System.out.println(list);
+    }
+
+    @Test
+    public void test2(){
+        for (int i = 0; i < 10; i++) {
+            LazyTable<User> lazyTable = new LazyTable<>(User.class);
+            LazyUpdateWrapper build = LazyUpdateWrapper.builder(lazyTable)
+                    .set(lazySet->{
+                        lazySet.set(User::getEmail, System.currentTimeMillis()).decrement(User::getAge);
+                    })
+                    .where(where->{
+                        where.eq(User::getId, "1");
+                    })
+                    .build();
+            userService.lazyUpdate(build);
+        }
+
+
     }
 
 
