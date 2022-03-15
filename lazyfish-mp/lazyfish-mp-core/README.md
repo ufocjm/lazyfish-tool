@@ -11,8 +11,8 @@
 ```xml
 <dependency>
 	<groupId>fun.nibaba</groupId>
-	<artifactId>lazyfish-mp-join</artifactId>
-  <version>0.0.4-SNAPSHOT</version>
+	<artifactId>lazyfish-mp-core</artifactId>
+  <version>{version}</version>
 </dependency>
 ```
 
@@ -67,13 +67,13 @@
 ```java
     LazyTable<User> lazyTable = new LazyTable<>(User.class);
     LazyUpdateWrapper build = LazyUpdateWrapper.builder(lazyTable)
-            .set(lazySet->{
-                lazySet.set(User::getEmail, System.currentTimeMillis()).decrement(User::getAge);
-            })
-            .where(where->{
-                where.eq(User::getId, "1");
-            })
-            .build();
+        .set(lazySet -> {
+            lazySet.set(User::getEmail, System.currentTimeMillis()).decrement(User::getAge);
+        })
+        .where(where -> {
+            where.eq(User::getId, "1");
+        })
+        .build();
     userService.lazyUpdate(build);
 ```
 

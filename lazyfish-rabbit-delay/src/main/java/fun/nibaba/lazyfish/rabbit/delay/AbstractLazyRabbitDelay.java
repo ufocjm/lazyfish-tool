@@ -93,7 +93,18 @@ public abstract class AbstractLazyRabbitDelay<DelayMessage extends Serializable>
         return new DefaultConsumer(channel) {
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
-                listenerMessage(deserialize(body));
+                LazyDelayMessage<DelayMessage> deserialize = deserialize(body);
+                if (autoAck()) {
+                    // 自动提交直接消费
+                    listenerMessage(deserialize);
+                } else {
+                    try {
+                        listenerMessage(deserialize);
+                        channel.basicAck(envelope.getDeliveryTag(), false);
+                    } catch (Exception e) {
+                        channel.basicNack(envelope.getDeliveryTag(), false, true);
+                    }
+                }
             }
         };
     }
@@ -108,7 +119,17 @@ public abstract class AbstractLazyRabbitDelay<DelayMessage extends Serializable>
         channel.queueDeclare(delayQueue.getName(), delayQueue.isDurable(), delayQueue.isExclusive(), delayQueue.isAutoDelete(), delayQueue.getArguments());
         channel.queueBind(deadLetterQueue.getName(), exchange.getName(), this.getDeadLetterRoutingKey());
         channel.queueBind(delayQueue.getName(), exchange.getName(), this.getDelayRoutingKey());
-        channel.basicConsume(delayQueue.getName(), true, getConsumer(channel));
+        channel.basicConsume(delayQueue.getName(), this.autoAck(), getConsumer(channel));
+    }
+
+    /**
+     * 默认不自动ack
+     * 如果需要自动提交课重写我
+     *
+     * @return ack
+     */
+    protected boolean autoAck() {
+        return false;
     }
 
     @SuppressWarnings("unchecked")

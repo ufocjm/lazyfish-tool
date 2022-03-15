@@ -59,7 +59,7 @@ public class JunitTest {
         LazyTable<User> user = new LazyTable<>(User.class, "yayaya");
         LazyTable<UserChild> userChild = new LazyTable<>(UserChild.class, "lueluelue");
         LazyQueryWrapper build = LazyQueryWrapper.builder(user)
-                .select(lazySelect -> lazySelect.select(User::getId, User::getAge, User::getTitle).count(User::getId,"lalala"))
+                .select(lazySelect -> lazySelect.select(User::getId, User::getAge, User::getTitle).count(User::getId, "lalala"))
                 .leftJoin(user, userChild, lazyJoin -> {
                     lazyJoin.select(lazySelect -> {
                         lazySelect.select(UserChild::getId, "hahahahah");
@@ -76,7 +76,7 @@ public class JunitTest {
                                 .and(subLazyWhere -> subLazyWhere.eq(User::getAge, "3"))
                                 .in(User::getId, Lists.newArrayList("1", "2", "3"))
                                 .in(User::getId, Lists.newArrayList("1"))
-                                .notIn(User::getId, Lists.newArrayList( "4", "5"))
+                                .notIn(User::getId, Lists.newArrayList("4", "5"))
                                 .notIn(User::getId, Lists.newArrayList("6"))
                 )
                 .group(lazyGroup -> lazyGroup.groupBy(User::getTitle).groupBy(userChild, UserChild::getId))
@@ -89,14 +89,14 @@ public class JunitTest {
     }
 
     @Test
-    public void test2(){
+    public void test2() {
         for (int i = 0; i < 10; i++) {
             LazyTable<User> lazyTable = new LazyTable<>(User.class);
             LazyUpdateWrapper build = LazyUpdateWrapper.builder(lazyTable)
-                    .set(lazySet->{
+                    .set(lazySet -> {
                         lazySet.set(User::getEmail, System.currentTimeMillis()).decrement(User::getAge);
                     })
-                    .where(where->{
+                    .where(where -> {
                         where.eq(User::getId, "1");
                     })
                     .build();
