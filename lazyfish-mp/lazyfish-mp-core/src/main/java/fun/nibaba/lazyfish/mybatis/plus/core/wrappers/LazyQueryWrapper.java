@@ -1,10 +1,7 @@
 package fun.nibaba.lazyfish.mybatis.plus.core.wrappers;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import fun.nibaba.lazyfish.mybatis.plus.core.segments.GroupBySegment;
-import fun.nibaba.lazyfish.mybatis.plus.core.segments.OrderBySegment;
-import fun.nibaba.lazyfish.mybatis.plus.core.segments.SelectSegment;
-import fun.nibaba.lazyfish.mybatis.plus.core.segments.WhereSegment;
+import fun.nibaba.lazyfish.mybatis.plus.core.segments.*;
 import fun.nibaba.lazyfish.utils.CollUtils;
 import fun.nibaba.lazyfish.utils.StrUtils;
 import lombok.Getter;
@@ -34,6 +31,11 @@ public class LazyQueryWrapper {
     private final String tableNameAlias;
 
     /**
+     * paramMap
+     */
+    private final LazyParamMap paramMap;
+
+    /**
      * where
      */
     private final WhereSegment whereSegment;
@@ -59,14 +61,15 @@ public class LazyQueryWrapper {
     @Getter
     private final List<LazyQueryJoinWrapper> joinWrapperList;
 
-    /**
-     * params map
-     */
-    private Map<String, Object> paramNameValuePairs;
+//    /**
+//     * params map
+//     */
+//    private Map<String, Object> paramNameValuePairs;
 
     LazyQueryWrapper(SelectSegment selectSegment,
                      String tableNameAlias,
                      List<LazyQueryJoinWrapper> joinWrapperList,
+                     LazyParamMap paramMap,
                      WhereSegment whereSegment,
                      GroupBySegment groupBySegment,
                      OrderBySegment orderBySegment,
@@ -75,6 +78,7 @@ public class LazyQueryWrapper {
         this.selectSegment = selectSegment;
         this.tableNameAlias = tableNameAlias;
         this.joinWrapperList = joinWrapperList;
+        this.paramMap = paramMap;
         this.whereSegment = whereSegment;
         this.groupBySegment = groupBySegment;
         this.orderBySegment = orderBySegment;
@@ -182,18 +186,19 @@ public class LazyQueryWrapper {
      * @return where条件的所有值的键值对
      */
     public Map<String, Object> getParamNameValuePairs() {
-        if (paramNameValuePairs == null) {
-            paramNameValuePairs = new HashMap<>();
-            paramNameValuePairs.putAll(this.whereSegment.getParamNameValuePairs());
-            if (this.joinWrapperList != null) {
-                this.joinWrapperList.forEach(joinWrapper -> {
-                    if (joinWrapper.getJoinOnSegment() != null && joinWrapper.getJoinOnSegment().getParamNameValuePairs() != null) {
-                        paramNameValuePairs.putAll(joinWrapper.getJoinOnSegment().getParamNameValuePairs());
-                    }
-                });
-            }
-        }
-        return paramNameValuePairs;
+//        if (paramNameValuePairs == null) {
+//            paramNameValuePairs = new HashMap<>();
+//            paramNameValuePairs.putAll(this.whereSegment.getParamNameValuePairs());
+//            if (this.joinWrapperList != null) {
+//                this.joinWrapperList.forEach(joinWrapper -> {
+//                    if (joinWrapper.getJoinOnSegment() != null && joinWrapper.getJoinOnSegment().getParamNameValuePairs() != null) {
+//                        paramNameValuePairs.putAll(joinWrapper.getJoinOnSegment().getParamNameValuePairs());
+//                    }
+//                });
+//            }
+//        }
+//        return paramNameValuePairs;
+        return this.paramMap;
     }
 
 }

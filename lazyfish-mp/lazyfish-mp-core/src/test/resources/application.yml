@@ -10,4 +10,4 @@ spring:
 
 logging:
   level:
-    fun.nibaba.lazyfish.mybatis.plus.mapper: DEBUG
+    fun.nibaba.lazyfish.mybatis.plus.core.mapper: DEBUG

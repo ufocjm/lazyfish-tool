@@ -6,6 +6,7 @@ import fun.nibaba.lazyfish.mybatis.plus.core.interfaces.LazyOn;
 import fun.nibaba.lazyfish.mybatis.plus.core.interfaces.LazySelect;
 import fun.nibaba.lazyfish.mybatis.plus.core.interfaces.LazyWhere;
 import fun.nibaba.lazyfish.mybatis.plus.core.segments.JoinWehreSegment;
+import fun.nibaba.lazyfish.mybatis.plus.core.segments.LazyParamMap;
 import fun.nibaba.lazyfish.mybatis.plus.core.segments.SelectSegment;
 import fun.nibaba.lazyfish.mybatis.plus.core.segments.WhereSegment;
 
@@ -33,6 +34,8 @@ public class LazyQueryJoinWrapperBuilder<Main, Join> implements
 
     private final WhereSegment whereSegment;
 
+    private final LazyParamMap paramMap;
+
     private final JoinWehreSegment joinOnSegment;
 
 
@@ -40,12 +43,14 @@ public class LazyQueryJoinWrapperBuilder<Main, Join> implements
             LazyTable<Main> lazyTable,
             JoinType joinType,
             LazyTable<Join> lazyJoinTable,
-            WhereSegment whereSegment) {
+            WhereSegment whereSegment,
+            LazyParamMap paramMap) {
         this.lazyTable = lazyTable;
         this.joinType = joinType;
         this.lazyJoinTable = lazyJoinTable;
         this.selectSegment = new SelectSegment(lazyJoinTable.getTableNameAlia());
         this.whereSegment = whereSegment;
+        this.paramMap = paramMap;
         this.joinOnSegment = new JoinWehreSegment();
     }
 
@@ -56,6 +61,7 @@ public class LazyQueryJoinWrapperBuilder<Main, Join> implements
      * @param joinType      关联key
      * @param lazyJoinTable 关联表
      * @param whereSegment  构建器唯一的 where条件sql片段
+     * @param paramMap      paramMap
      * @param <Main>        主表类型
      * @param <Join>        子表类型
      * @return 关联查询构建器
@@ -63,8 +69,9 @@ public class LazyQueryJoinWrapperBuilder<Main, Join> implements
     static <Main, Join> LazyQueryJoinWrapperBuilder<Main, Join> builder(LazyTable<Main> lazyTable,
                                                                         JoinType joinType,
                                                                         LazyTable<Join> lazyJoinTable,
-                                                                        WhereSegment whereSegment) {
-        return new LazyQueryJoinWrapperBuilder<>(lazyTable, joinType, lazyJoinTable, whereSegment);
+                                                                        WhereSegment whereSegment,
+                                                                        LazyParamMap paramMap) {
+        return new LazyQueryJoinWrapperBuilder<>(lazyTable, joinType, lazyJoinTable, whereSegment, paramMap);
     }
 
     /**
@@ -89,7 +96,7 @@ public class LazyQueryJoinWrapperBuilder<Main, Join> implements
      */
     @Override
     public LazyQueryJoinWrapperBuilder<Main, Join> where(Consumer<LazyWhereBuilder<Join>> lazyWhere) {
-        LazyWhereBuilder<Join> builder = LazyWhereBuilder.builder(this.lazyJoinTable, this.whereSegment);
+        LazyWhereBuilder<Join> builder = LazyWhereBuilder.builder(this.lazyJoinTable, this.whereSegment, this.paramMap);
         lazyWhere.accept(builder);
         return this;
     }
@@ -103,7 +110,7 @@ public class LazyQueryJoinWrapperBuilder<Main, Join> implements
      */
     @Override
     public LazyQueryJoinWrapperBuilder<Main, Join> on(Consumer<LazyOnBuilder<Main, Join>> lazyOn) {
-        LazyOnBuilder<Main, Join> builder = LazyOnBuilder.builder(this.lazyTable, this.lazyJoinTable, this.joinOnSegment);
+        LazyOnBuilder<Main, Join> builder = LazyOnBuilder.builder(this.lazyTable, this.lazyJoinTable, this.joinOnSegment, this.paramMap);
         lazyOn.accept(builder);
         return this;
     }

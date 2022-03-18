@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <artifactId>lazyfish-mp</artifactId>
+        <groupId>fun.nibaba</groupId>
+        <version>0.0.5.2</version>
+    </parent>
+
+    <artifactId>lazyfish-mp-extension</artifactId>
+    <description>lazyfish-mp-core拓展</description>
+
+    <dependencies>
+        <dependency>
+            <groupId>fun.nibaba</groupId>
+            <artifactId>lazyfish-utils</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+
+        <!-- mybatis-plus  -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-extension</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+        </dependency>
+
+    </dependencies>
+
+</project>

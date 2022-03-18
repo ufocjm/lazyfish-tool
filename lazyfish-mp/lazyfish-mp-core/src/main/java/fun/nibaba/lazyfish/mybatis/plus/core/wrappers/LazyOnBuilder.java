@@ -6,6 +6,7 @@ import fun.nibaba.lazyfish.mybatis.plus.core.interfaces.LazyJoinCompare;
 import fun.nibaba.lazyfish.mybatis.plus.core.segments.ColumnSegment;
 import fun.nibaba.lazyfish.mybatis.plus.core.segments.CompareColumnSegment;
 import fun.nibaba.lazyfish.mybatis.plus.core.segments.JoinWehreSegment;
+import fun.nibaba.lazyfish.mybatis.plus.core.segments.LazyParamMap;
 
 /**
  * On条件
@@ -18,15 +19,16 @@ public class LazyOnBuilder<Main, Join> extends AbstractLazyWhereBuilder<LazyOnBu
 
     final LazyTable<Main> lazyTable;
 
-    private LazyOnBuilder(LazyTable<Main> lazyTable, LazyTable<Join> lazyJoinTable, JoinWehreSegment whereSegment) {
-        super(lazyJoinTable, whereSegment);
+    private LazyOnBuilder(LazyTable<Main> lazyTable, LazyTable<Join> lazyJoinTable, JoinWehreSegment whereSegment, LazyParamMap paramMap) {
+        super(lazyJoinTable, whereSegment, paramMap);
         this.lazyTable = lazyTable;
     }
 
     public static <Main, Join> LazyOnBuilder<Main, Join> builder(LazyTable<Main> lazyTable,
                                                                  LazyTable<Join> lazyJoinTable,
-                                                                 JoinWehreSegment whereSegment) {
-        return new LazyOnBuilder<>(lazyTable, lazyJoinTable, whereSegment);
+                                                                 JoinWehreSegment whereSegment,
+                                                                 LazyParamMap paramMap) {
+        return new LazyOnBuilder<>(lazyTable, lazyJoinTable, whereSegment, paramMap);
     }
 
 
@@ -44,6 +46,6 @@ public class LazyOnBuilder<Main, Join> extends AbstractLazyWhereBuilder<LazyOnBu
 
     @Override
     LazyOnBuilder<Main, Join> getNewThis() {
-        return new LazyOnBuilder<>(this.lazyTable, super.lazyTable, new JoinWehreSegment());
+        return new LazyOnBuilder<>(this.lazyTable, super.lazyTable, new JoinWehreSegment(), this.paramMap);
     }
 }

@@ -6,10 +6,7 @@ import fun.nibaba.lazyfish.mybatis.plus.core.interfaces.LazyGroup;
 import fun.nibaba.lazyfish.mybatis.plus.core.interfaces.LazyOrder;
 import fun.nibaba.lazyfish.mybatis.plus.core.interfaces.LazySelect;
 import fun.nibaba.lazyfish.mybatis.plus.core.interfaces.LazyWhere;
-import fun.nibaba.lazyfish.mybatis.plus.core.segments.GroupBySegment;
-import fun.nibaba.lazyfish.mybatis.plus.core.segments.OrderBySegment;
-import fun.nibaba.lazyfish.mybatis.plus.core.segments.SelectSegment;
-import fun.nibaba.lazyfish.mybatis.plus.core.segments.WhereSegment;
+import fun.nibaba.lazyfish.mybatis.plus.core.segments.*;
 import fun.nibaba.lazyfish.utils.StringConstants;
 
 import java.util.ArrayList;
@@ -36,6 +33,8 @@ public class LazyQueryWrapperBuilder<TableModel> implements
 
     private final SelectSegment selectSegment;
 
+    private final LazyParamMap paramMap;
+
     private final WhereSegment whereSegment;
 
     private final GroupBySegment groupBySegment;
@@ -51,6 +50,7 @@ public class LazyQueryWrapperBuilder<TableModel> implements
         this(
                 lazyTable,
                 new SelectSegment(lazyTable.getTableNameAlia()),
+                new LazyParamMap(),
                 new WhereSegment(),
                 new GroupBySegment(),
                 new OrderBySegment()
@@ -59,11 +59,13 @@ public class LazyQueryWrapperBuilder<TableModel> implements
 
     private LazyQueryWrapperBuilder(LazyTable<TableModel> lazyTable,
                                     SelectSegment selectSegment,
+                                    LazyParamMap paramMap,
                                     WhereSegment whereSegment,
                                     GroupBySegment groupBySegment,
                                     OrderBySegment orderBySegment) {
         this.lazyTable = lazyTable;
         this.selectSegment = selectSegment;
+        this.paramMap = paramMap;
         this.whereSegment = whereSegment;
         this.groupBySegment = groupBySegment;
         this.orderBySegment = orderBySegment;
@@ -157,7 +159,7 @@ public class LazyQueryWrapperBuilder<TableModel> implements
                                                                   JoinType joinType,
                                                                   LazyTable<Join> lazyJoinTable,
                                                                   Consumer<LazyQueryJoinWrapperBuilder<Main, Join>> joinBuilderConsumer) {
-        LazyQueryJoinWrapperBuilder<Main, Join> builder = LazyQueryJoinWrapper.builder(lazyTable, joinType, lazyJoinTable, this.whereSegment);
+        LazyQueryJoinWrapperBuilder<Main, Join> builder = LazyQueryJoinWrapper.builder(lazyTable, joinType, lazyJoinTable, this.whereSegment, this.paramMap);
         joinBuilderConsumer.accept(builder);
         this.joinSegmentList.add(builder.build());
         return this;
@@ -171,7 +173,7 @@ public class LazyQueryWrapperBuilder<TableModel> implements
      */
     @Override
     public LazyQueryWrapperBuilder<TableModel> where(Consumer<LazyWhereBuilder<TableModel>> lazyWhere) {
-        LazyWhereBuilder<TableModel> builder = LazyWhereBuilder.builder(this.lazyTable, this.whereSegment);
+        LazyWhereBuilder<TableModel> builder = LazyWhereBuilder.builder(this.lazyTable, this.whereSegment, this.paramMap);
         lazyWhere.accept(builder);
         return this;
     }
@@ -228,6 +230,7 @@ public class LazyQueryWrapperBuilder<TableModel> implements
                 this.selectSegment,
                 this.lazyTable.getTableNameAlia(),
                 this.joinSegmentList,
+                this.paramMap,
                 this.whereSegment,
                 this.groupBySegment,
                 this.orderBySegment,

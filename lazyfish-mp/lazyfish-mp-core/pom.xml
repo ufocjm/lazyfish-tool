@@ -35,6 +35,12 @@
 
         <dependency>
             <groupId>fun.nibaba</groupId>
+            <artifactId>lazyfish-mp-extension</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>fun.nibaba</groupId>
             <artifactId>lazyfish-utils</artifactId>
             <version>${parent.version}</version>
         </dependency>

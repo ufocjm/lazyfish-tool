@@ -85,6 +85,14 @@
                 <version>${mybatis-plus.version}</version>
             </dependency>
 
+
+            <!-- mybatis-plus-extension -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-extension</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>

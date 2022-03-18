@@ -3,6 +3,7 @@ package fun.nibaba.lazyfish.mybatis.plus.core.wrappers;
 import fun.nibaba.lazyfish.mybatis.plus.core.exceptions.LazyMybatisPlusException;
 import fun.nibaba.lazyfish.mybatis.plus.core.interfaces.LazyUpdate;
 import fun.nibaba.lazyfish.mybatis.plus.core.interfaces.LazyWhere;
+import fun.nibaba.lazyfish.mybatis.plus.core.segments.LazyParamMap;
 import fun.nibaba.lazyfish.mybatis.plus.core.segments.SetSegment;
 import fun.nibaba.lazyfish.mybatis.plus.core.segments.WhereSegment;
 import fun.nibaba.lazyfish.utils.CollUtils;
@@ -25,10 +26,13 @@ public class LazyUpdateWrapperBuilder<TableModel> implements
 
     private final WhereSegment whereSegment;
 
+    private final LazyParamMap paramMap;
+
     private LazyUpdateWrapperBuilder(LazyTable<TableModel> lazyTable) {
         this.lazyTable = lazyTable;
-        setSegment = new SetSegment();
-        whereSegment = new WhereSegment();
+        this.whereSegment = new WhereSegment();
+        this.setSegment = new SetSegment();
+        this.paramMap = new LazyParamMap();
     }
 
     /**
@@ -44,14 +48,14 @@ public class LazyUpdateWrapperBuilder<TableModel> implements
 
     @Override
     public LazyUpdateWrapperBuilder<TableModel> where(Consumer<LazyWhereBuilder<TableModel>> lazyWhere) {
-        LazyWhereBuilder<TableModel> builder = LazyWhereBuilder.builder(this.lazyTable, this.whereSegment);
+        LazyWhereBuilder<TableModel> builder = LazyWhereBuilder.builder(this.lazyTable, this.whereSegment, this.paramMap);
         lazyWhere.accept(builder);
         return this;
     }
 
     @Override
     public LazyUpdateWrapperBuilder<TableModel> set(Consumer<LazySetBuilder<TableModel>> lazyUpdate) {
-        LazySetBuilder<TableModel> builder = LazySetBuilder.builder(this.lazyTable, setSegment);
+        LazySetBuilder<TableModel> builder = LazySetBuilder.builder(this.lazyTable, this.setSegment, this.paramMap);
         lazyUpdate.accept(builder);
         return this;
     }
@@ -68,7 +72,8 @@ public class LazyUpdateWrapperBuilder<TableModel> implements
         return new LazyUpdateWrapper(
                 this.lazyTable.getTableNameAlia(),
                 this.setSegment,
-                this.whereSegment
+                this.whereSegment,
+                this.paramMap
         );
     }
 }

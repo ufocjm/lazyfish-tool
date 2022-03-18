@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.PageDto;
 import fun.nibaba.lazyfish.mybatis.plus.core.entity.User;
 import fun.nibaba.lazyfish.mybatis.plus.core.entity.UserChild;
 import fun.nibaba.lazyfish.mybatis.plus.core.service.UserService;
-import fun.nibaba.lazyfish.mybatis.plus.core.wrappers.LazyTable;
 import fun.nibaba.lazyfish.mybatis.plus.core.wrappers.LazyQueryWrapper;
+import fun.nibaba.lazyfish.mybatis.plus.core.wrappers.LazyTable;
 import fun.nibaba.lazyfish.mybatis.plus.core.wrappers.LazyUpdateWrapper;
+import fun.nibaba.lazyfish.mybatis.plus.core.wrappers.LazyWrappers;
+import fun.nibaba.lazyfish.mybatis.plus.extension.conditions.Like;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,7 +96,7 @@ public class JunitTest {
             LazyTable<User> lazyTable = new LazyTable<>(User.class);
             LazyUpdateWrapper build = LazyUpdateWrapper.builder(lazyTable)
                     .set(lazySet -> {
-                        lazySet.set(User::getEmail, System.currentTimeMillis()).decrement(User::getAge);
+                        lazySet.set(User::getEmail, System.currentTimeMillis()).increment(User::getAge);
                     })
                     .where(where -> {
                         where.eq(User::getId, "1");
@@ -102,9 +104,17 @@ public class JunitTest {
                     .build();
             userService.lazyUpdate(build);
         }
-
-
     }
 
+    @Test
+    public void test3() {
+        List<User> list = userService.list(LazyWrappers.<User>lambdaQuery().eq(User::getId, 1));
+        System.out.println(list);
+    }
+
+    @Test
+    public void test4() {
+        userService.update(LazyWrappers.<User>lambdaUpdate().set(User::getEmail, () -> "heiheihei").like(User::getId, new Like("1", false)));
+    }
 
 }

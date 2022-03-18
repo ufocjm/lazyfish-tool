@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.enums.SqlKeyword;
 import com.baomidou.mybatisplus.core.enums.SqlLike;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import fun.nibaba.lazyfish.mybatis.plus.core.functions.ValueFunction;
+import fun.nibaba.lazyfish.mybatis.plus.extension.conditions.Like;
 
 import java.util.Collection;
+
 
 /**
  * 查询条件封装
@@ -244,6 +246,21 @@ public interface LazyCompare<Child extends LazyCompare<Child, TableModel, Value>
      */
     default Child le(boolean condition, SFunction<TableModel, ?> column, ValueFunction<Value> value) {
         return compare(true, column, value, SqlKeyword.LE);
+    }
+
+    @SuppressWarnings("unchecked")
+    default Child like(SFunction<TableModel, ?> column, Like value) {
+        if (!value.isLike()) {
+            return eq(column, (Value) value.getValue());
+        }
+        switch (value.getKeyword()) {
+            case LEFT:
+                return leftLike(column, (Value) value.getValue());
+            case RIGHT:
+                return rightLike(column, (Value) value.getValue());
+            default:
+                return like(column, (Value) value.getValue());
+        }
     }
 
     /**

@@ -3,8 +3,6 @@ package fun.nibaba.lazyfish.mybatis.plus.core.segments;
 import com.baomidou.mybatisplus.core.conditions.ISqlSegment;
 import com.baomidou.mybatisplus.core.conditions.segments.MatchSegment;
 import com.baomidou.mybatisplus.core.enums.SqlKeyword;
-import com.baomidou.mybatisplus.core.toolkit.sql.SqlScriptUtils;
-import com.baomidou.mybatisplus.core.toolkit.support.ColumnCache;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -105,21 +103,6 @@ public class WhereSegment extends ArrayList<ISqlSegment> implements LazySqlSegme
                 this.remove(0);
             }
         }
-    }
-
-    /**
-     * 格式化参数,并且把取值方式放入 Map中
-     *
-     * @param tableNameAlia 表别名
-     * @param columnCache   列缓存
-     * @param value         值
-     * @return 获取 paramNameValuePairs 的key值 #{eq.paramNameValuePairs.keyName}
-     */
-    public String formatParam(String tableNameAlia, ColumnCache columnCache, Object value) {
-        String paramKey = tableNameAlia + UNDERSCORE + columnCache.getColumn() + UNDERSCORE + this.paramNameSeq.incrementAndGet();
-        String paramValue = WRAPPER + WRAPPER_PARAM_MIDDLE + paramKey;
-        this.paramNameValuePairs.put(paramKey, value);
-        return SqlScriptUtils.safeParam(paramValue);
     }
 
 }

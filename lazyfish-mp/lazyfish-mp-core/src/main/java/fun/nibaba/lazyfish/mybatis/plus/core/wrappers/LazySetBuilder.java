@@ -6,10 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import fun.nibaba.lazyfish.mybatis.plus.core.exceptions.LazyMybatisPlusException;
 import fun.nibaba.lazyfish.mybatis.plus.core.functions.ValueFunction;
 import fun.nibaba.lazyfish.mybatis.plus.core.interfaces.LazySet;
-import fun.nibaba.lazyfish.mybatis.plus.core.segments.ColumnSegment;
-import fun.nibaba.lazyfish.mybatis.plus.core.segments.ColumnsIncrementSegment;
-import fun.nibaba.lazyfish.mybatis.plus.core.segments.CompareValueSegment;
-import fun.nibaba.lazyfish.mybatis.plus.core.segments.SetSegment;
+import fun.nibaba.lazyfish.mybatis.plus.core.segments.*;
 
 /**
  * @author chenjiamin
@@ -21,9 +18,12 @@ public class LazySetBuilder<TableModel> implements LazySet<LazySetBuilder<TableM
 
     private final SetSegment setSegment;
 
-    private LazySetBuilder(LazyTable<TableModel> lazyTable, SetSegment setSegment) {
+    private final LazyParamMap paramMap;
+
+    private LazySetBuilder(LazyTable<TableModel> lazyTable, SetSegment setSegment, LazyParamMap paramMap) {
         this.lazyTable = lazyTable;
         this.setSegment = setSegment;
+        this.paramMap = paramMap;
     }
 
     /**
@@ -31,11 +31,12 @@ public class LazySetBuilder<TableModel> implements LazySet<LazySetBuilder<TableM
      *
      * @param lazyTable    表
      * @param setSegment   set sql segment
+     * @param paramMap     paramMap
      * @param <TableModel> 类型
      * @return builder
      */
-    static <TableModel> LazySetBuilder<TableModel> builder(LazyTable<TableModel> lazyTable, SetSegment setSegment) {
-        return new LazySetBuilder<>(lazyTable, setSegment);
+    static <TableModel> LazySetBuilder<TableModel> builder(LazyTable<TableModel> lazyTable, SetSegment setSegment, LazyParamMap paramMap) {
+        return new LazySetBuilder<>(lazyTable, setSegment, paramMap);
     }
 
     @Override
@@ -45,13 +46,14 @@ public class LazySetBuilder<TableModel> implements LazySet<LazySetBuilder<TableM
         }
         Object valueObject = value.getValue();
         ColumnCache columnCache = lazyTable.getColumnCache(column);
+        String paramValue = paramMap.formatParam(this.lazyTable.getTableNameAlia(), columnCache, valueObject);
         this.setSegment.add(new CompareValueSegment(
                 new ColumnSegment(
                         lazyTable.getTableNameAlia(),
                         columnCache.getColumnSelect()
                 ),
                 SqlKeyword.EQ,
-                valueObject != null ? valueObject.toString() : null)
+                paramValue)
         );
         return this;
     }
@@ -66,11 +68,12 @@ public class LazySetBuilder<TableModel> implements LazySet<LazySetBuilder<TableM
             throw new LazyMybatisPlusException("自增自减的值不能为null");
         }
         ColumnCache columnCache = lazyTable.getColumnCache(column);
-        ColumnSegment columnSegment = new ColumnSegment( lazyTable.getTableNameAlia(), columnCache.getColumnSelect() );
+        ColumnSegment columnSegment = new ColumnSegment(lazyTable.getTableNameAlia(), columnCache.getColumnSelect());
+        String paramValue = paramMap.formatParam(this.lazyTable.getTableNameAlia(), columnCache, valueObject);
         this.setSegment.add(new CompareValueSegment(
                 columnSegment,
                 SqlKeyword.EQ,
-                new ColumnsIncrementSegment(columnSegment, valueObject))
+                new ColumnsIncrementSegment(columnSegment, paramValue))
         );
         return this;
     }

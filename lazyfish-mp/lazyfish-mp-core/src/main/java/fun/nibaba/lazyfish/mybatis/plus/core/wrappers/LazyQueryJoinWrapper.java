@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import fun.nibaba.lazyfish.mybatis.plus.core.enums.JoinType;
 import fun.nibaba.lazyfish.mybatis.plus.core.segments.JoinWehreSegment;
+import fun.nibaba.lazyfish.mybatis.plus.core.segments.LazyParamMap;
 import fun.nibaba.lazyfish.mybatis.plus.core.segments.SelectSegment;
 import fun.nibaba.lazyfish.mybatis.plus.core.segments.WhereSegment;
 
@@ -44,6 +45,7 @@ public class LazyQueryJoinWrapper {
      * @param joinType      连接key
      * @param lazyJoinTable 关联表
      * @param whereSegment  条件sql片段，整个查询通用一个 whereSegment
+     * @param paramMap      参数Map
      * @param <Main>        主表类型
      * @param <Join>        关联表类型
      * @return builder
@@ -51,8 +53,9 @@ public class LazyQueryJoinWrapper {
     static <Main, Join> LazyQueryJoinWrapperBuilder<Main, Join> builder(LazyTable<Main> lazyTable,
                                                                         JoinType joinType,
                                                                         LazyTable<Join> lazyJoinTable,
-                                                                        WhereSegment whereSegment) {
-        return LazyQueryJoinWrapperBuilder.builder(lazyTable, joinType, lazyJoinTable, whereSegment);
+                                                                        WhereSegment whereSegment,
+                                                                        LazyParamMap paramMap) {
+        return LazyQueryJoinWrapperBuilder.builder(lazyTable, joinType, lazyJoinTable, whereSegment, paramMap);
     }
 
     /**

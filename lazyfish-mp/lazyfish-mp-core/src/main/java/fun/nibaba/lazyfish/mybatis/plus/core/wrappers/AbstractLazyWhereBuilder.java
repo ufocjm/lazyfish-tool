@@ -35,25 +35,37 @@ public abstract class AbstractLazyWhereBuilder<Child extends AbstractLazyWhereBu
 
     protected final WhereSegment whereSegment;
 
-    protected AbstractLazyWhereBuilder(LazyTable<TableModel> lazyTable, WhereSegment whereSegment) {
+    protected final LazyParamMap paramMap;
+
+    protected AbstractLazyWhereBuilder(LazyTable<TableModel> lazyTable, WhereSegment whereSegment, LazyParamMap paramMap) {
         this.lazyTable = lazyTable;
         this.whereSegment = whereSegment;
+        this.paramMap = paramMap;
     }
 
     @Override
     public Child compare(boolean condition, SFunction<TableModel, ?> column, ValueFunction<Object> value, SqlKeyword sqlKeyword) {
+        if (!condition) {
+            return typeThis;
+        }
         this.addWhereSegment(column, value.getValue(), sqlKeyword);
         return typeThis;
     }
 
     @Override
     public Child like(boolean condition, SFunction<TableModel, ?> column, ValueFunction<Object> value, SqlLike sqlLike, SqlKeyword sqlKeyword) {
+        if (!condition) {
+            return typeThis;
+        }
         this.addWhereSegment(column, SqlUtils.concatLike(value.getValue(), sqlLike), sqlKeyword);
         return typeThis;
     }
 
     @Override
     public Child nullable(boolean condition, SFunction<TableModel, ?> column, SqlKeyword sqlKeyword) {
+        if (!condition) {
+            return typeThis;
+        }
         this.addWhereSegment(new CompareSegment(new ColumnSegment(lazyTable.getTableNameAlia(), lazyTable.getColumnName(column)), sqlKeyword));
         return typeThis;
     }
@@ -77,7 +89,7 @@ public abstract class AbstractLazyWhereBuilder<Child extends AbstractLazyWhereBu
             }
         } else {
             String values = collection.stream()
-                    .map(value -> this.whereSegment.formatParam(lazyTable.getTableNameAlia(), columnCache, value))
+                    .map(value -> this.paramMap.formatParam(lazyTable.getTableNameAlia(), columnCache, value))
                     .collect(Collectors.joining(StringPool.COMMA, StringPool.LEFT_BRACKET, StringPool.RIGHT_BRACKET));
             this.whereSegment.add(new CompareValueSegment(new ColumnSegment(lazyTable.getTableNameAlia(), columnCache.getColumnSelect()), sqlKeyword, values));
 
@@ -119,7 +131,7 @@ public abstract class AbstractLazyWhereBuilder<Child extends AbstractLazyWhereBu
      */
     private void addWhereSegment(SFunction<TableModel, ?> column, Object value, SqlKeyword sqlKeyword) {
         ColumnCache columnCache = lazyTable.getColumnCache(column);
-        String paramValue = this.whereSegment.formatParam(lazyTable.getTableNameAlia(), columnCache, value);
+        String paramValue = this.paramMap.formatParam(lazyTable.getTableNameAlia(), columnCache, value);
         this.whereSegment.add(new CompareValueSegment(new ColumnSegment(lazyTable.getTableNameAlia(), columnCache.getColumnSelect()), sqlKeyword, paramValue));
     }
 

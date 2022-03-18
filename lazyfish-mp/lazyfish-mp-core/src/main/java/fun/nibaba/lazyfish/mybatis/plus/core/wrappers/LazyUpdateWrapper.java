@@ -1,5 +1,6 @@
 package fun.nibaba.lazyfish.mybatis.plus.core.wrappers;
 
+import fun.nibaba.lazyfish.mybatis.plus.core.segments.LazyParamMap;
 import fun.nibaba.lazyfish.mybatis.plus.core.segments.SetSegment;
 import fun.nibaba.lazyfish.mybatis.plus.core.segments.WhereSegment;
 import lombok.Getter;
@@ -31,10 +32,16 @@ public class LazyUpdateWrapper {
      */
     private final WhereSegment whereSegment;
 
-    LazyUpdateWrapper(String tableNameAlias, SetSegment setSegment, WhereSegment whereSegment) {
+    /**
+     * paramMap
+     */
+    private final LazyParamMap paramMap;
+
+    LazyUpdateWrapper(String tableNameAlias, SetSegment setSegment, WhereSegment whereSegment, LazyParamMap paramMap) {
         this.tableNameAlias = tableNameAlias;
         this.setSegment = setSegment;
         this.whereSegment = whereSegment;
+        this.paramMap = paramMap;
     }
 
     /**
@@ -62,7 +69,7 @@ public class LazyUpdateWrapper {
      * @return where条件的所有值的键值对
      */
     public Map<String, Object> getParamNameValuePairs() {
-        return this.whereSegment.getParamNameValuePairs();
+        return this.paramMap;
     }
 
 }
