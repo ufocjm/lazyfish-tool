@@ -48,6 +48,8 @@
         <module>lazyfish-mp</module>
         <module>lazyfish-rabbit-delay</module>
         <module>lazyfish-utils</module>
+        <module>lazyfish-trans</module>
+        <module>lazyfish-test</module>
     </modules>
 
     <dependencyManagement>
