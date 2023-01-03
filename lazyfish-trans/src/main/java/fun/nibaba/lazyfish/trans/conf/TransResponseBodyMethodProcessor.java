@@ -1,8 +1,8 @@
 package fun.nibaba.lazyfish.trans.conf;
 
-import fun.nibaba.lazyfish.trans.component.UnboxWrapperHandler;
 import fun.nibaba.lazyfish.trans.component.TransFlow;
-import lombok.AllArgsConstructor;
+import fun.nibaba.lazyfish.trans.component.UnboxWrapperHandler;
+import fun.nibaba.lazyfish.trans.helpers.TypeHelper;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -10,15 +10,23 @@ import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
 
-@AllArgsConstructor
 @Component
 public class TransResponseBodyMethodProcessor implements HandlerMethodReturnValueHandler {
 
     private final RequestResponseBodyMethodProcessor requestResponseBodyMethodProcessor;
 
-    private final UnboxWrapperHandler unboxWrapperHandler;
+    private final UnboxWrapperHandler<Object> unboxWrapperHandler;
 
     private final TransFlow transFlow;
+
+    @SuppressWarnings("unchecked")
+    public TransResponseBodyMethodProcessor(RequestResponseBodyMethodProcessor requestResponseBodyMethodProcessor,
+                                            UnboxWrapperHandler<?> unboxWrapperHandler,
+                                            TransFlow transFlow) {
+        this.requestResponseBodyMethodProcessor = requestResponseBodyMethodProcessor;
+        this.unboxWrapperHandler = (UnboxWrapperHandler<Object>) unboxWrapperHandler;
+        this.transFlow = transFlow;
+    }
 
     @Override
     public boolean supportsReturnType(MethodParameter returnType) {
@@ -31,12 +39,14 @@ public class TransResponseBodyMethodProcessor implements HandlerMethodReturnValu
         if (returnValue != null) {
             Object unboxReturnValue = unboxWrapperHandler.unbox(returnValue);
             if (unboxReturnValue != null) {
-                if (!transFlow.scanned(unboxReturnValue)) {
-                    transFlow.scan(unboxReturnValue);
+                Class<?> trulyType = TypeHelper.getTrulyType(unboxReturnValue);
+                if (!transFlow.scanned(trulyType)) {
+                    transFlow.scan(trulyType);
                 }
-                if (transFlow.match(unboxReturnValue)) {
+                if (transFlow.match(trulyType)) {
                     transFlow.trans(unboxReturnValue);
                 }
+
             }
         }
 

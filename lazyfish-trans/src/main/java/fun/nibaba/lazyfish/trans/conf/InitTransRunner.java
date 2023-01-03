@@ -18,7 +18,7 @@ public class InitTransRunner implements ApplicationRunner {
 
     private final RequestMappingHandlerAdapter requestMappingHandlerAdapter;
 
-    private final UnboxWrapperHandler unboxWrapperHandler;
+    private final UnboxWrapperHandler<?> unboxWrapperHandler;
 
     private final TransFlow transFlow;
 

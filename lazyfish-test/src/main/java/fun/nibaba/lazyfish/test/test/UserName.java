@@ -1,4 +1,4 @@
-package fun.nibaba.lazyfish.test.n;
+package fun.nibaba.lazyfish.test.test;
 
 import java.lang.annotation.*;
 

@@ -16,14 +16,14 @@ public class InitConfiguration {
 
     @Bean
     public InitTransRunner initTransRunner(RequestMappingHandlerAdapter requestMappingHandlerAdapter,
-                                           UnboxWrapperHandler unboxWrapperHandler,
+                                           UnboxWrapperHandler<?> unboxWrapperHandler,
                                            TransFlow transFlow) {
         return new InitTransRunner(requestMappingHandlerAdapter, unboxWrapperHandler, transFlow);
     }
 
     @ConditionalOnMissingBean(UnboxWrapperHandler.class)
     @Bean
-    public UnboxWrapperHandler unboxWrapperHandler() {
+    public UnboxWrapperHandler<?> unboxWrapperHandler() {
         return new DefaultUnboxWrapperHandler();
     }
 

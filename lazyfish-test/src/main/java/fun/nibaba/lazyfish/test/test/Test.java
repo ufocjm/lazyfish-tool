@@ -1,6 +1,7 @@
-package fun.nibaba.lazyfish.test.n;
+package fun.nibaba.lazyfish.test.test;
 
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.RandomUtil;
 import com.google.common.collect.Lists;
 import fun.nibaba.lazyfish.trans.fields.ITransHandle;
 import fun.nibaba.lazyfish.trans.fields.TransModel;
@@ -34,14 +35,14 @@ public class Test {
         System.out.println(o);
     }
 
-    private static Object getObject() {
-        User user = new User();
-        user.setId(IdUtil.simpleUUID());
-
-
-        User childUser = new User();
-        childUser.setId(IdUtil.simpleUUID());
-        user.setChildUsers(Lists.newArrayList(childUser));
+    public static Object getObject() {
+//        User user = new User();
+//        user.setId(IdUtil.simpleUUID());
+//
+//
+//        User childUser = new User();
+//        childUser.setId(IdUtil.simpleUUID());
+//        user.setChildUsers(Lists.newArrayList(childUser));
 
 //        User user1 = new User();
 //        user1.setId(IdUtil.simpleUUID());
@@ -51,30 +52,30 @@ public class Test {
 //        childUser1.setId(IdUtil.simpleUUID());
 //        map.put(childUser.getId(), childUser1);
 //        user.setChildUserMap(map);
-        return user;
+//        return user;
 
-//        if (RandomUtil.randomBoolean()) {
-//            User user = new User();
-//            user.setId(IdUtil.simpleUUID());
-//
-//            User childUser = new User();
-//            childUser.setId(IdUtil.simpleUUID());
-//            user.setChildUser(childUser);
-//            return user;
-//        } else {
-//            List<User> users = Lists.newArrayList();
-//            int randomInt = RandomUtil.randomInt(100);
-//            for (int i = 0; i < randomInt; i++) {
-//                User user = new User();
-//                user.setId(IdUtil.simpleUUID());
-//                users.add(user);
-//
-//                User childUser = new User();
-//                childUser.setId(IdUtil.simpleUUID());
-//                user.setChildUser(childUser);
-//            }
-//            return users;
-//        }
+        if (RandomUtil.randomBoolean()) {
+            User user = new User();
+            user.setId(IdUtil.simpleUUID());
+
+            User childUser = new User();
+            childUser.setId(IdUtil.simpleUUID());
+            user.setChildUsers(Lists.newArrayList(childUser));
+            return user;
+        } else {
+            List<User> users = Lists.newArrayList();
+            int randomInt = RandomUtil.randomInt(100);
+            for (int i = 0; i < randomInt; i++) {
+                User user = new User();
+                user.setId(IdUtil.simpleUUID());
+                users.add(user);
+
+                User childUser = new User();
+                childUser.setId(IdUtil.simpleUUID());
+                user.setChildUsers(Lists.newArrayList(childUser));
+            }
+            return users;
+        }
     }
 
 

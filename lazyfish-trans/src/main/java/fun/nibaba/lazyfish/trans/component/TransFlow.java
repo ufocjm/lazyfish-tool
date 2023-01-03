@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import fun.nibaba.lazyfish.trans.fields.ITransHandle;
 import fun.nibaba.lazyfish.trans.fields.TransModel;
 import fun.nibaba.lazyfish.trans.helpers.TransModelCache;
+import fun.nibaba.lazyfish.trans.helpers.TypeHelper;
 import fun.nibaba.lazyfish.trans.processors.TransProcessor;
 import lombok.AllArgsConstructor;
 
@@ -23,32 +24,32 @@ public class TransFlow {
     /**
      * 是否扫描过
      *
-     * @param unboxReturnValue unboxReturnValue
+     * @param returnClass returnClass
      * @return boolean
      */
-    public boolean scanned(Object unboxReturnValue) {
-        TransModel transModel = TransModelCache.get(unboxReturnValue.getClass());
+    public boolean scanned(Class<?> returnClass) {
+        TransModel transModel = TransModelCache.get(returnClass);
         return transModel != null;
     }
 
     /**
      * 扫描
      *
-     * @param unboxReturnValue unboxReturnValue
+     * @param returnClass returnClass
      */
-    public void scan(Object unboxReturnValue) {
-        TransModel transModel = new TransModel(unboxReturnValue.getClass());
+    public void scan(Class<?> returnClass) {
+        TransModel transModel = new TransModel(returnClass);
         transModel.scan(transProcessors);
     }
 
     /**
      * 是否匹配进行翻译
      *
-     * @param unboxReturnValue unboxReturnValue
+     * @param returnClass returnClass
      * @return boolean
      */
-    public boolean match(Object unboxReturnValue) {
-        TransModel transModel = TransModelCache.get(unboxReturnValue.getClass());
+    public boolean match(Class<?> returnClass) {
+        TransModel transModel = TransModelCache.get(returnClass);
         return transModel.valid();
     }
 
@@ -58,7 +59,7 @@ public class TransFlow {
      * @param unboxReturnValue unboxReturnValue
      */
     public void trans(Object unboxReturnValue) {
-        TransModel transModel = TransModelCache.get(unboxReturnValue.getClass());
+        TransModel transModel = TransModelCache.get(TypeHelper.getTrulyType(unboxReturnValue));
         for (TransProcessor<?> transProcessor : transProcessors) {
             List<ITransHandle> transHandles = Lists.newLinkedList();
             transModel.buildHandles(transHandles, transProcessor.getClassType(), unboxReturnValue);

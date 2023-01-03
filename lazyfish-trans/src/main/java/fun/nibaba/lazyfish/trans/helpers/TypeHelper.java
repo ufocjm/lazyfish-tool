@@ -3,7 +3,6 @@ package fun.nibaba.lazyfish.trans.helpers;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.TypeUtil;
-import com.google.common.collect.Lists;
 import lombok.experimental.UtilityClass;
 
 import java.lang.reflect.Field;
@@ -16,14 +15,6 @@ import java.util.Set;
 
 @UtilityClass
 public class TypeHelper {
-
-    private final static List<String> COLLECTION_NAMES = Lists.newArrayList(
-            "java.util.List",
-            "java.util.ArrayList",
-            "java.util.Map",
-            "java.util.Collection"
-    );
-
 
     public boolean isJavaClass(Class<?> clazz) {
         return clazz != null && clazz.getClassLoader() == null;
@@ -138,6 +129,23 @@ public class TypeHelper {
             return field.getType();
         }
         return field.getType();
+    }
+
+    @SuppressWarnings("unchecked")
+    public Class<?> getTrulyType(Object object) {
+        if (isList(object.getClass())) {
+            List<Object> values = (List<Object>) object;
+            if (values.size() > 0) {
+                return values.get(0).getClass();
+            }
+        } else if (!isJavaClass(object.getClass())) {
+            return object.getClass();
+        } else if (isJavaClassNotColl(object.getClass())) {
+            return object.getClass();
+        } else if (object instanceof Field) {
+            return getTrulyType((Field) object);
+        }
+        return null;
     }
 
 
