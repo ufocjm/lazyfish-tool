@@ -11,15 +11,12 @@
 ### 计划大纲
 
 - [微信](https://github.com/ufocjm/lazyfish-tool/tree/main/lazyfish-wechat)
-    - [x] [微信支付 lazyfish-wechat-payment](https://github.com/ufocjm/lazyfish-tool/tree/main/lazyfish-wechat/lazyfish-wechat-payment) v0.0.3-SNAPSHOT前完成
+    - [x] [微信支付 lazyfish-wechat-payment](https://github.com/ufocjm/lazyfish-tool/tree/main/lazyfish-wechat/lazyfish-wechat-payment)
 - [mybatis-plus个性化](https://github.com/ufocjm/lazyfish-tool/tree/main/lazyfish-mp)
-    - [x] [联表查个性化 lazyfish-mp-join](https://github.com/ufocjm/lazyfish-tool/tree/main/lazyfish-mp/lazyfish-mp-join) v0.0.3-SNAPSHOT
-    - [ ] 分页查询/列表查询 个性化自动排序
-- [x] RabbitMQ 延迟队列封装 v0.0.4-SNAPSHOT (2022-01-07)
+    - [x] [联表查个性化 lazyfish-mp-join](https://github.com/ufocjm/lazyfish-tool/tree/main/lazyfish-mp/lazyfish-mp-core)
+- [x] [RabbitMQ延迟队列](https://github.com/ufocjm/lazyfish-tool/tree/main/lazyfish-rabbit-delay)
 - Feign
   - [ ] Feign异常捕捉
 - Spring MVC
   - [ ] [自动翻译](https://github.com/ufocjm/lazyfish-tool/tree/main/lazyfish-trans)
-    - [x] 注解自动翻译
-    - [ ] 接口(interface)自动翻译
 
