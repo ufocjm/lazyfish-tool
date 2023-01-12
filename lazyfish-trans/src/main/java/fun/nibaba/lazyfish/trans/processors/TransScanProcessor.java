@@ -11,7 +11,7 @@ import java.util.Map;
  *
  * @param <T>
  */
-public interface TransProcessor<T> {
+public interface TransScanProcessor<T> {
 
     /**
      * 标识的classType

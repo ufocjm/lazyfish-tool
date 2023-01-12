@@ -2,8 +2,8 @@ package fun.nibaba.lazyfish.trans.conf;
 
 import cn.hutool.core.collection.CollUtil;
 import com.google.common.collect.Lists;
-import fun.nibaba.lazyfish.trans.component.UnboxWrapperHandler;
 import fun.nibaba.lazyfish.trans.component.TransFlow;
+import fun.nibaba.lazyfish.trans.component.UnboxWrapperHandler;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -13,6 +13,9 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBody
 
 import java.util.List;
 
+/**
+ * 容器启动完成后进行初始化
+ */
 @AllArgsConstructor
 public class InitTransRunner implements ApplicationRunner {
 
@@ -22,6 +25,11 @@ public class InitTransRunner implements ApplicationRunner {
 
     private final TransFlow transFlow;
 
+    /**
+     * 进行初始化操作
+     *
+     * @param args args
+     */
     @Override
     public void run(ApplicationArguments args) {
         List<HandlerMethodReturnValueHandler> handlerMethodReturnValueHandlers = requestMappingHandlerAdapter.getReturnValueHandlers();

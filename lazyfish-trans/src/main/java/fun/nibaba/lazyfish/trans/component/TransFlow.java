@@ -5,7 +5,7 @@ import fun.nibaba.lazyfish.trans.fields.ITransHandle;
 import fun.nibaba.lazyfish.trans.fields.TransModel;
 import fun.nibaba.lazyfish.trans.helpers.TransModelCache;
 import fun.nibaba.lazyfish.trans.helpers.TypeHelper;
-import fun.nibaba.lazyfish.trans.processors.TransProcessor;
+import fun.nibaba.lazyfish.trans.processors.TransScanProcessor;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class TransFlow {
 
-    private final List<TransProcessor<?>> transProcessors;
+    private final List<TransScanProcessor<?>> transScanProcessors;
 
     /**
      * 是否扫描过
@@ -39,7 +39,7 @@ public class TransFlow {
      */
     public void scan(Class<?> returnClass) {
         TransModel transModel = new TransModel(returnClass);
-        transModel.scan(transProcessors);
+        transModel.scan(transScanProcessors);
     }
 
     /**
@@ -60,11 +60,11 @@ public class TransFlow {
      */
     public void trans(Object unboxReturnValue) {
         TransModel transModel = TransModelCache.get(TypeHelper.getTrulyType(unboxReturnValue));
-        for (TransProcessor<?> transProcessor : transProcessors) {
+        for (TransScanProcessor<?> transScanProcessor : transScanProcessors) {
             List<ITransHandle> transHandles = Lists.newLinkedList();
-            transModel.buildHandles(transHandles, transProcessor.getClassType(), unboxReturnValue);
+            transModel.buildHandles(transHandles, transScanProcessor.getClassType(), unboxReturnValue);
             List<Object> keys = transHandles.stream().map(ITransHandle::getKey).filter(Objects::nonNull).collect(Collectors.toList());
-            Map<Object, Object> transMap = transProcessor.getTransMap(keys);
+            Map<Object, Object> transMap = transScanProcessor.getTransMap(keys);
             for (ITransHandle transHandle : transHandles) {
                 transHandle.setValue(transMap);
             }

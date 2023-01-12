@@ -3,7 +3,7 @@ package fun.nibaba.lazyfish.trans.fields;
 import com.google.common.collect.Maps;
 import fun.nibaba.lazyfish.trans.handles.TransHandle;
 import fun.nibaba.lazyfish.trans.helpers.TransMethod;
-import fun.nibaba.lazyfish.trans.processors.TransProcessor;
+import fun.nibaba.lazyfish.trans.processors.TransScanProcessor;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -25,8 +25,8 @@ public class TransField implements ITransField {
     }
 
     @Override
-    public void scan(List<TransProcessor<?>> scanProcessors) {
-        for (TransProcessor<?> scanProcessor : scanProcessors) {
+    public void scan(List<TransScanProcessor<?>> scanProcessors) {
+        for (TransScanProcessor<?> scanProcessor : scanProcessors) {
             if (scanProcessor.match(this.field)) {
                 obtainMethodMap.computeIfAbsent(scanProcessor.getClassType(), k -> scanProcessor.getTransMethod(this.field));
             }

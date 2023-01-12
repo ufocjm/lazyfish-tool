@@ -1,6 +1,6 @@
 package fun.nibaba.lazyfish.trans.fields;
 
-import fun.nibaba.lazyfish.trans.processors.TransProcessor;
+import fun.nibaba.lazyfish.trans.processors.TransScanProcessor;
 
 import java.util.List;
 
@@ -23,7 +23,7 @@ public interface ITransElement {
      *
      * @param scanProcessors 类型扫描器
      */
-    void scan(List<TransProcessor<?>> scanProcessors);
+    void scan(List<TransScanProcessor<?>> scanProcessors);
 
     /**
      * 是否可用

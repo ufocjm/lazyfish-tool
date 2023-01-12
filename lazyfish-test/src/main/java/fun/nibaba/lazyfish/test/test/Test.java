@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class Test {
 
     public static void main(String[] args) {
-        UserNameTransProcessor userNameTransProcessor = new UserNameTransProcessor();
+        UserNameTransScanProcessor userNameTransProcessor = new UserNameTransScanProcessor();
 
 
         TransModel transModel = new TransModel(User.class);

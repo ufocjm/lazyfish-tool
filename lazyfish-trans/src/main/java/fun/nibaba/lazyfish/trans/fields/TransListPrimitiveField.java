@@ -3,7 +3,7 @@ package fun.nibaba.lazyfish.trans.fields;
 import com.google.common.collect.Maps;
 import fun.nibaba.lazyfish.trans.handles.TransListPrimitiveHandle;
 import fun.nibaba.lazyfish.trans.helpers.TransMethod;
-import fun.nibaba.lazyfish.trans.processors.TransProcessor;
+import fun.nibaba.lazyfish.trans.processors.TransScanProcessor;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -61,8 +61,8 @@ public class TransListPrimitiveField implements ITransField {
     }
 
     @Override
-    public void scan(List<TransProcessor<?>> scanProcessors) {
-        for (TransProcessor<?> scanProcessor : scanProcessors) {
+    public void scan(List<TransScanProcessor<?>> scanProcessors) {
+        for (TransScanProcessor<?> scanProcessor : scanProcessors) {
             if (this.validMap.get(scanProcessor.getClassType()) == null) {
                 this.validMap.put(scanProcessor.getClassType(), scanProcessor.match(this.field));
             }

@@ -10,6 +10,9 @@ import org.springframework.web.method.support.HandlerMethodReturnValueHandler;
 import org.springframework.web.method.support.ModelAndViewContainer;
 import org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor;
 
+/**
+ * 翻译return handler
+ */
 @Component
 public class TransResponseBodyMethodProcessor implements HandlerMethodReturnValueHandler {
 
@@ -33,6 +36,15 @@ public class TransResponseBodyMethodProcessor implements HandlerMethodReturnValu
         return requestResponseBodyMethodProcessor.supportsReturnType(returnType);
     }
 
+    /**
+     * 这里主要执行1、验证 2、扫描 3、翻译操作
+     *
+     * @param returnValue  返回值
+     * @param returnType   返回类型
+     * @param mavContainer mavContainer
+     * @param webRequest   webRequest
+     * @throws Exception
+     */
     @Override
     public void handleReturnValue(Object returnValue, MethodParameter returnType, ModelAndViewContainer mavContainer, NativeWebRequest webRequest) throws Exception {
         // 验证返回的结果是否包含需要翻译的字段

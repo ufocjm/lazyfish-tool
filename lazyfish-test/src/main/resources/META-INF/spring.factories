@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  fun.nibaba.lazyfish.trans.conf.InitConfiguration
+  fun.nibaba.lazyfish.trans.conf.TransInitConfiguration

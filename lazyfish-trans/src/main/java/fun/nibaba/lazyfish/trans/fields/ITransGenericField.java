@@ -1,6 +1,6 @@
 package fun.nibaba.lazyfish.trans.fields;
 
-import fun.nibaba.lazyfish.trans.processors.TransProcessor;
+import fun.nibaba.lazyfish.trans.processors.TransScanProcessor;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public interface ITransGenericField extends ITransField {
      * @param scanProcessors 类型扫描器
      */
     @Override
-    default void scan(List<TransProcessor<?>> scanProcessors) {
+    default void scan(List<TransScanProcessor<?>> scanProcessors) {
         this.getTransModel().scan(scanProcessors);
     }
 

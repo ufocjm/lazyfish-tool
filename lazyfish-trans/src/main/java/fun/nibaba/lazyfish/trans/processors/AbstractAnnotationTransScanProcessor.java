@@ -11,7 +11,7 @@ import java.lang.reflect.Field;
  *
  * @param <A>
  */
-public abstract class AbstractAnnotationTransProcessor<A extends Annotation> implements TransProcessor<A> {
+public abstract class AbstractAnnotationTransScanProcessor<A extends Annotation> implements TransScanProcessor<A> {
 
     /**
      * 注解类型
@@ -23,7 +23,7 @@ public abstract class AbstractAnnotationTransProcessor<A extends Annotation> imp
      * 默认获取泛型的类型
      */
     @SuppressWarnings("unchecked")
-    public AbstractAnnotationTransProcessor() {
+    public AbstractAnnotationTransScanProcessor() {
         this.annotationType = (Class<A>) ClassUtil.getTypeArgument(this.getClass(), this.getTypeArgumentIndex());
     }
 

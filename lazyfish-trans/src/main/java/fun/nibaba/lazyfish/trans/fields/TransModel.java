@@ -7,7 +7,7 @@ import fun.nibaba.lazyfish.trans.helpers.TransMethod;
 import fun.nibaba.lazyfish.trans.helpers.TransMethodHelper;
 import fun.nibaba.lazyfish.trans.helpers.TransModelCache;
 import fun.nibaba.lazyfish.trans.helpers.TypeHelper;
-import fun.nibaba.lazyfish.trans.processors.TransProcessor;
+import fun.nibaba.lazyfish.trans.processors.TransScanProcessor;
 import lombok.Getter;
 
 import java.lang.reflect.Field;
@@ -44,7 +44,7 @@ public class TransModel implements ITransElement {
     }
 
     @Override
-    public void scan(List<TransProcessor<?>> scanProcessors) {
+    public void scan(List<TransScanProcessor<?>> scanProcessors) {
         if (this.scanning) {
             return;
         } else {
