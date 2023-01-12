@@ -6,9 +6,10 @@
     <parent>
         <artifactId>lazyfish-wechat</artifactId>
         <groupId>fun.nibaba</groupId>
-        <version>0.0.5.2</version>
+        <version>0.0.1</version>
     </parent>
 
+    <version>0.0.1</version>
     <artifactId>lazyfish-wechat-payment</artifactId>
     <description>微信支付</description>
     <properties>
