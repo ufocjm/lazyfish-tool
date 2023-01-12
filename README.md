@@ -17,7 +17,9 @@
     - [ ] 分页查询/列表查询 个性化自动排序
 - [x] RabbitMQ 延迟队列封装 v0.0.4-SNAPSHOT (2022-01-07)
 - Feign
-  - [ ] 动态声明构建FeignClient
-      - [ ] 支持多实体传参数
   - [ ] Feign异常捕捉
- - [ ] elasticsearch 
+- Spring MVC
+  - [ ] [自动翻译](https://github.com/ufocjm/lazyfish-tool/tree/main/lazyfish-trans)
+    - [x] 注解自动翻译
+    - [ ] 接口(interface)自动翻译
+
