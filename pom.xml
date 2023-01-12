@@ -41,6 +41,7 @@
         <bcprov.jdk15on.version>1.55</bcprov.jdk15on.version>
         <mybatis-plus.version>3.4.3</mybatis-plus.version>
         <guava.version>30.0-jre</guava.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <modules>
