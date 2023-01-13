@@ -9,7 +9,7 @@
         <version>0.0.5.2</version>
     </parent>
 
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <artifactId>lazyfish-trans</artifactId>
     <description>实现自动翻译</description>
     <packaging>jar</packaging>
@@ -32,6 +32,7 @@
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>

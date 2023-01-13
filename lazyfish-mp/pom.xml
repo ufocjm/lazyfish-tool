@@ -9,7 +9,7 @@
         <version>0.0.5.2</version>
     </parent>
 
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <artifactId>lazyfish-mp</artifactId>
     <description>实现mybatis-plus个性化方法实现</description>
     <packaging>pom</packaging>

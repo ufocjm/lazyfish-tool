@@ -10,7 +10,7 @@
     </parent>
     <packaging>jar</packaging>
 
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <artifactId>lazyfish-utils</artifactId>
     <description>主要用于内部其他工具使用的一些静态工具类，减少对外部依赖</description>
 

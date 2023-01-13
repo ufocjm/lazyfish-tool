@@ -9,7 +9,7 @@
         <version>0.0.5.2</version>
     </parent>
 
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <artifactId>lazyfish-rabbit-delay</artifactId>
     <description>rabbitmq延迟队列</description>
     <dependencies>
